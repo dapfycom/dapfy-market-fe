@@ -6,10 +6,10 @@ import TopBar from "./components/TopBar";
 
 export default function DigitalMarketplace() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState<any[]>([]);
   const [notification, setNotification] = useState<string | null>(null);
 
-  const addToCart = (product) => {
+  const addToCart = (product: any) => {
     console.log(product);
 
     setCart([...cart, product]);
