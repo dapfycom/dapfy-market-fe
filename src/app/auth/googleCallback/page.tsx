@@ -4,7 +4,7 @@ import authService from "@/services/authService";
 import { setUser } from "@/store/slices/authSlice";
 import { useAppDispatch } from "@/store/store";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 
 function GoogleCallbackContent() {
   const [status, setStatus] = useState<"loading" | "success" | "error">(
@@ -56,5 +56,9 @@ function GoogleCallbackContent() {
 }
 
 export default function GoogleCallback() {
-  return <GoogleCallbackContent />;
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <GoogleCallbackContent />
+    </Suspense>
+  );
 }
