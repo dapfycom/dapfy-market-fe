@@ -3,17 +3,8 @@ import { Input } from "@/components/ui/input";
 import { motion } from "framer-motion";
 import { Eye, Plus, Search, Star } from "lucide-react";
 import Image from "next/image";
-import {
-  CartesianGrid,
-  Line,
-  LineChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from "recharts";
 import { fadeInUp, staggerChildren } from "../constants";
-import { chartData, products } from "../data";
+import { products } from "../data";
 
 const Content = ({ addToCart }: { addToCart: (product: any) => void }) => {
   return (
@@ -48,7 +39,7 @@ const Content = ({ addToCart }: { addToCart: (product: any) => void }) => {
             </Button>
           </motion.div>
         </motion.div>
-        <motion.div
+        {/* <motion.div
           variants={fadeInUp}
           initial="initial"
           animate="animate"
@@ -63,7 +54,7 @@ const Content = ({ addToCart }: { addToCart: (product: any) => void }) => {
               <Line type="monotone" dataKey="sales" stroke="#8884d8" />
             </LineChart>
           </ResponsiveContainer>
-        </motion.div>
+        </motion.div> */}
       </div>
       <motion.div
         variants={fadeInUp}

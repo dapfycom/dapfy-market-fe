@@ -1,7 +1,8 @@
 "use client";
 import { GhostButton, OutlineButton } from "@/components/buttonts";
+import Login from "@/components/Login/Login";
 import { motion } from "framer-motion";
-import { Bell, FileText, LogIn, Menu, ShoppingCart } from "lucide-react";
+import { Bell, FileText, Menu, ShoppingCart } from "lucide-react";
 
 const TopBar = ({
   sidebarOpen,
@@ -39,14 +40,14 @@ const TopBar = ({
       </div>
       <div className="flex items-center space-x-4">
         <GhostButton size="sm">Blog</GhostButton>
+
         <GhostButton size="sm">
           <FileText className="h-4 w-4 mr-2" />
           Docs
         </GhostButton>
-        <OutlineButton size="sm">
-          <LogIn className="h-4 w-4 mr-2" />
-          Log in
-        </OutlineButton>
+
+        <Login />
+
         <OutlineButton size="sm">
           <ShoppingCart className="h-4 w-4 mr-2" />
           Cart ({cart.length})
