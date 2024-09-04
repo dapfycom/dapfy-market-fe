@@ -4,9 +4,9 @@ import authService from "@/services/authService";
 import { setUser } from "@/store/slices/authSlice";
 import { useAppDispatch } from "@/store/store";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 
-export default function VerifyMagicLink() {
+function VerifyMagicLinkContent() {
   const [verificationStatus, setVerificationStatus] = useState<
     "loading" | "success" | "error"
   >("loading");
@@ -57,5 +57,13 @@ export default function VerifyMagicLink() {
         </p>
       )}
     </div>
+  );
+}
+
+export default function VerifyMagicLink() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <VerifyMagicLinkContent />
+    </Suspense>
   );
 }
