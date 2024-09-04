@@ -14,12 +14,13 @@ import { useAppDispatch } from "@/store/store";
 import { ChevronDown, LayoutDashboard, LogOut, Settings } from "lucide-react";
 import Link from "next/link";
 const ProfileButton = () => {
-  const { user } = useGetCurrentUser();
+  const { user, mutate } = useGetCurrentUser();
 
   const dispatch = useAppDispatch();
   const handleLogout = () => {
     localStorage.removeItem("token");
     dispatch(clearUser());
+    mutate();
   };
 
   return (

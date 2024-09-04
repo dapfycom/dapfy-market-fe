@@ -13,6 +13,15 @@ const authService = {
       token: ITokenResponse;
     }>(`/auth/verify-magic-link?token=${token}`),
 
+  loginWithGoogle: () =>
+    api.get<{ url: string; message: string }>("/auth/google"),
+
+  handleGoogleCallback: (code: string) =>
+    api.get<{
+      user: IUserResponse;
+      token: ITokenResponse;
+    }>(`/auth/google/callback?code=${code}`),
+
   register: (userData: { email: string; password: string; name: string }) =>
     api.post("/auth/register", userData),
 

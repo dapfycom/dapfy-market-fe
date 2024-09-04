@@ -5,7 +5,7 @@ import useSWR from "swr";
 const useGetCurrentUser = () => {
   const userOnStore = useAppSelector(selectUser);
 
-  const { data, isLoading } = useSWR(
+  const { data, isLoading, mutate } = useSWR(
     !userOnStore ? "/auth/me" : null,
     () => authService.currentUser(),
     {
@@ -17,7 +17,7 @@ const useGetCurrentUser = () => {
 
   const user = userOnStore || data?.data;
 
-  return { user, isLoading };
+  return { user, isLoading, mutate };
 };
 
 export default useGetCurrentUser;
