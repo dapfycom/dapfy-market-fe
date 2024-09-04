@@ -49,8 +49,12 @@ const LoginButton = ({ isLoading }: { isLoading: boolean }) => {
     // Simulate API call
     const { data } = await authService.loginWithGoogle();
     setIsGoogleLoading(false);
+    console.log(data);
+
     // Here you would implement the actual Google authentication logic
-    window.location.href = data.url;
+    if (data.url) {
+      window.location.href = data.url;
+    }
   };
 
   return (
