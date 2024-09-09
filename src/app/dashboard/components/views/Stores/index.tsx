@@ -25,9 +25,6 @@ const Stores = () => {
   const [showCreateStoreForm, setShowCreateStoreForm] = useState(false);
 
   const onSubmit = async (data: StoreFormData) => {
-    if (!stores || stores.meta.total === 0) {
-      return;
-    }
     try {
       const createStore = async (): Promise<
         IPaginatedResponse<IStoreResponse>
