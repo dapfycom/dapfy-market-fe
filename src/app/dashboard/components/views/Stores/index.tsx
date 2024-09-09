@@ -1,19 +1,18 @@
+import { randomString } from "@/lib/utils";
+import storesService from "@/services/storesServices";
+import { IPaginatedResponse } from "@/types/common.types";
+import { IStoreResponse } from "@/types/sotre.types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AnimatePresence, motion } from "framer-motion";
 import { PlusCircle } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import { useGetUserStores } from "../../../../../hooks/useStores";
 import { StoreFormData, storeSchema } from "./storeSchema";
 
 const Stores = () => {
-  const [stores, setStores] = useState<
-    {
-      id: string;
-      name: string;
-      description: string;
-      url: string;
-    }[]
-  >([]);
+  const { data: stores, mutate } = useGetUserStores();
 
   const {
     register,
@@ -25,12 +24,57 @@ const Stores = () => {
   });
   const [showCreateStoreForm, setShowCreateStoreForm] = useState(false);
 
-  const onSubmit = (data: StoreFormData) => {
-    // Handle store creation logic here
-    console.log(data);
-    setStores([...stores, { id: Date.now().toString(), ...data }]);
-    setShowCreateStoreForm(false);
-    reset();
+  const onSubmit = async (data: StoreFormData) => {
+    if (!stores || stores.meta.total === 0) {
+      return;
+    }
+    try {
+      const createStore = async (): Promise<
+        IPaginatedResponse<IStoreResponse>
+      > => {
+        const res = await storesService.create(data);
+
+        return {
+          ...stores,
+          data: [...stores?.data!, res.data],
+          meta: {
+            ...stores!.meta,
+            total: stores!.meta.total! + 1,
+          },
+        };
+      };
+
+      await mutate(createStore, {
+        optimisticData: {
+          ...stores,
+          data: [
+            ...stores!.data,
+            {
+              id: randomString(),
+              createdAt: new Date().toISOString(),
+              updatedAt: new Date().toISOString(),
+              ownerId: randomString(),
+              name: data.name,
+              description: data.description,
+            },
+          ],
+          meta: {
+            ...stores!.meta,
+            total: stores?.meta.total! + 1,
+          },
+        },
+        rollbackOnError: true,
+        populateCache: true,
+        revalidate: false,
+      });
+
+      toast.success("Successfully added the new item.");
+
+      setShowCreateStoreForm(false);
+      reset();
+    } catch (e) {
+      toast.error("Failed to add the new item.");
+    }
   };
 
   return (
@@ -41,7 +85,7 @@ const Stores = () => {
       transition={{ duration: 0.5 }}
       className="space-y-6"
     >
-      {stores.length === 0 && !showCreateStoreForm ? (
+      {stores?.meta.total === 0 && !showCreateStoreForm ? (
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -61,7 +105,7 @@ const Stores = () => {
       ) : (
         <>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {stores.map((store, index) => (
+            {stores?.data.map((store, index) => (
               <motion.div
                 key={store.id}
                 initial={{ opacity: 0, y: 20 }}
@@ -72,7 +116,7 @@ const Stores = () => {
                 <h3 className="text-lg font-semibold mb-2">{store.name}</h3>
                 <p className="text-gray-600 mb-2">{store.description}</p>
                 <a
-                  href={store.url}
+                  href={store.name}
                   className="text-blue-600 hover:underline"
                   target="_blank"
                   rel="noopener noreferrer"

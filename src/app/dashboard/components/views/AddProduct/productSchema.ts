@@ -8,7 +8,11 @@ export const productSchema = z.object({
     .min(1, "Description is required")
     .max(160, "Description is too long"),
   pricing: z.enum(["single", "subscription"]),
-  price: z.number().min(0.01, "Price must be greater than 0"),
+  price: z
+    .string()
+    .refine((value) => !isNaN(parseFloat(value)) && parseFloat(value) > 0, {
+      message: "Price must be a valid number greater than 0",
+    }),
 });
 
 export type ProductFormData = z.infer<typeof productSchema>;

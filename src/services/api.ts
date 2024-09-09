@@ -6,6 +6,8 @@ const api = {
     axiosInstance.post<T>(url, data, config),
   put: <T>(url: string, data = {}, config = {}) =>
     axiosInstance.put<T>(url, data, config),
+  patch: <T>(url: string, data = {}, config = {}) =>
+    axiosInstance.patch<T>(url, data, config),
   delete: <T>(url: string, config = {}) => axiosInstance.delete<T>(url, config),
 };
 

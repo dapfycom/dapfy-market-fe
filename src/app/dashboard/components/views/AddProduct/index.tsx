@@ -1,3 +1,5 @@
+import { useGetUserStores } from "@/hooks/useStores";
+import productsService from "@/services/productsServices";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AnimatePresence, motion } from "framer-motion";
 import { File, Upload, X } from "lucide-react";
@@ -7,30 +9,17 @@ import { Controller, useForm } from "react-hook-form";
 import { ProductFormData, productSchema } from "./productSchema";
 
 const AddProduct = () => {
-  const [stores, setStores] = useState<
-    {
-      id: string;
-      name: string;
-    }[]
-  >([]);
+  const { data } = useGetUserStores();
+
   const [images, setImages] = useState<File[]>([]);
   const [files, setFiles] = useState<File[]>([]);
 
   const [showConfirmModal, setShowConfirmModal] = useState(false);
 
-  const [newProduct, setNewProduct] = useState({
-    name: "",
-    description: "",
-    pricing: "single",
-    price: "",
-    store: "",
-    images: [],
-    files: [],
-  });
-
   const {
     control,
     handleSubmit,
+    getValues,
     formState: { errors },
   } = useForm<ProductFormData>({
     resolver: zodResolver(productSchema),
@@ -39,27 +28,39 @@ const AddProduct = () => {
       name: "",
       description: "",
       pricing: "single",
-      price: 0,
+      price: "0",
     },
   });
 
   const confirmProductCreation = () => {
-    console.log("New product created:", newProduct);
     setShowConfirmModal(false);
-    setNewProduct({
-      name: "",
-      description: "",
-      pricing: "single",
-      price: "",
-      store: "",
-      images: [],
-      files: [],
-    });
+    onSubmit(getValues());
   };
 
   const onSubmit = (data: ProductFormData) => {
     console.log(data, images, files);
     // Handle form submission
+
+    const formData = new FormData();
+    formData.append("title", data.name);
+    formData.append("description", data.description);
+    formData.append("paymentType", "SINGLE");
+    formData.append("price", data.price);
+    formData.append("status", "PUBLISHED");
+
+    // Append each image file individually
+    images.forEach((image, index) => {
+      formData.append(`images`, image);
+    });
+
+    // Append each file individually
+    files.forEach((file, index) => {
+      formData.append(`digitalFiles`, file);
+    });
+
+    productsService.create(data.store, formData);
+
+    console.log(formData);
   };
 
   const handleFileUpload = (
@@ -85,6 +86,9 @@ const AddProduct = () => {
       setFiles((prev) => prev.filter((_, i) => i !== index));
     }
   };
+
+  const stores = data?.data;
+
   return (
     <>
       <motion.div
@@ -100,7 +104,7 @@ const AddProduct = () => {
             Help↗
           </a>
         </h2>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(() => setShowConfirmModal(true))}>
           <div className="mb-4">
             <label
               htmlFor="store"
@@ -108,14 +112,14 @@ const AddProduct = () => {
             >
               Select Store
             </label>
-            {stores.length > 0 ? (
+            {data?.meta?.total && data?.meta?.total > 0 ? (
               <Controller
                 name="store"
                 control={control}
                 render={({ field }) => (
                   <select {...field} className="w-full p-2 border rounded">
                     <option value="">Select a store</option>
-                    {stores.map((store) => (
+                    {stores?.map((store) => (
                       <option key={store.id} value={store.id}>
                         {store.name}
                       </option>
