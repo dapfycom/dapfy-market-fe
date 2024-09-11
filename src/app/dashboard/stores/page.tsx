@@ -1,4 +1,4 @@
-import DashboardContentLayout from "../dashboard-content-layout";
+import DashboardContentLayout from "../commons/dashboard-content-layout";
 import Stores from "./components/Stores";
 
 const DashboardStoresPage = () => {
