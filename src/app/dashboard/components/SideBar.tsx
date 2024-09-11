@@ -1,7 +1,7 @@
 "use client";
+import { FramerButton } from "@/components/framer";
+import { dashboardRoutes } from "@/config/routes";
 import useGetCurrentUser from "@/hooks/useGetCurrentUser";
-import { selectTab, setTab } from "@/store/slices/dashboardSlice";
-import { useAppDispatch, useAppSelector } from "@/store/store";
 import { motion } from "framer-motion";
 import {
   BarChart,
@@ -16,31 +16,73 @@ import {
   Zap,
 } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 const sidebarItems = [
-  { name: "Dashboard", icon: BarChart, emoji: "📊" },
-  { name: "Stores", icon: ShoppingBag, emoji: "🏪" },
-  { name: "Digital Products", icon: Package, emoji: "📦" },
-  { name: "Lead Magnet", icon: Magnet, emoji: "🧲" },
-  { name: "Memberships", icon: Users, emoji: "🤝" },
-  { name: "Fundraising", icon: Gift, emoji: "🎁" },
-  { name: "Payouts", icon: DollarSign, emoji: "💰" },
-  { name: "My Orders", icon: ShoppingCart, emoji: "🛒" },
-  { name: "Upgrade to Pro", icon: Zap, emoji: "⚡" },
+  {
+    name: "Dashboard",
+    icon: BarChart,
+    emoji: "📊",
+    route: dashboardRoutes.dashboard,
+  },
+  {
+    name: "Stores",
+    icon: ShoppingBag,
+    emoji: "🏪",
+    route: dashboardRoutes.stores,
+  },
+  {
+    name: "Digital Products",
+    icon: Package,
+    emoji: "📦",
+    route: dashboardRoutes.products,
+  },
+  {
+    name: "Lead Magnet",
+    icon: Magnet,
+    emoji: "🧲",
+    route: dashboardRoutes.leadMagnet,
+  },
+  {
+    name: "Memberships",
+    icon: Users,
+    emoji: "🤝",
+    route: dashboardRoutes.memberships,
+  },
+  {
+    name: "Fundraising",
+    icon: Gift,
+    emoji: "🎁",
+    route: dashboardRoutes.fundraising,
+  },
+  {
+    name: "Payouts",
+    icon: DollarSign,
+    emoji: "💰",
+    route: dashboardRoutes.payouts,
+  },
+  {
+    name: "My Orders",
+    icon: ShoppingCart,
+    emoji: "🛒",
+    route: dashboardRoutes.myOrders,
+  },
+  {
+    name: "Upgrade to Pro",
+    icon: Zap,
+    emoji: "⚡",
+    route: dashboardRoutes.upgradeToPro,
+  },
 ];
 
 const SideBar = () => {
   const { user } = useGetCurrentUser();
   const [storeName, setStoreName] = useState("My Digital Store");
   const [isEditingName, setIsEditingName] = useState(false);
-  const activeTab = useAppSelector(selectTab);
   const username = user?.username.split("@")[0];
 
-  const dispatch = useAppDispatch();
-
-  const setActiveTab = (tab: string) => {
-    dispatch(setTab(tab));
-  };
+  const currentPath = usePathname();
 
   return (
     <motion.aside
@@ -89,35 +131,38 @@ const SideBar = () => {
       </div>
       <nav className="flex-grow mt-4">
         {sidebarItems.map((item) => (
-          <motion.button
-            key={item.name}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className={`flex items-center w-full px-4 py-3 text-left ${
-              activeTab === item.name
-                ? "bg-blue-100 text-blue-600"
-                : "text-gray-600 hover:bg-blue-50"
-            }`}
-            onClick={() => setActiveTab(item.name)}
-          >
-            <span className="w-8 h-8 flex items-center justify-center text-xl mr-3">
-              {item.emoji}
-            </span>
-            {item.name}
-          </motion.button>
+          <Link href={item.route} key={item.name}>
+            <FramerButton
+              key={item.name}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className={`flex items-center w-full px-4 py-3 text-left ${
+                currentPath === item.route
+                  ? "bg-blue-100 text-blue-600"
+                  : "text-gray-600 hover:bg-blue-50"
+              }`}
+            >
+              <span className="w-8 h-8 flex items-center justify-center text-xl mr-3">
+                {item.emoji}
+              </span>
+              {item.name}
+            </FramerButton>
+          </Link>
         ))}
       </nav>
-      <motion.button
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        className="flex items-center w-full px-4 py-3 text-left text-gray-600 hover:bg-blue-50 mt-auto border-t border-gray-200"
-        onClick={() => setActiveTab("Settings")}
-      >
-        <span className="w-8 h-8 flex items-center justify-center text-xl mr-3">
-          ⚙️
-        </span>
-        Settings
-      </motion.button>
+      <Link href={dashboardRoutes.settings}>
+        <FramerButton
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          className="flex items-center w-full px-4 py-3 text-left text-gray-600 hover:bg-blue-50 mt-auto border-t border-gray-200"
+          // onClick={() => setActiveTab("Settings")}
+        >
+          <span className="w-8 h-8 flex items-center justify-center text-xl mr-3">
+            ⚙️
+          </span>
+          Settings
+        </FramerButton>
+      </Link>
     </motion.aside>
   );
 };

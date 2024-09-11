@@ -6,7 +6,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import routes from "@/config/routes";
+import { routes } from "@/config/routes";
 import useGetCurrentUser from "@/hooks/useGetCurrentUser";
 import { clearUser } from "@/store/slices/authSlice";
 import { useAppDispatch } from "@/store/store";

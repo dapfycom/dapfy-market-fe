@@ -1,15 +1,17 @@
+"use client";
+import { FramerButton, FramerDiv } from "@/components/framer";
 import { randomString } from "@/lib/utils";
 import storesService from "@/services/storesServices";
 import { IPaginatedResponse } from "@/types/common.types";
 import { IStoreResponse } from "@/types/sotre.types";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 import { PlusCircle } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { useGetUserStores } from "../../../../../hooks/useStores";
-import { StoreFormData, storeSchema } from "./storeSchema";
+import { useGetUserStores } from "../../../../hooks/useStores";
+import { StoreFormData, storeSchema } from "../storeSchema";
 
 const Stores = () => {
   const { data: stores, mutate } = useGetUserStores();
@@ -75,7 +77,7 @@ const Stores = () => {
   };
 
   return (
-    <motion.div
+    <FramerDiv
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
@@ -83,27 +85,27 @@ const Stores = () => {
       className="space-y-6"
     >
       {stores?.meta.total === 0 && !showCreateStoreForm ? (
-        <motion.div
+        <FramerDiv
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5 }}
           className="text-center"
         >
           <p className="text-xl mb-4">You don&apos;t have a store yet</p>
-          <motion.button
+          <FramerButton
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
             onClick={() => setShowCreateStoreForm(true)}
           >
             Create your store
-          </motion.button>
-        </motion.div>
+          </FramerButton>
+        </FramerDiv>
       ) : (
         <>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {stores?.data.map((store, index) => (
-              <motion.div
+              <FramerDiv
                 key={store.id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -120,22 +122,22 @@ const Stores = () => {
                 >
                   Visit store
                 </a>
-              </motion.div>
+              </FramerDiv>
             ))}
-            <motion.button
+            <FramerButton
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="bg-white rounded-lg shadow p-6 border-2 border-dashed border-gray-300 flex items-center justify-center hover:bg-gray-50"
               onClick={() => setShowCreateStoreForm(true)}
             >
               <PlusCircle className="w-8 h-8 text-gray-400" />
-            </motion.button>
+            </FramerButton>
           </div>
         </>
       )}
       <AnimatePresence>
         {showCreateStoreForm && (
-          <motion.div
+          <FramerDiv
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
@@ -202,7 +204,7 @@ const Stores = () => {
                 )}
               </div>
               <div className="flex justify-end space-x-4">
-                <motion.button
+                <FramerButton
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   type="button"
@@ -210,21 +212,21 @@ const Stores = () => {
                   onClick={() => setShowCreateStoreForm(false)}
                 >
                   Cancel
-                </motion.button>
-                <motion.button
+                </FramerButton>
+                <FramerButton
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   type="submit"
                   className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
                 >
                   Create Store
-                </motion.button>
+                </FramerButton>
               </div>
             </form>
-          </motion.div>
+          </FramerDiv>
         )}
       </AnimatePresence>
-    </motion.div>
+    </FramerDiv>
   );
 };
 

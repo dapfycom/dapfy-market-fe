@@ -1,3 +1,5 @@
+"use client";
+
 import { useGetUserStores } from "@/hooks/useStores";
 import productsService from "@/services/productsServices";
 import { zodResolver } from "@hookform/resolvers/zod";

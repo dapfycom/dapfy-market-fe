@@ -3,12 +3,12 @@ import { selectTab, setTab } from "@/store/slices/dashboardSlice";
 import { useAppDispatch, useAppSelector } from "@/store/store";
 import { AnimatePresence, motion } from "framer-motion";
 import { PlusCircle } from "lucide-react";
+import Stores from "../stores/components/Stores";
 import AddProduct from "./views/AddProduct";
 import Dashboard from "./views/Dashboard";
 import DigitalProducts from "./views/DigitalProducts";
 import LeadMagnet from "./views/LeadMagnet";
 import MyOrders from "./views/MyOrders";
-import Stores from "./views/Stores";
 import Upgrade from "./views/Upgrade";
 
 const Content = () => {

@@ -1,15 +1,14 @@
-import { motion } from "framer-motion";
+import { FramerDiv, FramerTableRow } from "@/components/framer";
 
 const MyOrders = () => {
   return (
-    <motion.div
+    <FramerDiv
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
       transition={{ duration: 0.5 }}
       className="bg-white rounded-lg shadow p-6"
     >
-      <h2 className="text-2xl font-bold mb-6">My Orders</h2>
       <div className="overflow-x-auto">
         <table className="w-full text-left">
           <thead>
@@ -57,7 +56,7 @@ const MyOrders = () => {
                 status: "Completed",
               },
             ].map((order, index) => (
-              <motion.tr
+              <FramerTableRow
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -80,12 +79,12 @@ const MyOrders = () => {
                     {order.status}
                   </span>
                 </td>
-              </motion.tr>
+              </FramerTableRow>
             ))}
           </tbody>
         </table>
       </div>
-    </motion.div>
+    </FramerDiv>
   );
 };
 
