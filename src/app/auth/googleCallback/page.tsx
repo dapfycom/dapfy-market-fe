@@ -4,7 +4,7 @@ import authService from "@/services/authService";
 import { setUser } from "@/store/slices/authSlice";
 import { useAppDispatch } from "@/store/store";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 
 function GoogleCallbackContent() {
   const [status, setStatus] = useState<"loading" | "success" | "error">(
@@ -13,9 +13,12 @@ function GoogleCallbackContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const code = searchParams.get("code");
+  const effectRan = useRef(false);
+
   const dispatch = useAppDispatch();
 
   useEffect(() => {
+    if (effectRan.current) return;
     const handleGoogleCallback = async () => {
       if (!code) {
         setStatus("error");
@@ -42,6 +45,10 @@ function GoogleCallbackContent() {
     };
 
     handleGoogleCallback();
+
+    return () => {
+      effectRan.current = true;
+    };
   }, [code, router, dispatch]);
 
   return (

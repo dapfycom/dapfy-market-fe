@@ -1,3 +1,4 @@
+import { routes } from "@/config/routes";
 import axios from "axios";
 
 const baseURL =
@@ -21,6 +22,26 @@ axiosInstance.interceptors.request.use(
     return config;
   },
   (error) => Promise.reject(error)
+);
+
+axiosInstance.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response && error.response.status === 401) {
+      // Redirect to home page
+      if (
+        typeof window !== "undefined" &&
+        window.location.pathname !== routes.home
+      ) {
+        // clear the local storage "token"
+        localStorage.removeItem("token");
+
+        // redirect to home page
+        window.location.href = routes.home;
+      }
+    }
+    return Promise.reject(error);
+  }
 );
 
 export default axiosInstance;
