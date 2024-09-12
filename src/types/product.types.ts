@@ -1,6 +1,16 @@
 import { ICategoryResponse } from "./category.types";
 import { IStoreResponse } from "./sotre.types";
 
+export enum PricingType {
+  SINGLE = "SINGLE",
+  SUBSCRIPTION = "SUBSCRIPTION",
+}
+
+export enum ProductStatus {
+  PUBLISHED = "PUBLISHED",
+  DRAFT = "DRAFT",
+}
+
 export interface IProductResponse {
   id: string;
   createdAt: string;
@@ -14,8 +24,8 @@ export interface IProductResponse {
   };
   storeId: string;
   isActive: true;
-  status: "PUBLISHED" | "DRAFT";
-  paymentType: "SINGLE" | "SUBSCRIPTION";
+  status: ProductStatus;
+  paymentType: PricingType;
   categoryId: string;
   averageRating: number;
   viewCount: number;

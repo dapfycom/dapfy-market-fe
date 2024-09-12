@@ -1,20 +1,23 @@
 "use client";
 import { GhostButton } from "@/components/buttonts";
+import { FramerAside, FramerDiv } from "@/components/framer";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { motion } from "framer-motion";
+import { selectSidebarOpen } from "@/store/slices/commonSlice";
+import { useAppSelector } from "@/store/store";
+import { ICategoryResponse } from "@/types/category.types";
 import { fadeInUp, staggerChildren } from "../constants";
-import { categories } from "../data";
 
-const Aside = ({ sidebarOpen }: { sidebarOpen: boolean }) => {
+const Aside = ({ categories }: { categories: ICategoryResponse[] }) => {
+  const sidebarOpen = useAppSelector(selectSidebarOpen);
   return (
-    <motion.aside
+    <FramerAside
       initial={false}
       animate={{ width: sidebarOpen ? 256 : 0 }}
       transition={{ duration: 0.2, ease: "easeInOut" }}
       className="border-r border-blue-200 bg-white overflow-hidden"
     >
       <ScrollArea className="h-full">
-        <motion.div
+        <FramerDiv
           className="space-y-1 p-4"
           variants={staggerChildren}
           initial="initial"
@@ -22,19 +25,21 @@ const Aside = ({ sidebarOpen }: { sidebarOpen: boolean }) => {
           style={{ display: sidebarOpen ? "block" : "none" }}
         >
           {categories.map((category, index) => (
-            <motion.div key={index} variants={fadeInUp}>
+            <FramerDiv key={index} variants={fadeInUp}>
               <GhostButton
                 variant="ghost"
                 className="w-full justify-start text-left font-normal text-gray-700 hover:bg-blue-100 hover:text-blue-800"
               >
-                <span className="mr-2 text-lg">{category.emoji}</span>
+                {category.emoji && (
+                  <span className="mr-2 text-lg">{category.emoji}</span>
+                )}
                 <span className="text-sm">{category.name}</span>
               </GhostButton>
-            </motion.div>
+            </FramerDiv>
           ))}
-        </motion.div>
+        </FramerDiv>
       </ScrollArea>
-    </motion.aside>
+    </FramerAside>
   );
 };
 

@@ -3,8 +3,12 @@ import { IStoreResponse } from "@/types/sotre.types";
 import api from "./api";
 
 const storesService = {
-  create: (createStoreDto: any) =>
-    api.post<IStoreResponse>("/stores", createStoreDto),
+  create: (formData: FormData) =>
+    api.post<IStoreResponse>("/stores", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    }),
 
   findAll: () => api.get<IStoreResponse[]>("/stores"),
 
@@ -18,7 +22,7 @@ const storesService = {
       params: pageOptions,
     }),
 
-  findOne: (id: string) => api.get<IStoreResponse>(`/stores/${id}`),
+  findOne: (idOrSlug: string) => api.get<IStoreResponse>(`/stores/${idOrSlug}`),
 
   update: (id: string, updateStoreDto: any) =>
     api.patch<IStoreResponse>(`/stores/${id}`, updateStoreDto),

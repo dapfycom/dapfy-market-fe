@@ -18,3 +18,10 @@ export interface IPaginationOptions {
   q?: string;
   order?: "ASC" | "DESC";
 }
+
+export type ColorTheme =
+  | "oceanBreeze"
+  | "sunsetGlow"
+  | "forestMist"
+  | "lavenderDreams"
+  | "goldenHour";

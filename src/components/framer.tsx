@@ -49,8 +49,16 @@ const FramerHeader = ({
   return <motion.header {...props}>{children}</motion.header>;
 };
 
+const FramerAside = ({
+  children,
+  ...props
+}: PropsWithChildren<MotionProps & HTMLMotionProps<"aside">>) => {
+  return <motion.aside {...props}>{children}</motion.aside>;
+};
+
 export {
   AnimatePresence,
+  FramerAside,
   FramerButton,
   FramerDiv,
   FramerHeader,

@@ -1,45 +1,34 @@
-"use client";
-import { useEffect, useState } from "react";
+import categoriesService from "@/services/categoriesServices";
 import Content from "./components/Content";
 import Aside from "./components/Sidebar";
 import TopBar from "./components/TopBar";
 
-export default function DigitalMarketplace() {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
-  const [cart, setCart] = useState<any[]>([]);
-  const [notification, setNotification] = useState<string | null>(null);
+export default async function DigitalMarketplace() {
+  const { data: categories } = await categoriesService.findAll();
 
-  const addToCart = (product: any) => {
-    console.log(product);
-
-    setCart([...cart, product]);
-    setNotification(`Added ${product.name} to cart!`);
+  // insert manually "ALL" category
+  const allCategory = {
+    id: "all",
+    name: "All",
+    emoji: "🏠",
   };
 
-  useEffect(() => {
-    if (notification) {
-      const timer = setTimeout(() => setNotification(null), 3000);
-      return () => clearTimeout(timer);
-    }
-  }, [notification]);
+  categories.unshift(allCategory);
+
+  console.log({ categories });
 
   return (
     <div className="flex h-screen bg-blue-50">
       {/* Sidebar */}
-      <Aside sidebarOpen={sidebarOpen} />
+      <Aside categories={categories} />
 
       {/* Main Content */}
       <main className="flex-1 overflow-hidden flex flex-col">
         {/* Top Bar */}
-        <TopBar
-          sidebarOpen={sidebarOpen}
-          setSidebarOpen={setSidebarOpen}
-          notification={notification}
-          cart={cart}
-        />
+        <TopBar />
 
         {/* Content Area */}
-        <Content addToCart={addToCart} />
+        <Content />
       </main>
     </div>
   );

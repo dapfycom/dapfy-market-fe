@@ -2,6 +2,7 @@ const routes = {
   home: "/",
   dashboard: "/dashboard",
   settings: "/settings",
+  stores: "/stores",
 };
 
 const dashboardRoutes = {

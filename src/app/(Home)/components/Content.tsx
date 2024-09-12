@@ -1,12 +1,25 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { addToCart } from "@/store/slices/commonSlice";
+import { useAppDispatch } from "@/store/store";
 import { motion } from "framer-motion";
 import { Eye, Plus, Search, Star } from "lucide-react";
 import Image from "next/image";
+import toast from "react-hot-toast";
 import { fadeInUp, staggerChildren } from "../constants";
 import { products } from "../data";
 
-const Content = ({ addToCart }: { addToCart: (product: any) => void }) => {
+const Content = () => {
+  const dispatch = useAppDispatch();
+
+  const handleAddToCart = (product: any) => {
+    console.log({ product });
+
+    dispatch(addToCart(product));
+    toast.success(`${product.name} added to cart`);
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -142,7 +155,7 @@ const Content = ({ addToCart }: { addToCart: (product: any) => void }) => {
                 </div>
                 <Button
                   className="bg-green-500 text-white hover:bg-green-600"
-                  onClick={() => addToCart(product)}
+                  onClick={() => handleAddToCart(product)}
                 >
                   <Plus className="h-5 w-5 mr-2" />
                   Add to Cart
