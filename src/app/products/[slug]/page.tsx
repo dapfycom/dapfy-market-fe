@@ -6,7 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { motion } from "framer-motion";
 import { ShoppingCart, Star } from "lucide-react";
 import { useState } from "react";
-
+export const runtime = "edge";
 export default function Component() {
   const totalReviews = 127;
   const averageRating = 4.7;
