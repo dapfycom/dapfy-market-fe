@@ -60,9 +60,7 @@ const Products = () => {
           <div className="flex justify-between items-center text-sm">
             <div className="flex items-center">
               <DollarSign className="w-4 h-4 mr-1" />
-              <span>
-                {product.price.d[0]}.{product.price.d[1] || "00"}
-              </span>
+              <span>{parseFloat(product.price.d.join(".")).toFixed(2)}</span>
             </div>
             <div className="flex items-center">
               <Star className="w-4 h-4 mr-1 text-yellow-400" />
@@ -80,22 +78,26 @@ const Products = () => {
 
   const ProductDetails = ({ product }: { product: IProductResponse }) => (
     <motion.div
-      initial={{ opacity: 0, y: 50 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: 50 }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
       className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
+      style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0 }}
       onClick={() => setSelectedProduct(null)}
     >
       <motion.div
-        className="bg-white rounded-lg p-6 w-full max-w-2xl"
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: 50 }}
+        className="bg-white rounded-lg p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
         <h2 className="text-2xl font-bold mb-4">{product.title}</h2>
         <p className="text-gray-600 mb-4">{product.description}</p>
         <div className="grid grid-cols-2 gap-4 mb-4">
           <div>
-            <strong>Price:</strong> ${product.price.d[0]}.
-            {product.price.d[1] || "00"}
+            <strong>Price:</strong> $
+            {parseFloat(product.price.d.join(".")).toFixed(2)}
           </div>
           <div>
             <strong>Payment Type:</strong> {product.paymentType}

@@ -104,6 +104,7 @@ const CreateStoreForm = ({
               logo: "",
               socials: [],
               banner: data.colorTheme, // Add this line
+              products: [],
             },
           ],
           meta: {

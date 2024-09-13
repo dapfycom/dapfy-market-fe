@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { PricingType } from "@/types/product.types";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   CheckCircle,
@@ -27,7 +28,7 @@ import Description from "./components/3.Description/Description";
 import Pricing from "./components/4.Pricing/Pricing";
 import Review from "./components/5.Review/Review";
 import Final from "./components/6.Final/Final";
-import { ProductFormData } from "./productSchema";
+import { ProductFormData, productSchema } from "./productSchema";
 
 const steps = [
   { name: "Select Store", icon: Store, emoji: "🏪" },
@@ -51,7 +52,9 @@ export default function EnhancedProductCreationFlow() {
       files: [],
       pricing: PricingType.SINGLE,
       price: "",
+      slug: "",
     },
+    resolver: zodResolver(productSchema),
   });
 
   const handleNext = () => {
@@ -81,9 +84,11 @@ export default function EnhancedProductCreationFlow() {
     }
   };
 
+  console.log(form.formState.errors);
+
   return (
     <FormProvider {...form}>
-      <Card className="w-full max-w-4xl h-[90vh] m-auto bg-white shadow-xl rounded-xl overflow-hidden">
+      <Card className="w-full max-w-4xl h-[90vh] m-auto bg-white shadow-xl rounded-xl overflow-auto">
         <CardHeader className="p-6 bg-gradient-to-r from-blue-500 to-blue-600">
           <CardTitle className="text-3xl font-bold text-white">
             Create New Product
@@ -138,7 +143,7 @@ export default function EnhancedProductCreationFlow() {
           <AnimatePresence mode="wait">{renderStep()}</AnimatePresence>
         </CardContent>
         <CardFooter className="p-6 bg-gray-50 flex justify-between">
-          {currentStep > 0 && currentStep < steps.length - 1 && (
+          {currentStep > 0 && currentStep < steps.length && (
             <Button
               variant="outline"
               onClick={handleBack}

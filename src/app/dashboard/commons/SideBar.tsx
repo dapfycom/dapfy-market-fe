@@ -6,7 +6,6 @@ import { motion } from "framer-motion";
 import {
   BarChart,
   DollarSign,
-  Edit2,
   Gift,
   Magnet,
   Package,
@@ -18,7 +17,7 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+
 const sidebarItems = [
   {
     name: "Dashboard",
@@ -78,10 +77,7 @@ const sidebarItems = [
 
 const SideBar = () => {
   const { user } = useGetCurrentUser();
-  const [storeName, setStoreName] = useState("My Digital Store");
-  const [isEditingName, setIsEditingName] = useState(false);
   const username = user?.username.split("@")[0];
-
   const currentPath = usePathname();
 
   return (
@@ -92,27 +88,11 @@ const SideBar = () => {
       className="w-64 bg-white shadow-md flex flex-col"
     >
       <div className="p-4 border-b border-gray-200">
-        {isEditingName ? (
-          <input
-            type="text"
-            value={storeName}
-            onChange={(e) => setStoreName(e.target.value)}
-            onBlur={() => setIsEditingName(false)}
-            onKeyDown={(e) => e.key === "Enter" && setIsEditingName(false)}
-            className="text-xl font-bold text-blue-600 w-full outline-none"
-            autoFocus
-          />
-        ) : (
-          <h2 className="text-xl font-bold text-blue-600 flex items-center">
-            {storeName}
-            <button
-              onClick={() => setIsEditingName(true)}
-              className="ml-2 text-blue-400 hover:text-blue-600"
-            >
-              <Edit2 size={16} />
-            </button>
+        <Link href="/" className="block">
+          <h2 className="text-2xl font-bold text-blue-600 hover:text-blue-700 transition-colors">
+            Dapfy
           </h2>
-        )}
+        </Link>
       </div>
       <div className="p-4 border-b border-gray-200">
         <div className="flex items-center">

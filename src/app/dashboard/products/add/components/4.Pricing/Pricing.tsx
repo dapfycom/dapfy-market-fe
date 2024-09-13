@@ -2,7 +2,14 @@
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { PricingType } from "@/types/product.types";
 import { motion } from "framer-motion";
 import { useFormContext } from "react-hook-form";
 
@@ -18,25 +25,28 @@ const Pricing = () => {
       className="space-y-6"
     >
       <h2 className="text-2xl font-semibold">💰 Pricing Configuration</h2>
-      <RadioGroup
-        onValueChange={(pricingType) =>
-          form.setValue("pricingType", pricingType)
-        }
-        className="space-y-4"
-      >
-        <div className="flex items-center space-x-3 p-4 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors">
-          <RadioGroupItem value="onetime" id="onetime" />
-          <Label htmlFor="onetime" className="text-lg">
-            One-time Payment
-          </Label>
-        </div>
-        <div className="flex items-center space-x-3 p-4 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors">
-          <RadioGroupItem value="subscription" id="subscription" />
-          <Label htmlFor="subscription" className="text-lg">
-            Subscription
-          </Label>
-        </div>
-      </RadioGroup>
+      <div>
+        <Label htmlFor="pricing-type" className="text-lg font-semibold">
+          Pricing Type
+        </Label>
+        <Select
+          onValueChange={(pricingType) => form.setValue("pricing", pricingType)}
+          value={form.getValues("pricing")}
+        >
+          <SelectTrigger id="pricing-type" className="w-full mt-2">
+            <SelectValue
+              placeholder="Choose pricing type"
+              className="text-black placeholder:text-black"
+            />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value={PricingType.SINGLE}>One-time Payment</SelectItem>
+            <SelectItem value={PricingType.SUBSCRIPTION}>
+              Subscription
+            </SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
       <div>
         <Label htmlFor="price" className="text-lg font-semibold">
           Price ($)
@@ -44,10 +54,9 @@ const Pricing = () => {
         <Input
           id="price"
           type="number"
-          value={form.watch("price")}
-          onChange={(e) => form.setValue("price", e.target.value)}
           placeholder="Enter price"
           className="mt-2"
+          {...form.register("price")}
         />
       </div>
     </motion.div>

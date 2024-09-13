@@ -2,12 +2,14 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { bannerThemes } from "@/config";
-import { cn } from "@/lib/utils";
+import { routes } from "@/config/routes";
+import { cn, formatPrice } from "@/lib/utils";
 import { ColorTheme } from "@/types/common.types";
 import { IStoreResponse } from "@/types/sotre.types";
 import { AnimatePresence, motion } from "framer-motion";
 import { Check, Eye, Search, ShoppingCart, Star, X } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 
 const socialIcons = {
@@ -41,9 +43,9 @@ const socialIcons = {
 export default function DigitalStore({ store }: { store: IStoreResponse }) {
   console.log({ store });
 
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState<any>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const [addedProducts, setAddedProducts] = useState({});
+  const [addedProducts, setAddedProducts] = useState<any>({});
   const [email, setEmail] = useState("");
   const [isSubscribed, setIsSubscribed] = useState(false);
 
@@ -54,71 +56,7 @@ export default function DigitalStore({ store }: { store: IStoreResponse }) {
     logo: store.logo,
   };
 
-  const products = [
-    {
-      id: 1,
-      name: "Pro Photoshop Actions",
-      description:
-        "A set of 50 professional Photoshop actions for photographers",
-      price: 29.99,
-      rating: 4.5,
-      image: "/placeholder.svg?height=200&width=200",
-      views: 1200,
-      reviews: 45,
-    },
-    {
-      id: 2,
-      name: "Social Media Templates",
-      description:
-        "100 customizable social media post templates for various platforms",
-      price: 19.99,
-      rating: 4.2,
-      image: "/placeholder.svg?height=200&width=200",
-      views: 980,
-      reviews: 32,
-    },
-    {
-      id: 3,
-      name: "E-book: Digital Marketing Mastery",
-      description:
-        "Comprehensive guide to mastering digital marketing strategies",
-      price: 39.99,
-      rating: 4.8,
-      image: "/placeholder.svg?height=200&width=200",
-      views: 2500,
-      reviews: 78,
-    },
-    {
-      id: 4,
-      name: "Premium Icon Pack",
-      description: "500+ vector icons for web and mobile app design",
-      price: 24.99,
-      rating: 4.6,
-      image: "/placeholder.svg?height=200&width=200",
-      views: 1800,
-      reviews: 56,
-    },
-    {
-      id: 5,
-      name: "Video Editing Presets",
-      description: "30 professional color grading presets for video editors",
-      price: 34.99,
-      rating: 4.4,
-      image: "/placeholder.svg?height=200&width=200",
-      views: 1500,
-      reviews: 40,
-    },
-    {
-      id: 6,
-      name: "UX/UI Design Course",
-      description: "Comprehensive online course on UX/UI design principles",
-      price: 89.99,
-      rating: 4.9,
-      image: "/placeholder.svg?height=200&width=200",
-      views: 3200,
-      reviews: 95,
-    },
-  ];
+  const products = store.products;
 
   const addToCart = (product: any) => {
     setCart([...cart, product]);
@@ -212,7 +150,7 @@ export default function DigitalStore({ store }: { store: IStoreResponse }) {
                 <p>Your cart is empty</p>
               ) : (
                 <ul>
-                  {cart.map((item) => (
+                  {cart.map((item: any) => (
                     <li
                       key={item.id}
                       className="flex justify-between items-center mb-2"
@@ -320,31 +258,35 @@ export default function DigitalStore({ store }: { store: IStoreResponse }) {
               transition={{ duration: 0.5 }}
               className="bg-white rounded-lg shadow-md overflow-hidden"
             >
-              <img
-                src={product.image}
-                alt={product.name}
-                className="w-full h-48 object-cover"
-              />
+              {product.images.length > 0 && (
+                <Image
+                  src={product.images[0].url}
+                  alt={product.title}
+                  className="w-full h-48 object-cover"
+                  width={300}
+                  height={300}
+                />
+              )}
               <div className="p-4">
-                <h3 className="text-xl font-semibold mb-2">{product.name}</h3>
+                <h3 className="text-xl font-semibold mb-2">{product.title}</h3>
                 <p className="text-gray-600 mb-4">{product.description}</p>
                 <div className="flex items-center justify-between mb-4">
                   <span className="text-2xl font-bold text-blue-600">
-                    ${product.price.toFixed(2)}
+                    ${formatPrice(product.price)}
                   </span>
                   <div className="flex items-center">
                     {[...Array(5)].map((_, i) => (
                       <Star
                         key={i}
                         className={`w-5 h-5 ${
-                          i < Math.floor(product.rating)
+                          i < Math.floor(product.averageRating)
                             ? "text-yellow-400 fill-current"
                             : "text-gray-300"
                         }`}
                       />
                     ))}
                     <span className="ml-2 text-sm text-gray-600">
-                      {product.rating.toFixed(1)}
+                      {product.averageRating.toFixed(1)}
                     </span>
                   </div>
                 </div>
@@ -352,19 +294,22 @@ export default function DigitalStore({ store }: { store: IStoreResponse }) {
                   <div className="flex items-center">
                     <Eye className="w-5 h-5 text-gray-400 mr-1" />
                     <span className="text-sm text-gray-600">
-                      {product.views} views
+                      {product.viewCount} views
                     </span>
                   </div>
                   <div className="flex items-center">
                     <Star className="w-5 h-5 text-gray-400 mr-1" />
-                    <span className="text-sm text-gray-600">
-                      {product.reviews} reviews
-                    </span>
+                    <span className="text-sm text-gray-600">10 reviews</span>
                   </div>
                 </div>
                 <div className="flex gap-2">
-                  <Button className="flex-1 transition-all duration-300 transform hover:scale-105 active:scale-95">
-                    View Product &nbsp;<span aria-hidden="true">👀</span>
+                  <Button
+                    asChild
+                    className="flex-1 transition-all duration-300 transform hover:scale-105 active:scale-95"
+                  >
+                    <Link href={`${routes.products}/${product.slug}`}>
+                      View Product &nbsp;<span aria-hidden="true">👀</span>
+                    </Link>
                   </Button>
                   <Button
                     className={`bg-green-500 hover:bg-green-600 transition-all duration-300 transform hover:scale-105 active:scale-95 ${

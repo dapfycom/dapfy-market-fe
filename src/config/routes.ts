@@ -3,6 +3,7 @@ const routes = {
   dashboard: "/dashboard",
   settings: "/settings",
   stores: "/stores",
+  products: "/products",
 };
 
 const dashboardRoutes = {

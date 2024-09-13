@@ -1,3 +1,5 @@
+import { IProductResponse } from "./product.types";
+
 export interface ICreateStoreDto {
   name: string;
   description: string;
@@ -16,4 +18,5 @@ export interface IStoreResponse extends ICreateStoreDto {
   createdAt: string;
   updatedAt: string;
   ownerId: string;
+  products: IProductResponse[];
 }

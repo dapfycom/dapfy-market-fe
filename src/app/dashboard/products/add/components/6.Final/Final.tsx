@@ -1,15 +1,15 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
 import { motion } from "framer-motion";
 import { Check, Copy } from "lucide-react";
 import { useState } from "react";
 import { useFormContext } from "react-hook-form";
 import toast from "react-hot-toast";
+import { ProductFormData } from "../../productSchema";
 
 const Final = () => {
-  const form = useFormContext();
+  const form = useFormContext<ProductFormData>();
   const productData = form.watch();
   const [copied, setCopied] = useState(false);
 
@@ -30,11 +30,11 @@ const Final = () => {
       <p className="text-xl">
         Congratulations! Your product has been successfully created.
       </p>
-      <div className="flex items-center justify-center space-x-2">
+      {/* <div className="flex items-center justify-center space-x-2">
         <Switch
-          checked={productData.isPublished}
+          checked={productData.status === ProductStatus.PUBLISHED}
           onCheckedChange={(isPublished) =>
-            form.setValue("isPublished", isPublished)
+            form.setValue("status", isPublished ? ProductStatus.PUBLISHED : ProductStatus.DRAFT)
           }
         />
         <Label>
@@ -42,7 +42,7 @@ const Final = () => {
             ? "Product is live"
             : "Toggle the button to make your product live"}
         </Label>
-      </div>
+      </div> */}
       <div>
         <Label htmlFor="product-link" className="text-lg font-semibold">
           Product Link

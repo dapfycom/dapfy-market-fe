@@ -4,7 +4,7 @@ import axios, { AxiosInstance, InternalAxiosRequestConfig } from "axios";
 const BASE_URL = `${
   process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000"
 }/api`;
-const TIMEOUT = 10000;
+const TIMEOUT = 100000;
 const TOKEN_KEY = "token";
 
 const createAxiosInstance = (): AxiosInstance => {
