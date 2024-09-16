@@ -12,7 +12,6 @@ export const useGetProducts = () => {
       return res.data;
     },
     {
-      revalidateOnFocus: false,
       refreshWhenOffline: false,
       revalidateIfStale: false,
     }

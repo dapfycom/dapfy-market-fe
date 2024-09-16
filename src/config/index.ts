@@ -3,6 +3,7 @@ import { ColorTheme } from "@/types/common.types";
 export const config = {
   appUrl: process.env.NEXT_PUBLIC_APP_URL,
   awsBucketName: process.env.NEXT_PUBLIC_AWS_BUCKET_NAME,
+  appName: "Dapfy.com",
 };
 
 export const staticUrl = config.appUrl + "/statics";

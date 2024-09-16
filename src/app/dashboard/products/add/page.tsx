@@ -58,12 +58,13 @@ export default function EnhancedProductCreationFlow() {
   });
 
   const handleNext = () => {
-    setCurrentStep((prev) => Math.min(prev + 1, steps.length - 1));
+    setCurrentStep((prev) => prev + 1);
   };
 
   const handleBack = () => {
     setCurrentStep((prev) => Math.max(prev - 1, 0));
   };
+  console.log(currentStep);
 
   const renderStep = () => {
     switch (currentStep) {
@@ -76,7 +77,7 @@ export default function EnhancedProductCreationFlow() {
       case 3:
         return <Pricing />;
       case 4:
-        return <Review />;
+        return <Review onNextStep={handleNext} />;
       case 5:
         return <Final />;
       default:

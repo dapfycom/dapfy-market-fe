@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { config } from "@/config";
-import { dashboardRoutes, routes } from "@/config/routes";
+import { routes } from "@/config/routes";
 import { useGetUserStores } from "@/hooks/useStores";
 import productsService from "@/services/productsServices";
 import { PricingType } from "@/types/product.types";
@@ -15,7 +15,7 @@ import { useFormContext } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { ProductFormData } from "../../productSchema";
 
-const Review = () => {
+const Review = ({ onNextStep }: { onNextStep: () => void }) => {
   const form = useFormContext<ProductFormData>();
   const { data: stores } = useGetUserStores();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -47,7 +47,7 @@ const Review = () => {
       const storeId = form.getValues("store");
       await productsService.create(storeId, formData);
       toast.success("Product created successfully!");
-      router.push(dashboardRoutes.products); // Redirect to products list
+      onNextStep();
     } catch (error) {
       console.error("Error creating product:", error);
       toast.error("Failed to create product. Please try again.");

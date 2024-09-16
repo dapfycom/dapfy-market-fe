@@ -5,17 +5,21 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { config } from "@/config";
 import { routes } from "@/config/routes";
+import { useDebounce } from "@/hooks/useDebounce";
 import { generateSlug } from "@/lib/utils";
+import productsService from "@/services/productsServices";
 import { motion } from "framer-motion";
 import { Upload, X } from "lucide-react";
 import Image from "next/image";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { useFormContext } from "react-hook-form";
+import useSWR from "swr";
 import { ProductFormData } from "../../productSchema";
 
 const Description = () => {
   const form = useFormContext<ProductFormData>();
+  const [debouncedSlug, setDebouncedSlug] = useState("");
 
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
@@ -32,12 +36,29 @@ const Description = () => {
     maxFiles: 10,
   });
 
+  const slug = form.watch("slug");
+  const debouncedValue = useDebounce(slug, 500);
+
+  const name = form.watch("name");
+  const debouncedName = useDebounce(name, 2000);
+
+  const { data, error: slugError } = useSWR(
+    debouncedValue ? `/products/check-slug/${debouncedValue}` : null,
+    () => productsService.checkSlugAvailability(debouncedValue as string)
+  );
+
+  const isSlugAvailable = data?.data;
+
   useEffect(() => {
-    const name = form.watch("name");
-    if (name && !form.getValues("slug")) {
-      form.setValue("slug", generateSlug(name));
+    setDebouncedSlug(debouncedValue);
+  }, [debouncedValue]);
+
+  useEffect(() => {
+    if (debouncedName && !form.getValues("slug")) {
+      const newSlug = generateSlug(debouncedName);
+      form.setValue("slug", newSlug);
     }
-  }, [form.watch("name")]);
+  }, [debouncedName, form]);
 
   return (
     <motion.div
@@ -69,12 +90,23 @@ const Description = () => {
             id="product-slug"
             {...form.register("slug")}
             placeholder="Enter product slug"
-            className="flex-grow mb-2"
+            className={`flex-grow mb-2 ${
+              !isSlugAvailable && !slugError && debouncedSlug
+                ? "border-red-500"
+                : ""
+            }`}
           />
-          <span className="ml-2 text-sm text-gray-500">
-            Preview: {config.appUrl}
-            {routes.products}/{form.watch("slug")}
-          </span>
+          {isSlugAvailable && debouncedSlug && (
+            <span className="ml-2 text-sm text-gray-500">
+              Preview: {config.appUrl}
+              {routes.products}/{debouncedSlug}
+            </span>
+          )}
+          {!isSlugAvailable && !slugError && debouncedSlug && (
+            <span className="text-sm text-red-500 ">
+              This slug is already in use. Please choose a different one.
+            </span>
+          )}
         </div>
       </div>
       <div>

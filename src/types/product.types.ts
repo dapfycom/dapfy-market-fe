@@ -38,7 +38,9 @@ export interface IProductResponse {
   store: IStoreResponse;
 }
 
-export interface IProductDetailResponse extends IProductResponse {}
+export interface IProductDetailsResponse extends IProductResponse {
+  reviews: IProductReviewResponse[];
+}
 
 export interface IProductReviewResponse {
   id: string;

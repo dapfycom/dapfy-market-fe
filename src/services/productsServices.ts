@@ -1,6 +1,7 @@
 import { IPaginatedResponse, IPaginationOptions } from "@/types/common.types";
 
 import {
+  IProductDetailsResponse,
   IProductResponse,
   IProductReviewResponse,
 } from "@/types/product.types";
@@ -24,7 +25,8 @@ const productsService = {
       params: pageOptions,
     }),
 
-  findOne: (id: string) => api.get<IProductResponse>(`/products/${id}`),
+  findOne: (slug: string) =>
+    api.get<IProductDetailsResponse>(`/products/${slug}`),
 
   update: (id: string, updateProductDto: any) =>
     api.patch<IProductResponse>(`/products/${id}`, updateProductDto),
@@ -36,6 +38,9 @@ const productsService = {
       `/products/${productId}/reviews`,
       createReviewDto
     ),
+
+  checkSlugAvailability: (slug: string) =>
+    api.get<boolean>(`/products/check-slug/${slug}`),
 };
 
 export default productsService;

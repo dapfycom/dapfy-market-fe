@@ -1,6 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { config } from "@/config";
+import { routes } from "@/config/routes";
 import { motion } from "framer-motion";
 import { Check, Copy } from "lucide-react";
 import { useState } from "react";
@@ -13,9 +15,9 @@ const Final = () => {
   const productData = form.watch();
   const [copied, setCopied] = useState(false);
 
-  const productLink = `https://yourstore.com/products/${productData.name
-    .toLowerCase()
-    .replace(/ /g, "-")}`;
+  const productLink = `${config.appUrl}${routes.products}/${form.watch(
+    "slug"
+  )}`;
   return (
     <motion.div
       key="step5"
