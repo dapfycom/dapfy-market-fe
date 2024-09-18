@@ -64,7 +64,6 @@ export default function EnhancedProductCreationFlow() {
   const handleBack = () => {
     setCurrentStep((prev) => Math.max(prev - 1, 0));
   };
-  console.log(currentStep);
 
   const renderStep = () => {
     switch (currentStep) {
@@ -84,8 +83,6 @@ export default function EnhancedProductCreationFlow() {
         return null;
     }
   };
-
-  console.log(form.formState.errors);
 
   return (
     <FormProvider {...form}>

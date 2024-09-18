@@ -36,6 +36,7 @@ export interface IProductResponse {
   images: IProductImage[];
   category: ICategoryResponse;
   store: IStoreResponse;
+  longDescription: string;
 }
 
 export interface IProductDetailsResponse extends IProductResponse {
@@ -48,4 +49,9 @@ export interface IProductReviewResponse {
   comment: string;
   userId: string;
   productId: string;
+  user: {
+    id: string;
+    username: string;
+    avatar: string;
+  };
 }

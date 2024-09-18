@@ -9,17 +9,16 @@ import productsService from "@/services/productsServices";
 import { PricingType } from "@/types/product.types";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { toast } from "react-hot-toast";
+import ReactMarkdown from "react-markdown";
 import { ProductFormData } from "../../productSchema";
 
 const Review = ({ onNextStep }: { onNextStep: () => void }) => {
   const form = useFormContext<ProductFormData>();
   const { data: stores } = useGetUserStores();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const router = useRouter();
 
   const onSubmit = async () => {
     setIsSubmitting(true);
@@ -32,6 +31,7 @@ const Review = ({ onNextStep }: { onNextStep: () => void }) => {
     formData.append("price", form.getValues("price"));
     formData.append("status", "PUBLISHED"); // Assuming default status is PUBLISHED
     formData.append("slug", form.getValues("slug"));
+    formData.append("longDescription", form.getValues("longDescription") || "");
 
     // Append images
     form.getValues("images").forEach((image, index) => {
@@ -115,6 +115,49 @@ const Review = ({ onNextStep }: { onNextStep: () => void }) => {
           <p className="break-all">
             {`${config.appUrl}${routes.products}/${form.watch("slug")}`}
           </p>
+        </div>
+        <div>
+          <Label className="font-semibold">Short Description</Label>
+          <p>{form.watch("description")}</p>
+        </div>
+        <div>
+          <Label className="font-semibold">Product Details</Label>
+          <div className="mt-2 p-4 bg-gray-100 rounded-md product-long-detail">
+            <ReactMarkdown>{form.watch("longDescription") || ""}</ReactMarkdown>
+          </div>
+        </div>
+        <div>
+          <Label className="font-semibold">Storefront Preview</Label>
+          <div className="mt-2 p-4 bg-white border border-gray-200 rounded-md shadow-sm">
+            <h1 className="text-2xl font-bold mb-4">{form.watch("name")}</h1>
+            <div className="grid grid-cols-2 gap-4 mb-4">
+              {form
+                .watch("images")
+                .slice(0, 2)
+                .map((img: File, index: number) => (
+                  <Image
+                    key={index}
+                    src={URL.createObjectURL(img)}
+                    alt={`Product image ${index + 1}`}
+                    className="w-full h-auto rounded-md shadow-md"
+                    width={300}
+                    height={200}
+                    objectFit="cover"
+                  />
+                ))}
+            </div>
+            <p className="text-lg font-semibold mb-2">
+              ${form.watch("price")} -{" "}
+              {form.watch("pricing") === PricingType.SINGLE
+                ? "One-time Payment"
+                : "Subscription"}
+            </p>
+            <div className="prose max-w-none">
+              <ReactMarkdown>
+                {form.watch("longDescription") || ""}
+              </ReactMarkdown>
+            </div>
+          </div>
         </div>
       </div>
       <Button

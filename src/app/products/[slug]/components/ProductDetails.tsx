@@ -1,8 +1,9 @@
-import { FramerDiv } from "@/components/framer";
+import { FramerDiv, FramerH1, FramerP } from "@/components/framer";
 import { Button } from "@/components/ui/button";
+import { routes } from "@/config/routes";
 import { PricingType } from "@/types/product.types";
-import { motion } from "framer-motion";
 import { ShoppingCart, Star } from "lucide-react";
+import Link from "next/link";
 const ProductDetails = ({
   title,
   description,
@@ -10,9 +11,11 @@ const ProductDetails = ({
   averageRating,
   totalReviews,
   storeName,
+  storeSlug,
   paymentType,
 }: {
   storeName: string;
+  storeSlug: string;
   title: string;
   description: string;
   price: string;
@@ -34,17 +37,19 @@ const ProductDetails = ({
           </div>
           <div className="text-sm text-gray-500">
             Created by{" "}
-            <span className="font-semibold text-gray-700">{storeName}</span>
+            <Link href={`${routes.stores}/${storeSlug}`}>
+              <span className="font-semibold text-gray-700">{storeName}</span>
+            </Link>
           </div>
         </FramerDiv>
-        <motion.h1
+        <FramerH1
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.4, duration: 0.5 }}
           className="text-3xl leading-8 font-bold tracking-tight text-gray-900"
         >
           {title}
-        </motion.h1>
+        </FramerH1>
         <FramerDiv
           initial={{ scale: 0.9, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
@@ -68,14 +73,14 @@ const ProductDetails = ({
             {averageRating} ({totalReviews} reviews)
           </span>
         </FramerDiv>
-        <motion.p
+        <FramerP
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.6, duration: 0.5 }}
           className="mt-4 text-xl text-gray-500"
         >
           {description}
-        </motion.p>
+        </FramerP>
       </div>
       <FramerDiv
         initial={{ y: 20, opacity: 0 }}

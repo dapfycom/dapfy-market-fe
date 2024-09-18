@@ -1,3 +1,5 @@
+import Footer from "@/components/footer";
+import { Toaster } from "@/components/ui/toaster";
 import RootProvider from "@/providers/RootProvider";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
@@ -30,6 +32,8 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <RootProvider>{children}</RootProvider>
+        <Footer />
+        <Toaster />
       </body>
     </html>
   );

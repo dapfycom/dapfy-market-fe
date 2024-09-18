@@ -10,6 +10,7 @@ import { generateSlug } from "@/lib/utils";
 import productsService from "@/services/productsServices";
 import { motion } from "framer-motion";
 import { Upload, X } from "lucide-react";
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
@@ -17,9 +18,15 @@ import { useFormContext } from "react-hook-form";
 import useSWR from "swr";
 import { ProductFormData } from "../../productSchema";
 
+const MDEditor = dynamic(
+  () => import("@uiw/react-md-editor").then((mod) => mod.default),
+  { ssr: false }
+);
+
 const Description = () => {
   const form = useFormContext<ProductFormData>();
   const [debouncedSlug, setDebouncedSlug] = useState("");
+  const [previewMode, setPreviewMode] = useState(false);
 
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
@@ -120,7 +127,29 @@ const Description = () => {
           className="mt-2 min-h-[200px]"
         />
       </div>
-
+      <div>
+        <Label
+          htmlFor="product-long-description"
+          className="text-lg font-semibold"
+        >
+          Long Description (Markdown)
+        </Label>
+        <div className="mt-2">
+          <MDEditor
+            value={form.watch("longDescription") || ""}
+            onChange={(value) => form.setValue("longDescription", value || "")}
+            preview={previewMode ? "preview" : "edit"}
+            height={400}
+          />
+          <button
+            type="button"
+            onClick={() => setPreviewMode(!previewMode)}
+            className="mt-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
+          >
+            {previewMode ? "Edit" : "Preview"}
+          </button>
+        </div>
+      </div>
       <div>
         <Label htmlFor="custom-images" className="text-lg font-semibold">
           Upload Product Images (up to 10)

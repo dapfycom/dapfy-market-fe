@@ -2,7 +2,16 @@ import Content from "./components/Content";
 import Aside from "./components/Sidebar";
 import TopBar from "./components/TopBar";
 
-export default function DigitalMarketplace() {
+interface DigitalMarketplaceProps {
+  searchParams: { [key: string]: string | string[] | undefined };
+}
+
+export default function DigitalMarketplace({
+  searchParams,
+}: DigitalMarketplaceProps) {
+  const category = searchParams.category as string | undefined;
+  const search = searchParams.search as string | undefined;
+
   return (
     <div className="flex h-screen bg-blue-50">
       {/* Sidebar */}
@@ -14,7 +23,7 @@ export default function DigitalMarketplace() {
         <TopBar />
 
         {/* Content Area */}
-        <Content />
+        <Content category={category || "All"} search={search} />
       </main>
     </div>
   );

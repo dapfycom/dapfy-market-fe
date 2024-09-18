@@ -56,6 +56,13 @@ const FramerAside = ({
   return <motion.aside {...props}>{children}</motion.aside>;
 };
 
+const FramerH1 = ({
+  children,
+  ...props
+}: PropsWithChildren<MotionProps & HTMLMotionProps<"h1">>) => {
+  return <motion.h1 {...props}>{children}</motion.h1>;
+};
+
 const FramerH2 = ({
   children,
   ...props
@@ -75,6 +82,7 @@ export {
   FramerAside,
   FramerButton,
   FramerDiv,
+  FramerH1,
   FramerH2,
   FramerHeader,
   FramerInput,

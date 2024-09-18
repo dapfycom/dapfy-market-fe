@@ -36,7 +36,7 @@ const ProductCard = ({ product }: { product: IProductResponse }) => {
           alt={product.title}
           className="w-full h-48 object-cover"
           width={400}
-          height={100}
+          height={200}
           quality={100}
         />
         <div className="p-4">

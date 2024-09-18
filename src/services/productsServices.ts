@@ -15,9 +15,13 @@ const productsService = {
 
   findAll: () => api.get<IProductResponse[]>("/products"),
 
-  findPaginated: (pageOptions?: IPaginationOptions) =>
+  findPaginated: (
+    pageOptions?: IPaginationOptions,
+    category: string = "all",
+    search?: string
+  ) =>
     api.get<IPaginatedResponse<IProductResponse>>("/products/paginated", {
-      params: pageOptions,
+      params: { ...pageOptions, category, search },
     }),
 
   findUserProducts: (pageOptions?: IPaginationOptions) =>
@@ -33,7 +37,13 @@ const productsService = {
 
   remove: (id: string) => api.delete(`/products/${id}`),
 
-  addReview: (productId: string, createReviewDto: any) =>
+  addReview: (
+    productId: string,
+    createReviewDto: {
+      rating: number;
+      comment: string;
+    }
+  ) =>
     api.post<IProductReviewResponse>(
       `/products/${productId}/reviews`,
       createReviewDto
@@ -41,6 +51,9 @@ const productsService = {
 
   checkSlugAvailability: (slug: string) =>
     api.get<boolean>(`/products/check-slug/${slug}`),
+
+  findReviews: (productId: string) =>
+    api.get<IProductReviewResponse[]>(`/products/reviews/${productId}`),
 };
 
 export default productsService;

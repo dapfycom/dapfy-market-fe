@@ -1,11 +1,17 @@
 import { FramerDiv, FramerH2, FramerP } from "@/components/framer";
-import { Input } from "@/components/ui/input";
-import { Search } from "lucide-react";
+import { Suspense } from "react";
 import { fadeInUp, staggerChildren } from "../constants";
 import ProductsList from "./ProductsList";
+import SearchProducts from "./SearchProducts";
 import SigUpButton from "./SigUpButton";
 
-const Content = () => {
+const Content = ({
+  category,
+  search,
+}: {
+  category: string;
+  search?: string;
+}) => {
   return (
     <FramerDiv
       initial={{ opacity: 0 }}
@@ -51,21 +57,7 @@ const Content = () => {
           </ResponsiveContainer>
         </FramerDiv> */}
       </div>
-      <FramerDiv
-        variants={fadeInUp}
-        initial="initial"
-        animate="animate"
-        className="mb-6"
-      >
-        <div className="relative">
-          <Input
-            placeholder="Search"
-            className="pl-8 bg-white border-blue-200 text-gray-800"
-          />
-          <Search className="absolute left-2 top-2.5 h-4 w-4 text-gray-400" />
-        </div>
-      </FramerDiv>
-
+      <SearchProducts />
       <FramerH2
         variants={fadeInUp}
         initial="initial"
@@ -76,7 +68,9 @@ const Content = () => {
       </FramerH2>
 
       {/* Grid of Products */}
-      <ProductsList />
+      <Suspense fallback={"Loading..."}>
+        <ProductsList category={category} search={search} />
+      </Suspense>
     </FramerDiv>
   );
 };

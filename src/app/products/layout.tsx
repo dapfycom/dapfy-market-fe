@@ -4,7 +4,7 @@ import TopBar from "../(Home)/components/TopBar";
 
 const layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="flex h-screen bg-blue-50">
+    <div className="flex  bg-blue-50">
       {/* Sidebar */}
       <Aside />
 

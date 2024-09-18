@@ -1,6 +1,10 @@
 import { FramerDiv } from "@/components/framer";
-
-const ProductLongDetail = () => {
+import ReactMarkdown from "react-markdown";
+const ProductLongDetail = ({
+  longDescription,
+}: {
+  longDescription: string;
+}) => {
   return (
     <FramerDiv
       initial={{ y: 50, opacity: 0 }}
@@ -14,13 +18,9 @@ const ProductLongDetail = () => {
         </span>
         Product Details
       </h2>
-      <ul className="list-disc pl-5 text-gray-700 space-y-2">
-        <li>50+ customizable productivity templates</li>
-        <li>10-step guide to effective time management</li>
-        <li>Task prioritization software (1-year license)</li>
-        <li>Access to exclusive productivity webinars</li>
-        <li>Monthly newsletter with productivity tips</li>
-      </ul>
+      <div className="product-long-detail">
+        <ReactMarkdown>{longDescription}</ReactMarkdown>
+      </div>
     </FramerDiv>
   );
 };
