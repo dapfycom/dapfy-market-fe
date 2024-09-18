@@ -5,7 +5,6 @@ import { notFound } from "next/navigation";
 import { cache } from "react";
 import Product from "./Product";
 
-export const runtime = "edge";
 export const revalidate = 3600;
 export const dynamicParams = true;
 

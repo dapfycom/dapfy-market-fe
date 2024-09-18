@@ -2,7 +2,6 @@
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { useState } from "react";
-export const runtime = "edge";
 const ProductImages = ({ images }: { images: string[] }) => {
   const [currentImage, setCurrentImage] = useState(0);
 

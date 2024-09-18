@@ -5,7 +5,6 @@ import { Metadata, ResolvingMetadata } from "next";
 import { notFound } from "next/navigation";
 import { cache } from "react";
 import DigitalStore from "./StoresClient";
-export const runtime = "edge";
 export const revalidate = 3600;
 export const dynamicParams = true;
 
