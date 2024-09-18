@@ -14,7 +14,7 @@ const ProductReviews = ({ productId }: { productId: string }) => {
   const reviews = data?.data || [];
 
   if (isLoading) return <div>Loading...</div>;
-  if (reviews.length === 0) return null;
+  if (reviews?.length === 0) return null;
 
   return (
     <FramerDiv

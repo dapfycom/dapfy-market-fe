@@ -28,7 +28,7 @@ const Product = ({ product }: { product: IProductDetailsResponse }) => {
             description={product.description}
             price={formatPrice(product.price)}
             averageRating={product.averageRating}
-            totalReviews={product.reviews.length}
+            totalReviews={product.reviews?.length || 0}
             paymentType={product.paymentType}
             storeSlug={product.store.slug}
           />
