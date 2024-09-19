@@ -20,7 +20,7 @@ const Review = ({ onNextStep }: { onNextStep: () => void }) => {
   const { data: stores } = useGetUserStores();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const onSubmit = async () => {
+  const onSubmit = async (data: ProductFormData) => {
     setIsSubmitting(true);
     const formData = new FormData();
 
@@ -44,7 +44,7 @@ const Review = ({ onNextStep }: { onNextStep: () => void }) => {
     });
 
     try {
-      const storeId = form.getValues("store");
+      const storeId = data.store;
       await productsService.create(storeId, formData);
       toast.success("Product created successfully!");
       onNextStep();
@@ -161,12 +161,28 @@ const Review = ({ onNextStep }: { onNextStep: () => void }) => {
         </div>
       </div>
       <Button
-        onClick={onSubmit}
+        onClick={form.handleSubmit(onSubmit, (errors) => {
+          console.error("Validation errors:", errors);
+          toast.error("Please fix the errors before submitting.");
+        })}
         disabled={isSubmitting}
         className="w-full bg-blue-600 hover:bg-blue-700 text-white"
       >
         {isSubmitting ? "Creating Product..." : "Create Product"}
       </Button>
+
+      {Object.keys(form.formState.errors).length > 0 && (
+        <div className="mt-4 p-4 bg-red-100 border border-red-400 rounded-md">
+          <h3 className="text-red-700 font-semibold mb-2">Form Errors:</h3>
+          <ul className="list-disc pl-5">
+            {Object.entries(form.formState.errors).map(([field, error]) => (
+              <li key={field} className="text-red-600">
+                {error?.message as string}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </motion.div>
   );
 };

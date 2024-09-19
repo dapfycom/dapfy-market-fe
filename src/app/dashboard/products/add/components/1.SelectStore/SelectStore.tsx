@@ -30,7 +30,7 @@ const SelectStore = () => {
       <h2 className="text-2xl font-semibold">🏪 Select Store</h2>
       <Select
         onValueChange={(store) => form.setValue("store", store)}
-        value={form.getValues("store")}
+        value={form.watch("store")}
       >
         <SelectTrigger className="w-full">
           <SelectValue placeholder="Choose a store" />

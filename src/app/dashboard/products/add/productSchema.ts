@@ -26,7 +26,7 @@ export const productSchema = z.object({
       message: "Files must be a file",
     })
   ),
-  longDescription: z.string().optional(),
+  longDescription: z.string(),
 });
 
 export type ProductFormData = z.infer<typeof productSchema>;

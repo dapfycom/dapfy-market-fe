@@ -166,10 +166,10 @@ const CreateStoreForm = ({
               disabled={isSubmitting}
             >
               {isSubmitting ? (
-                <>
+                <span className="flex items-center">
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   Creating...
-                </>
+                </span>
               ) : (
                 "Create Store"
               )}
