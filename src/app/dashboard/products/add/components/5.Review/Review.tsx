@@ -20,6 +20,9 @@ const Review = ({ onNextStep }: { onNextStep: () => void }) => {
   const { data: stores } = useGetUserStores();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const clearDraft = () => {
+    sessionStorage.removeItem("product_draft");
+  };
   const onSubmit = async (data: ProductFormData) => {
     setIsSubmitting(true);
     const formData = new FormData();
@@ -48,6 +51,7 @@ const Review = ({ onNextStep }: { onNextStep: () => void }) => {
       await productsService.create(storeId, formData);
       toast.success("Product created successfully!");
       onNextStep();
+      clearDraft();
     } catch (error) {
       console.error("Error creating product:", error);
       toast.error("Failed to create product. Please try again.");

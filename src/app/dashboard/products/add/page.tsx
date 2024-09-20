@@ -29,6 +29,7 @@ import Pricing from "./components/4.Pricing/Pricing";
 import Review from "./components/5.Review/Review";
 import Final from "./components/6.Final/Final";
 import { ProductFormData, productSchema } from "./productSchema";
+import { useProductDraft } from "./usePeoductDraft";
 
 const steps = [
   { name: "Select Store", icon: Store, emoji: "🏪" },
@@ -56,6 +57,9 @@ export default function EnhancedProductCreationFlow() {
     },
     resolver: zodResolver(productSchema),
   });
+
+  // Usar el hook useProductDraft
+  useProductDraft(form);
 
   const handleNext = () => {
     setCurrentStep((prev) => prev + 1);
