@@ -4,6 +4,9 @@ import { UseFormReturn } from "react-hook-form";
 
 const DRAFT_KEY = "product_draft";
 
+// Fields to exclude from draft storage
+const excludeFromDraft = ["images", "files"];
+
 export function useProductDraft(formMethods: UseFormReturn<ProductFormData>) {
   const { reset, watch, setValue } = formMethods;
 
@@ -20,7 +23,11 @@ export function useProductDraft(formMethods: UseFormReturn<ProductFormData>) {
 
   useEffect(() => {
     const subscription = watch((value) => {
-      sessionStorage.setItem(DRAFT_KEY, JSON.stringify(value));
+      // Filter out images and files before saving
+      const draftValue = Object.fromEntries(
+        Object.entries(value).filter(([key]) => !excludeFromDraft.includes(key))
+      );
+      sessionStorage.setItem(DRAFT_KEY, JSON.stringify(draftValue));
     });
     return () => subscription.unsubscribe();
   }, [watch]);
