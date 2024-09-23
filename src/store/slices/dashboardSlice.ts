@@ -4,12 +4,12 @@ import { RootState } from "../store";
 
 // Define a type for the slice state
 interface DashboardState {
-  tab: string;
+  isSidebarOpen: boolean;
 }
 
 // Define the initial state using that type
 const initialState: DashboardState = {
-  tab: "Dashboard",
+  isSidebarOpen: true,
 };
 
 export const dashboardSlice = createSlice({
@@ -17,15 +17,16 @@ export const dashboardSlice = createSlice({
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
-    setTab: (state, action: PayloadAction<string>) => {
-      state.tab = action.payload;
+    setIsSidebarOpen: (state, action: PayloadAction<boolean>) => {
+      state.isSidebarOpen = action.payload;
     },
   },
 });
 
-export const { setTab } = dashboardSlice.actions;
+export const { setIsSidebarOpen } = dashboardSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
-export const selectTab = (state: RootState) => state.dashboard.tab;
+export const selectIsSidebarOpen = (state: RootState) =>
+  state.dashboard.isSidebarOpen;
 
 export default dashboardSlice.reducer;
