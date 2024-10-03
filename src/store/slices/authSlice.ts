@@ -1,3 +1,4 @@
+import { IUserResponse } from "@/types/user.types";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";

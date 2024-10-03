@@ -4,7 +4,7 @@ const enum Role {
   SELLER = "SELLER",
 }
 
-interface IUserResponse {
+export interface IUserResponse {
   id: string;
   name: string;
   role: Role;
@@ -13,7 +13,7 @@ interface IUserResponse {
   isActive: boolean;
 }
 
-interface ITokenResponse {
+export interface ITokenResponse {
   expiresIn: number;
   accessToken: string;
 }

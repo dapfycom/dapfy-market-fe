@@ -1,3 +1,4 @@
+import { ITokenResponse, IUserResponse } from "@/types/user.types";
 import api from "./api";
 
 const authService = {
