@@ -5,7 +5,6 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Bell, Briefcase, Heart, User } from "lucide-react";
 import dynamic from "next/dynamic";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
 
 const Business = dynamic(() => import("./components/Business/Business"), {
   ssr: false,
@@ -33,15 +32,9 @@ export default function SettingsPage() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const activeTab = searchParams.get("tab") || "personal";
-  const [isApplying, setIsApplying] = useState(false);
 
   const handleTabChange = (tabId: string) => {
     router.push(`/dashboard/settings?tab=${tabId}`);
-  };
-
-  const handleApply = () => {
-    setIsApplying(true);
-    setTimeout(() => setIsApplying(false), 2000);
   };
 
   const renderTabContent = () => {
