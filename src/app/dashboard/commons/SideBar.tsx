@@ -77,7 +77,7 @@ const sidebarItems = [
 
 const SideBar = () => {
   const { user } = useGetCurrentUser();
-  const username = user?.name.split("@")[0];
+  const username = user?.name?.split("@")[0];
   const currentPath = usePathname();
   const isSidebarOpen = useAppSelector(selectIsSidebarOpen);
 
