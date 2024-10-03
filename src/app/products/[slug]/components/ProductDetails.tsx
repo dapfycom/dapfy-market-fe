@@ -88,7 +88,7 @@ const ProductDetails = ({
         transition={{ delay: 0.7, duration: 0.5 }}
         className="mt-6"
       >
-        <span className="text-3xl font-bold text-gray-900">{price}</span>
+        <span className="text-3xl font-bold text-gray-900">${price}</span>
         <span className="ml-2 text-lg text-gray-500">USD</span>
         <span className="ml-2 text-sm text-green-600 font-semibold">
           {paymentType === "SINGLE" ? "One-time payment" : "Subscription"}

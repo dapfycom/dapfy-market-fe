@@ -1,4 +1,3 @@
-import Footer from "@/components/footer";
 import { Toaster } from "@/components/ui/toaster";
 import RootProvider from "@/providers/RootProvider";
 import type { Metadata } from "next";
@@ -32,7 +31,6 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <RootProvider>{children}</RootProvider>
-        <Footer />
         <Toaster />
       </body>
     </html>

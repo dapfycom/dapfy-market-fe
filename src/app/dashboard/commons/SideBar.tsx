@@ -77,7 +77,7 @@ const sidebarItems = [
 
 const SideBar = () => {
   const { user } = useGetCurrentUser();
-  const username = user?.username.split("@")[0];
+  const username = user?.name.split("@")[0];
   const currentPath = usePathname();
   const isSidebarOpen = useAppSelector(selectIsSidebarOpen);
 
@@ -140,7 +140,7 @@ const SideBar = () => {
                   </button>
                 </p>
               )}
-              <p className="text-sm text-gray-500">john@example.com</p>
+              <p className="text-sm text-gray-500">{user?.email}</p>
             </div>
           )}
         </div>
@@ -166,14 +166,16 @@ const SideBar = () => {
           </Link>
         ))}
       </nav>
-      <motion.button
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        className="flex items-center w-full px-4 py-3 text-left text-gray-600 hover:bg-blue-50 border-t border-gray-200"
-      >
-        <Settings className="w-5 h-5 mr-3" />
-        {isSidebarOpen && "Settings"}
-      </motion.button>
+      <Link href={dashboardRoutes.settings}>
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          className="flex items-center w-full px-4 py-3 text-left text-gray-600 hover:bg-blue-50 border-t border-gray-200"
+        >
+          <Settings className="w-5 h-5 mr-3" />
+          {isSidebarOpen && "Settings"}
+        </motion.button>
+      </Link>
     </motion.aside>
   );
 };

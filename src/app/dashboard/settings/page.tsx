@@ -1,9 +1,10 @@
 import DashboardContentLayout from "../commons/dashboard-content-layout";
+import SettingsPage from "./client";
 
 const DashboardSettingsPage = () => {
   return (
     <DashboardContentLayout title="Settings">
-      <div>Settings</div>
+      <SettingsPage />
     </DashboardContentLayout>
   );
 };
