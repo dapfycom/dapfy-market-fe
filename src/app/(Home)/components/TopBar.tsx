@@ -1,5 +1,5 @@
 "use client";
-import { GhostButton, OutlineButton } from "@/components/buttonts";
+import { GhostButton } from "@/components/buttonts";
 import Login from "@/components/Login/Login";
 import {
   selectCart,
@@ -8,7 +8,7 @@ import {
 } from "@/store/slices/commonSlice";
 import { useAppDispatch, useAppSelector } from "@/store/store";
 import { motion } from "framer-motion";
-import { FileText, Menu, ShoppingCart } from "lucide-react";
+import { FileText, Menu } from "lucide-react";
 
 const TopBar = () => {
   const sidebarOpen = useAppSelector(selectSidebarOpen);
@@ -39,11 +39,6 @@ const TopBar = () => {
         </GhostButton>
 
         <Login />
-
-        <OutlineButton size="sm">
-          <ShoppingCart className="h-4 w-4 mr-2" />
-          Cart ({cart.length})
-        </OutlineButton>
       </div>
     </motion.header>
   );
