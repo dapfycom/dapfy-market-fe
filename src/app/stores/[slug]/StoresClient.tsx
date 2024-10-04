@@ -41,8 +41,6 @@ const socialIcons = {
 };
 
 export default function DigitalStore({ store }: { store: IStoreResponse }) {
-  console.log({ store });
-
   const [cart, setCart] = useState<any>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [addedProducts, setAddedProducts] = useState<any>({});
@@ -73,7 +71,6 @@ export default function DigitalStore({ store }: { store: IStoreResponse }) {
   const handleSubscribe = (e: any) => {
     e.preventDefault();
     // Here you would typically send the email to your backend
-    console.log(`Subscribed with email: ${email}`);
     setIsSubscribed(true);
     setTimeout(() => setIsSubscribed(false), 3000);
   };

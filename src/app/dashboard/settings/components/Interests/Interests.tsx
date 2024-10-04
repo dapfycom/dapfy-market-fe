@@ -34,7 +34,6 @@ const Interests = () => {
   );
 
   const userInterests = response?.data;
-  console.log(userInterests);
 
   useEffect(() => {
     if (userInterests) {
@@ -45,20 +44,16 @@ const Interests = () => {
   }, [userInterests?.length]);
 
   const handleInterestToggle = (categoryId: string) => {
-    console.log(categoryId);
     setSelectedInterests((prev) =>
       prev.includes(categoryId)
         ? prev.filter((id) => id !== categoryId)
         : [...prev, categoryId]
     );
   };
-  console.log(selectedInterests);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-
-    console.log(selectedInterests);
 
     try {
       await toast.promise(

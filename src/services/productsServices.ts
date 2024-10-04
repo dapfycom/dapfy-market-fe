@@ -33,7 +33,9 @@ const productsService = {
     api.get<IProductDetailsResponse>(`/products/${slug}`),
 
   update: (id: string, updateProductDto: any) =>
-    api.patch<IProductResponse>(`/products/${id}`, updateProductDto),
+    api.patch<IProductResponse>(`/products/${id}`, updateProductDto, {
+      headers: { "Content-Type": "multipart/form-data" },
+    }),
 
   remove: (id: string) => api.delete(`/products/${id}`),
 
@@ -50,7 +52,9 @@ const productsService = {
     ),
 
   checkSlugAvailability: (slug: string) =>
-    api.get<boolean>(`/products/check-slug/${slug}`),
+    api.get<{ available: boolean; id: string | null }>(
+      `/products/check-slug/${slug}`
+    ),
 
   findReviews: (productId: string) =>
     api.get<IProductReviewResponse[]>(`/products/reviews/${productId}`),

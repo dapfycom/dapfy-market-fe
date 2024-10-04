@@ -74,7 +74,6 @@ const Personal = () => {
   };
 
   const handleAvatarChange = (file: File) => {
-    console.log("handleAvatarChange called with file:", file);
     setAvatarFile(file);
     const reader = new FileReader();
     reader.onloadend = () => {
@@ -120,7 +119,6 @@ const Personal = () => {
             accept="image/*"
             className="hidden"
             onChange={(e) => {
-              console.log("File input changed:", e.target);
               const file = e.target.files?.[0];
               if (file) {
                 handleAvatarChange(file);

@@ -1,41 +1,54 @@
 "use client";
 
+import { formatPrice } from "@/lib/utils";
 import productsService from "@/services/productsServices";
-import { PricingType } from "@/types/product.types";
+import { IProductDetailsResponse, PricingType } from "@/types/product.types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import EnhancedProductFlow from "../components/EnhancedProductFlow";
-import { ProductFormData, addProductSchema } from "../productSchema";
-import { useProductDraft } from "./usePeoductDraft";
+import { useProductDraft } from "../../add/usePeoductDraft";
+import EnhancedProductFlow from "../../components/EnhancedProductFlow";
+import { EditProductFormData, editProductSchema } from "../../productSchema";
 
-const DRAFT_KEY = "add_product_draft";
+const DRAFT_KEY = "edit_product_draft";
 
-export default function AddProduct() {
+export default function EditProduct({
+  product,
+}: {
+  product: IProductDetailsResponse;
+}) {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const clearDraft = () => {
     sessionStorage.removeItem(DRAFT_KEY);
   };
 
-  const form = useForm<ProductFormData>({
+  const form = useForm<EditProductFormData>({
     defaultValues: {
-      store: "",
-      name: "",
-      description: "",
+      product: product,
+      store: product.storeId,
+      name: product.title,
+      description: product.description,
+      longDescription: product.longDescription,
       images: [],
       files: [],
-      pricing: PricingType.SINGLE,
-      price: "",
-      slug: "",
+      pricing: product.paymentType as PricingType,
+      price: formatPrice(product.price),
+      slug: product.slug,
+      removeImages: [],
     },
-    resolver: zodResolver(addProductSchema),
+    resolver: zodResolver(editProductSchema),
   });
 
   useProductDraft(form, DRAFT_KEY);
 
-  const onSubmit = async (data: ProductFormData, onNextStep: () => void) => {
+  if (!product) return <div>Product not found</div>;
+
+  const onSubmit = async (
+    data: EditProductFormData,
+    onNextStep: () => void
+  ) => {
     setIsSubmitting(true);
     const formData = new FormData();
 
@@ -58,15 +71,22 @@ export default function AddProduct() {
       formData.append(`digitalFiles`, file);
     });
 
+    // Append remove images
+    form.getValues("removeImages").forEach((image, index) => {
+      if (index === 0) {
+        formData.append(`removeImages`, image);
+      }
+      formData.append(`removeImages`, image);
+    });
+
     try {
-      const storeId = data.store;
-      await productsService.create(storeId, formData);
-      toast.success("Product created successfully!");
+      await productsService.update(product.id, formData);
+      toast.success("Product updated successfully!");
       onNextStep();
       clearDraft();
     } catch (error) {
       console.error("Error creating product:", error);
-      toast.error("Failed to create product. Please try again.");
+      toast.error("Failed to update product. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -75,8 +95,9 @@ export default function AddProduct() {
   return (
     <FormProvider {...form}>
       <EnhancedProductFlow
-        title="Create New Product"
+        title="Edit Product"
         onSubmit={onSubmit}
+        isEditing={true}
         isSubmitting={isSubmitting}
       />
     </FormProvider>

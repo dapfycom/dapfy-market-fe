@@ -1,14 +1,14 @@
-import { ProductFormData } from "@/app/dashboard/products/add/productSchema";
+import { ProductFormData } from "@/app/dashboard/products/productSchema";
 import { useEffect } from "react";
-import { UseFormReturn } from "react-hook-form";
 
-const DRAFT_KEY = "product_draft";
+const DEFAULT_DRAFT_KEY = "product_draft";
 
 // Fields to exclude from draft storage
 const excludeFromDraft = ["images", "files"];
 
-export function useProductDraft(formMethods: UseFormReturn<ProductFormData>) {
-  const { reset, watch, setValue } = formMethods;
+export function useProductDraft(formMethods: any, key?: string) {
+  const { watch, setValue } = formMethods;
+  const DRAFT_KEY = key || DEFAULT_DRAFT_KEY;
 
   useEffect(() => {
     const savedDraft = sessionStorage.getItem(DRAFT_KEY);
@@ -19,10 +19,10 @@ export function useProductDraft(formMethods: UseFormReturn<ProductFormData>) {
         setValue(key as keyof ProductFormData, parsedDraft[key]);
       });
     }
-  }, [setValue]);
+  }, [DRAFT_KEY, setValue]);
 
   useEffect(() => {
-    const subscription = watch((value) => {
+    const subscription = watch((value: any) => {
       // Filter out images and files before saving
       const draftValue = Object.fromEntries(
         Object.entries(value).filter(([key]) => !excludeFromDraft.includes(key))
@@ -30,7 +30,7 @@ export function useProductDraft(formMethods: UseFormReturn<ProductFormData>) {
       sessionStorage.setItem(DRAFT_KEY, JSON.stringify(draftValue));
     });
     return () => subscription.unsubscribe();
-  }, [watch]);
+  }, [DRAFT_KEY, watch]);
 
   const clearDraft = () => {
     sessionStorage.removeItem(DRAFT_KEY);

@@ -1,13 +1,14 @@
 "use client";
 
+import { ProductFormData } from "@/app/dashboard/products/productSchema";
 import { Label } from "@/components/ui/label";
+import { IProductDetailsResponse } from "@/types/product.types";
 import { motion } from "framer-motion";
 import { File, Upload } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { useFormContext } from "react-hook-form";
-import { ProductFormData } from "../../productSchema";
 
 interface FilePreview {
   name: string;
@@ -16,8 +17,26 @@ interface FilePreview {
 }
 
 const Import = () => {
-  const form = useFormContext<ProductFormData>();
+  const form = useFormContext<
+    ProductFormData & { product?: IProductDetailsResponse }
+  >();
   const [files, setFiles] = useState<FilePreview[]>([]);
+
+  // const path = usePathname();
+  // const isEdit = path.includes("edit");
+
+  // useEffect(() => {
+  //   if (isEdit) {
+  //     const product = form.getValues("product");
+  //     if (product) {
+  //       setFiles(product..map((file) => ({
+  //         name: file.name,
+  //         size: file.size,
+  //         preview: file.url,
+  //       })));
+  //     }
+  //   }
+  // }, [isEdit, form]);
 
   const onDrop = (acceptedFiles: File[]) => {
     const newFiles = acceptedFiles.map((file) => ({

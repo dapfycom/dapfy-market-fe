@@ -1,3 +1,4 @@
+import { ProductFormData } from "@/app/dashboard/products/productSchema";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -8,7 +9,6 @@ import { Check, Copy } from "lucide-react";
 import { useState } from "react";
 import { useFormContext } from "react-hook-form";
 import toast from "react-hot-toast";
-import { ProductFormData } from "../../productSchema";
 
 const Final = () => {
   const form = useFormContext<ProductFormData>();

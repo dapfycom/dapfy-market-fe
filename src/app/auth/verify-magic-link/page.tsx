@@ -24,7 +24,6 @@ function VerifyMagicLinkContent() {
 
       try {
         const response = await authService.verifyMagicLink(token);
-        console.log({ response });
 
         if (response.status === 200) {
           localStorage.setItem("token", response.data.token.accessToken);

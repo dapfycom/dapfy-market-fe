@@ -38,8 +38,6 @@ const Notifications = () => {
 
   const notificationPreferences = response?.data;
 
-  console.log(notificationPreferences);
-
   const {
     control,
     handleSubmit,

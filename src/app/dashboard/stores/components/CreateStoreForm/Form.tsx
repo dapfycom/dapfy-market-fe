@@ -23,8 +23,6 @@ const CreateStoreForm = ({
 }: {
   setShowCreateStoreForm: (show: boolean) => void;
 }) => {
-  console.log("render create store form");
-
   const [slugInput, setSlugInput] = useState("");
   const { data: stores, mutate } = useGetUserStores();
   const [isSubmitting, setIsSubmitting] = useState(false);

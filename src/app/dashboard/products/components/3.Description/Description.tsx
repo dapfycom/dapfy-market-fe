@@ -1,5 +1,9 @@
 "use client";
 
+import {
+  EditProductFormData,
+  ProductFormData,
+} from "@/app/dashboard/products/productSchema";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -8,15 +12,16 @@ import { routes } from "@/config/routes";
 import { useDebounce } from "@/hooks/useDebounce";
 import { generateSlug } from "@/lib/utils";
 import productsService from "@/services/productsServices";
+import { IProductImage } from "@/types/product.types";
 import { motion } from "framer-motion";
 import { Upload, X } from "lucide-react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { useFormContext } from "react-hook-form";
 import useSWR from "swr";
-import { ProductFormData } from "../../productSchema";
 
 const MDEditor = dynamic(
   () => import("@uiw/react-md-editor").then((mod) => mod.default),
@@ -24,7 +29,12 @@ const MDEditor = dynamic(
 );
 
 const Description = () => {
-  const form = useFormContext<ProductFormData>();
+  const pathname = usePathname();
+  const productId = pathname.split("/").pop();
+
+  const form = useFormContext<ProductFormData | EditProductFormData>();
+  const product = form.watch("product");
+
   const [debouncedSlug, setDebouncedSlug] = useState("");
   const [previewMode, setPreviewMode] = useState(false);
 
@@ -54,7 +64,7 @@ const Description = () => {
     () => productsService.checkSlugAvailability(debouncedValue as string)
   );
 
-  const isSlugAvailable = data?.data;
+  const isSlugAvailable = data?.data.available || data?.data.id === productId;
 
   useEffect(() => {
     setDebouncedSlug(debouncedValue);
@@ -169,6 +179,37 @@ const Description = () => {
           </p>
         </div>
         <div className="grid grid-cols-5 gap-4 mt-4">
+          {product?.images?.map((img: IProductImage, index: number) => (
+            <div key={`existing-${img.id}`} className="relative">
+              <Image
+                src={img.url}
+                alt={`Existing product image ${index + 1}`}
+                width={100}
+                height={100}
+                className="w-full h-auto rounded-md shadow-md object-cover"
+              />
+              <button
+                onClick={() => {
+                  // Value of removeImages to send api
+                  const currentRemoveImages =
+                    form.getValues("removeImages") || [];
+                  form.setValue("removeImages", [
+                    ...currentRemoveImages,
+                    img.id,
+                  ]);
+
+                  // To update the view
+                  form.setValue("product", {
+                    ...product,
+                    images: product.images.filter((_, i) => i !== index),
+                  });
+                }}
+                className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition-colors"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+          ))}
           {form.watch("images")?.map((img: File, index: number) => (
             <div key={index} className="relative">
               <Image

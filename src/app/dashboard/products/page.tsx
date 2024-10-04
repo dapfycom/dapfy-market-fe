@@ -1,9 +1,11 @@
 "use client";
 import { Button } from "@/components/ui/button";
+import { dashboardRoutes } from "@/config/routes";
 import { useGetProducts } from "@/hooks/useProducts";
 import { IProductResponse } from "@/types/product.types";
 import { AnimatePresence, motion } from "framer-motion";
 import { Edit2, Eye, Trash2 } from "lucide-react";
+import Link from "next/link";
 import { useState } from "react";
 import DashboardContentLayout from "../commons/dashboard-content-layout";
 
@@ -102,9 +104,13 @@ const Products = () => {
                   <td className="py-3">{product.averageRating.toFixed(1)}</td>
                   <td className="py-3">
                     <div className="flex space-x-2">
-                      <Button variant="outline" size="sm">
-                        <Edit2 className="w-4 h-4 mr-2" />
-                        Edit
+                      <Button asChild variant="outline" size="sm">
+                        <Link
+                          href={`${dashboardRoutes.products}/edit/${product.id}`}
+                        >
+                          <Edit2 className="w-4 h-4 mr-2" />
+                          Edit
+                        </Link>
                       </Button>
                       <Button
                         variant="outline"

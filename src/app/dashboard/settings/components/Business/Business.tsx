@@ -31,7 +31,6 @@ const Business = () => {
     error,
     mutate,
   } = useSWR("/users/business-info", UserServices.getBusinessInfo);
-  console.log(response);
 
   const businessInfo = response?.data;
 

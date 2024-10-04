@@ -41,7 +41,7 @@ export async function generateMetadata(
       siteName: config.appName,
       images: [
         {
-          url: data.images[0].url, // Assuming the first image is the main product image
+          url: data.images[0]?.url || "/images/default-product.png", // Assuming the first image is the main product image
           width: 800,
           height: 600,
           alt: `${data.title} image`,

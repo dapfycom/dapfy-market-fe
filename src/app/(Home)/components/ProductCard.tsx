@@ -16,8 +16,6 @@ const ProductCard = ({ product }: { product: IProductResponse }) => {
   const dispatch = useAppDispatch();
 
   const handleAddToCart = (product: IProductResponse) => {
-    console.log({ product });
-
     dispatch(addToCart(product as any));
     toast.success(`${product.title} added to cart`);
   };
@@ -32,7 +30,7 @@ const ProductCard = ({ product }: { product: IProductResponse }) => {
         className="bg-white rounded-lg shadow-md overflow-hidden"
       >
         <Image
-          src={product.images[0].url}
+          src={product.images[0]?.url || "/images/default-product.png"}
           alt={product.title}
           className="w-full h-48 object-cover"
           width={400}
