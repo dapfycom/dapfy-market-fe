@@ -31,7 +31,12 @@ const Personal = () => {
 
   const { data: response, error } = useSWR(
     "/users/personal-info",
-    UserServices.getPersonalInfo
+    UserServices.getPersonalInfo,
+    {
+      revalidateOnFocus: false,
+      revalidateIfStale: false,
+      revalidateOnReconnect: false,
+    }
   );
   const personalInfo = response?.data;
 

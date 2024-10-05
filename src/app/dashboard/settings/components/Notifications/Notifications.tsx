@@ -33,7 +33,12 @@ const Notifications = () => {
     mutate,
   } = useSWR<AxiosResponse<NotificationPreferencesDto>>(
     "/users/notification-preferences",
-    UserServices.getNotificationPreferences
+    UserServices.getNotificationPreferences,
+    {
+      revalidateOnFocus: false,
+      revalidateIfStale: false,
+      revalidateOnReconnect: false,
+    }
   );
 
   const notificationPreferences = response?.data;

@@ -30,7 +30,12 @@ const Interests = () => {
     mutate,
   } = useSWR<AxiosResponse<InterestsDto[]>>(
     "/users/interests",
-    UserServices.getInterests
+    UserServices.getInterests,
+    {
+      revalidateOnFocus: false,
+      revalidateIfStale: false,
+      revalidateOnReconnect: false,
+    }
   );
 
   const userInterests = response?.data;

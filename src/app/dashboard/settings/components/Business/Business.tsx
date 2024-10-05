@@ -30,7 +30,11 @@ const Business = () => {
     data: response,
     error,
     mutate,
-  } = useSWR("/users/business-info", UserServices.getBusinessInfo);
+  } = useSWR("/users/business-info", UserServices.getBusinessInfo, {
+    revalidateOnFocus: false,
+    revalidateIfStale: false,
+    revalidateOnReconnect: false,
+  });
 
   const businessInfo = response?.data;
 
