@@ -111,7 +111,7 @@ const CreateStoreForm = ({
 
       if (editingStore) {
         if (!stores) {
-          toast.error("Failed to update store");
+          toast.error("Failed to update store: No existing stores found");
           return;
         }
         const res = await storesService.update(editingStore.id, formData);
@@ -121,6 +121,7 @@ const CreateStoreForm = ({
             store.id === editingStore.id ? res.data : store
           ),
         };
+        toast.success("Store updated successfully!");
       } else {
         const res = await storesService.create(formData);
         updatedStores = {
@@ -131,6 +132,7 @@ const CreateStoreForm = ({
             total: stores!.meta.total! + 1,
           },
         };
+        toast.success("New store created successfully!");
       }
 
       await mutate(updatedStores, {
@@ -144,6 +146,11 @@ const CreateStoreForm = ({
       reset();
     } catch (e) {
       console.error("Failed to submit the form:", e);
+      toast.error(
+        `Failed to ${
+          editingStore ? "update" : "create"
+        } store. Please try again.`
+      );
     } finally {
       setIsSubmitting(false);
     }
