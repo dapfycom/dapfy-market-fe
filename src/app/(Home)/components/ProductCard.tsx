@@ -10,27 +10,30 @@ import {
 } from "@/components/ui/card";
 import { routes } from "@/config/routes";
 import { formatPrice } from "@/lib/utils";
-import { addToCart } from "@/store/slices/commonSlice";
 import { useAppDispatch } from "@/store/store";
 import { IProductResponse } from "@/types/product.types";
 import { Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import toast from "react-hot-toast";
+import ComparisonModal from "./ComparisonModal";
 
 const ProductCard = ({ product }: { product: IProductResponse }) => {
   const [isHovered, setIsHovered] = useState(false);
+  const [isComparisonOpen, setIsComparisonOpen] = useState(false);
   const dispatch = useAppDispatch();
 
-  const handleAddToCart = (e: React.MouseEvent) => {
+  // const handleAddToCart = (e: React.MouseEvent) => {
+  //   e.preventDefault();
+  //   dispatch(addToCart(product as any));
+  //   toast.success(`${product.title} added to cart`);
+  // };
+  const handleCompare = (e: React.MouseEvent) => {
     e.preventDefault();
-    dispatch(addToCart(product as any));
-    toast.success(`${product.title} added to cart`);
+    setIsComparisonOpen(true);
   };
-
   return (
-    <Link href={`${routes.products}/${product.slug}`}>
+    <>
       <Card
         className="overflow-hidden transition-all duration-300 ease-in-out transform hover:shadow-xl bg-gradient-to-br from-white to-blue-50"
         onMouseEnter={() => setIsHovered(true)}
@@ -79,18 +82,27 @@ const ProductCard = ({ product }: { product: IProductResponse }) => {
           </div>
         </CardContent>
         <CardFooter className="grid grid-cols-2 gap-2 p-4 pt-0">
-          <Button className="w-full bg-blue-600 text-white hover:bg-blue-700 transition-colors duration-300">
-            🎧 Buy Now
+          <Button
+            asChild
+            className="w-full bg-blue-600 text-white hover:bg-blue-700 transition-colors duration-300"
+          >
+            <Link href={`${routes.products}/${product.slug}`}>🎧 Buy Now</Link>
           </Button>
           <Button
             variant="outline"
             className="w-full border-blue-300 text-blue-800 hover:bg-blue-100 transition-colors duration-300"
+            onClick={handleCompare}
           >
             📊 Compare
           </Button>
         </CardFooter>
       </Card>
-    </Link>
+
+      <ComparisonModal
+        isOpen={isComparisonOpen}
+        onClose={() => setIsComparisonOpen(false)}
+      />
+    </>
   );
 };
 
