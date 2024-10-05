@@ -17,11 +17,18 @@ const Stores = () => {
   const { data: stores } = useGetUserStores();
   const [showStoreForm, setShowStoreForm] = useState(false);
   const [editingStore, setEditingStore] = useState<IStoreResponse | null>(null);
-  console.log(stores);
+  const [formKey, setFormKey] = useState(0);
 
   const handleEditStore = (store: IStoreResponse) => {
     setEditingStore(store);
     setShowStoreForm(true);
+    setFormKey((prevKey) => prevKey + 1);
+  };
+
+  const handleCreateStore = () => {
+    setEditingStore(null);
+    setShowStoreForm(true);
+    setFormKey((prevKey) => prevKey + 1);
   };
 
   const handleCloseForm = () => {
@@ -38,17 +45,18 @@ const Stores = () => {
       className="space-y-6"
     >
       {stores?.meta.total === 0 && !showStoreForm ? (
-        <NoStore setShowCreateStoreForm={setShowStoreForm} />
+        <NoStore setShowCreateStoreForm={handleCreateStore} />
       ) : (
         <SotresList
           stores={stores?.data || []}
-          setShowCreateStoreForm={setShowStoreForm}
+          setShowCreateStoreForm={handleCreateStore}
           onEditStore={handleEditStore}
         />
       )}
       <AnimatePresence>
         {showStoreForm && (
           <CreateStoreForm
+            key={formKey}
             setShowCreateStoreForm={handleCloseForm}
             editingStore={editingStore}
           />
