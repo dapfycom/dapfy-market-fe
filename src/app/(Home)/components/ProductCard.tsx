@@ -13,7 +13,7 @@ import { formatPrice } from "@/lib/utils";
 import { addToCart } from "@/store/slices/commonSlice";
 import { useAppDispatch } from "@/store/store";
 import { IProductResponse } from "@/types/product.types";
-import { Eye, Plus, Star } from "lucide-react";
+import { Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -77,22 +77,16 @@ const ProductCard = ({ product }: { product: IProductResponse }) => {
               </span>
             </div>
           </div>
-          <p className="text-sm text-gray-600 mt-2">{product.description}</p>
         </CardContent>
         <CardFooter className="grid grid-cols-2 gap-2 p-4 pt-0">
-          <Button
-            className="w-full bg-green-500 text-white hover:bg-green-600 transition-colors duration-300"
-            onClick={handleAddToCart}
-          >
-            <Plus className="h-5 w-5 mr-2" />
-            Add to Cart
+          <Button className="w-full bg-blue-600 text-white hover:bg-blue-700 transition-colors duration-300">
+            🎧 Buy Now
           </Button>
           <Button
             variant="outline"
             className="w-full border-blue-300 text-blue-800 hover:bg-blue-100 transition-colors duration-300"
           >
-            <Eye className="h-4 w-4 mr-2" />
-            {product.viewCount}
+            📊 Compare
           </Button>
         </CardFooter>
       </Card>
