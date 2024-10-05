@@ -22,7 +22,7 @@ const ProductsList = async ({
       variants={staggerChildren}
       initial="initial"
       animate="animate"
-      className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+      className="grid grid-cols-[repeat(auto-fit,minmax(256px,256px))] gap-8"
     >
       {products.map((product: any) => (
         <ProductCard key={product.id} product={product} />
