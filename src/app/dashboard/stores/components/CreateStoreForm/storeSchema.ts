@@ -14,10 +14,13 @@ export const storeSchema = z.object({
     })
     .optional(),
   logo: z
-    .custom<File>((v) => v instanceof File, {
-      message: "Logo must be a file",
-    })
-    .nullable(),
+    .union([
+      z.custom<File>((v) => v instanceof File, {
+        message: "Logo must be a file",
+      }),
+      z.undefined(),
+    ])
+    .optional(),
   colorTheme: z.string(),
 });
 

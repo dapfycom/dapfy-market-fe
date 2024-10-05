@@ -1,14 +1,16 @@
 import { FramerButton, FramerDiv } from "@/components/framer";
 import { routes } from "@/config/routes";
 import { IStoreResponse } from "@/types/sotre.types";
-import { PlusCircle } from "lucide-react";
+import { Edit, PlusCircle } from "lucide-react";
 
 const SotresList = ({
   stores,
   setShowCreateStoreForm,
+  onEditStore,
 }: {
   stores: IStoreResponse[];
   setShowCreateStoreForm: (show: boolean) => void;
+  onEditStore: (store: IStoreResponse) => void;
 }) => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -20,7 +22,17 @@ const SotresList = ({
           transition={{ duration: 0.5, delay: index * 0.1 }}
           className="bg-white rounded-lg shadow p-6"
         >
-          <h3 className="text-lg font-semibold mb-2">{store.name}</h3>
+          <div className="flex justify-between items-start mb-2">
+            <h3 className="text-lg font-semibold">{store.name}</h3>
+            <FramerButton
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => onEditStore(store)}
+              className="p-1 rounded-full hover:bg-gray-100"
+            >
+              <Edit className="w-4 h-4 text-gray-600" />
+            </FramerButton>
+          </div>
           <p className="text-gray-600 mb-2">
             {store.description.slice(0, 70)}
             {store.description.length > 70 ? "..." : ""}

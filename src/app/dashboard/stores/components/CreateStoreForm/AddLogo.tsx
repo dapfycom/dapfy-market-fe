@@ -2,14 +2,18 @@
 import { Label } from "@/components/ui/label";
 import { Upload } from "lucide-react";
 import Image from "next/image";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { useFormContext } from "react-hook-form";
 import { StoreFormData } from "./storeSchema";
 
-const AddLogo = () => {
+const AddLogo = ({ currentLogo }: { currentLogo?: string }) => {
   const { setValue, watch } = useFormContext<StoreFormData>();
-  const [preview, setPreview] = useState<string | null>(null);
+  const [preview, setPreview] = useState<string | null>(currentLogo ?? null);
+
+  useEffect(() => {
+    setPreview(currentLogo ?? null);
+  }, [currentLogo]);
 
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
@@ -34,8 +38,6 @@ const AddLogo = () => {
     maxSize: 5 * 1024 * 1024, // 5MB
   });
 
-  const logo = watch("logo");
-
   return (
     <div className="mb-4">
       <Label
@@ -56,7 +58,7 @@ const AddLogo = () => {
           <button
             onClick={() => {
               setPreview(null);
-              setValue("logo", null);
+              setValue("logo", undefined);
             }}
             className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 text-xs"
             type="button"

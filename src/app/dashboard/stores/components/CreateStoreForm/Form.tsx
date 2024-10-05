@@ -1,11 +1,10 @@
 "use client";
 import { FramerButton, FramerDiv } from "@/components/framer";
-import { randomString } from "@/lib/utils";
 import storesService from "@/services/storesServices";
 import { IPaginatedResponse } from "@/types/common.types";
 import { IStoreResponse } from "@/types/sotre.types";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useGetUserStores } from "../../../../../hooks/useStores";
 import AddDescription from "./AddDescription";
@@ -17,11 +16,14 @@ import PickTheme from "./PickTheme";
 import { StoreFormData, storeSchema } from "./storeSchema";
 
 import { Loader2 } from "lucide-react"; // Import the Loader2 icon from lucide-react
+import { toast } from "react-hot-toast";
 
 const CreateStoreForm = ({
   setShowCreateStoreForm,
+  editingStore,
 }: {
   setShowCreateStoreForm: (show: boolean) => void;
+  editingStore: IStoreResponse | null;
 }) => {
   const [slugInput, setSlugInput] = useState("");
   const { data: stores, mutate } = useGetUserStores();
@@ -38,20 +40,48 @@ const CreateStoreForm = ({
         YOUTUBE: "",
         TIKTOK: "",
       },
-      logo: undefined,
+      logo: undefined, // Changed from null to undefined
       name: "",
       description: "",
       slug: "",
     },
   });
+
   const {
     handleSubmit,
     reset,
     formState: { errors },
+    setValue,
   } = form;
-  console.log(errors);
+
+  useEffect(() => {
+    if (editingStore) {
+      setValue("name", editingStore.name);
+      setValue("description", editingStore.description);
+      setValue("slug", editingStore.slug);
+      setValue("colorTheme", editingStore.banner);
+      // Set social links if available
+      if (editingStore.socials) {
+        reset({
+          socialLinks: {
+            FACEBOOK: "",
+            INSTAGRAM: "",
+            TWITTER: "",
+            YOUTUBE: "",
+            TIKTOK: "",
+          },
+        });
+        editingStore.socials.forEach((social) => {
+          setValue(`socialLinks.${social.platform}`, social.url);
+        });
+      }
+      setSlugInput(editingStore.slug);
+    }
+  }, [editingStore, setValue]);
 
   const onSubmit = async (data: StoreFormData) => {
+    console.log("data", data);
+
     setIsSubmitting(true);
     try {
       const formData = new FormData();
@@ -67,16 +97,33 @@ const CreateStoreForm = ({
       if (data.socialLinks) {
         const socialArray = Object.entries(data.socialLinks)
           .filter(([_, url]) => url !== "")
-          .map(([platform, url]) => ({ platform, url }));
+          .map(([platform, url]) => ({
+            platform,
+            url,
+            id: editingStore?.socials?.find(
+              (social) => social.platform === platform
+            )?.id,
+          }));
         formData.append("socials", JSON.stringify(socialArray));
       }
 
-      const createStore = async (): Promise<
-        IPaginatedResponse<IStoreResponse>
-      > => {
-        const res = await storesService.create(formData);
+      let updatedStores: IPaginatedResponse<IStoreResponse>;
 
-        return {
+      if (editingStore) {
+        if (!stores) {
+          toast.error("Failed to update store");
+          return;
+        }
+        const res = await storesService.update(editingStore.id, formData);
+        updatedStores = {
+          ...stores,
+          data: stores.data.map((store) =>
+            store.id === editingStore.id ? res.data : store
+          ),
+        };
+      } else {
+        const res = await storesService.create(formData);
+        updatedStores = {
           ...stores,
           data: [...stores?.data!, res.data],
           meta: {
@@ -84,32 +131,10 @@ const CreateStoreForm = ({
             total: stores!.meta.total! + 1,
           },
         };
-      };
+      }
 
-      await mutate(createStore, {
-        optimisticData: {
-          ...stores,
-          data: [
-            ...stores!.data,
-            {
-              id: randomString(),
-              createdAt: new Date().toISOString(),
-              updatedAt: new Date().toISOString(),
-              ownerId: randomString(),
-              name: data.name,
-              description: data.description,
-              slug: data.slug,
-              logo: "",
-              socials: [],
-              banner: data.colorTheme, // Add this line
-              products: [],
-            },
-          ],
-          meta: {
-            ...stores!.meta,
-            total: stores?.meta.total! + 1,
-          },
-        },
+      await mutate(updatedStores, {
+        optimisticData: updatedStores,
         rollbackOnError: true,
         populateCache: true,
         revalidate: false,
@@ -118,7 +143,7 @@ const CreateStoreForm = ({
       setShowCreateStoreForm(false);
       reset();
     } catch (e) {
-      console.error("Failed to add the new item:", e);
+      console.error("Failed to submit the form:", e);
     } finally {
       setIsSubmitting(false);
     }
@@ -133,7 +158,9 @@ const CreateStoreForm = ({
         transition={{ duration: 0.5 }}
         className="bg-white rounded-lg shadow p-6 mt-6"
       >
-        <h2 className="text-2xl font-bold mb-6">Create a new store</h2>
+        <h2 className="text-2xl font-bold mb-6">
+          {editingStore ? "Edit store" : "Create a new store"}
+        </h2>
         <form onSubmit={handleSubmit(onSubmit)}>
           <AddName setSlugInput={setSlugInput} />
           <AddDescription />
@@ -141,7 +168,7 @@ const CreateStoreForm = ({
           <AddSlug setSlugInput={setSlugInput} slugInput={slugInput} />
 
           <PickTheme />
-          <AddLogo />
+          <AddLogo currentLogo={editingStore?.logo} />
 
           <AddSocial />
 
@@ -166,8 +193,10 @@ const CreateStoreForm = ({
               {isSubmitting ? (
                 <span className="flex items-center">
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Creating...
+                  {editingStore ? "Updating..." : "Creating..."}
                 </span>
+              ) : editingStore ? (
+                "Update Store"
               ) : (
                 "Create Store"
               )}

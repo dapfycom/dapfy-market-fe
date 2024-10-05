@@ -1,5 +1,6 @@
 "use client";
 import { FramerDiv } from "@/components/framer";
+import { IStoreResponse } from "@/types/sotre.types";
 import { AnimatePresence } from "framer-motion";
 import dynamic from "next/dynamic";
 import { useState } from "react";
@@ -13,9 +14,20 @@ const CreateStoreForm = dynamic(() => import("./CreateStoreForm/Form"), {
 });
 
 const Stores = () => {
-  const { data: stores, mutate } = useGetUserStores();
+  const { data: stores } = useGetUserStores();
+  const [showStoreForm, setShowStoreForm] = useState(false);
+  const [editingStore, setEditingStore] = useState<IStoreResponse | null>(null);
+  console.log(stores);
 
-  const [showCreateStoreForm, setShowCreateStoreForm] = useState(false);
+  const handleEditStore = (store: IStoreResponse) => {
+    setEditingStore(store);
+    setShowStoreForm(true);
+  };
+
+  const handleCloseForm = () => {
+    setShowStoreForm(false);
+    setEditingStore(null);
+  };
 
   return (
     <FramerDiv
@@ -25,17 +37,21 @@ const Stores = () => {
       transition={{ duration: 0.5 }}
       className="space-y-6"
     >
-      {stores?.meta.total === 0 && !showCreateStoreForm ? (
-        <NoStore setShowCreateStoreForm={setShowCreateStoreForm} />
+      {stores?.meta.total === 0 && !showStoreForm ? (
+        <NoStore setShowCreateStoreForm={setShowStoreForm} />
       ) : (
         <SotresList
           stores={stores?.data || []}
-          setShowCreateStoreForm={setShowCreateStoreForm}
+          setShowCreateStoreForm={setShowStoreForm}
+          onEditStore={handleEditStore}
         />
       )}
       <AnimatePresence>
-        {showCreateStoreForm && (
-          <CreateStoreForm setShowCreateStoreForm={setShowCreateStoreForm} />
+        {showStoreForm && (
+          <CreateStoreForm
+            setShowCreateStoreForm={handleCloseForm}
+            editingStore={editingStore}
+          />
         )}
       </AnimatePresence>
     </FramerDiv>

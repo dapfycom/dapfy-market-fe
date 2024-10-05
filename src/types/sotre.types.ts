@@ -8,7 +8,7 @@ export interface ICreateStoreDto {
   socials: {
     id: string;
     storeId: string;
-    platform: string;
+    platform: "FACEBOOK" | "INSTAGRAM" | "TWITTER" | "YOUTUBE" | "TIKTOK";
     url: string;
   }[];
   banner: string;
