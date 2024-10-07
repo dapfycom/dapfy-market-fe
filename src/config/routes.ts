@@ -16,12 +16,9 @@ const dashboardRoutes = {
   payouts: `${routes.dashboard}/payouts`,
   myOrders: `${routes.dashboard}/my-orders`,
   upgradeToPro: `${routes.dashboard}/upgrade-to-pro`,
-  leadMagnet: `${routes.dashboard}/lead-magnet`,
   settings: `${routes.dashboard}/settings`,
   customers: `${routes.dashboard}/customers`,
   emailMarketing: `${routes.dashboard}/email-marketing`,
-  ads: `${routes.dashboard}/ads`,
-  affiliateMarketing: `${routes.dashboard}/affiliate-marketing`,
 };
 
 export { dashboardRoutes, routes };

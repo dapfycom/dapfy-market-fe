@@ -9,15 +9,12 @@ import { motion } from "framer-motion";
 import {
   BarChart,
   Edit2,
-  Link as LinkIcon,
   Mail,
-  Megaphone,
   Package,
   Settings,
   ShoppingBag,
   ShoppingCart,
   UserIcon,
-  Users,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -42,12 +39,7 @@ const sidebarItems = [
     emoji: "📦",
     route: dashboardRoutes.products,
   },
-  {
-    name: "Lead Magnet",
-    icon: Users,
-    emoji: "🧲",
-    route: dashboardRoutes.leadMagnet,
-  },
+
   {
     name: "Customers",
     icon: UserIcon,
@@ -65,13 +57,6 @@ const sidebarItems = [
     icon: ShoppingCart,
     emoji: "🛒",
     route: dashboardRoutes.myOrders,
-  },
-  { name: "Ads", icon: Megaphone, emoji: "📣", route: dashboardRoutes.ads },
-  {
-    name: "Affiliate Marketing",
-    icon: LinkIcon,
-    emoji: "🔗",
-    route: dashboardRoutes.affiliateMarketing,
   },
 ];
 
@@ -140,7 +125,7 @@ const SideBar = () => {
                   </button>
                 </p>
               )}
-              <p className="text-sm text-gray-500">{user?.email}</p>
+              <p className="text-[11px] text-gray-500">{user?.email}</p>
             </div>
           )}
         </div>
