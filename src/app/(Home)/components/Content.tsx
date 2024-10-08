@@ -1,10 +1,8 @@
-import { FramerDiv, FramerH2, FramerP } from "@/components/framer";
+import { FramerDiv, FramerH2 } from "@/components/framer";
 import { Suspense } from "react";
-import { fadeInUp, staggerChildren } from "../constants";
+import { fadeInUp } from "../constants";
 import ProductsList from "./ProductsList";
-import SearchProducts from "./SearchProducts";
-import SigUpButton from "./SigUpButton";
-
+import Chart from "./chart";
 const Content = ({
   category,
   search,
@@ -21,43 +19,15 @@ const Content = ({
     >
       <div className="mb-6 flex justify-between items-start">
         <FramerDiv
-          className="space-y-2"
-          variants={staggerChildren}
-          initial="initial"
-          animate="animate"
-        >
-          <FramerH2
-            variants={fadeInUp}
-            className="text-3xl font-semibold text-blue-800"
-          >
-            Monetise your idea.
-          </FramerH2>
-          <FramerP variants={fadeInUp} className="text-xl text-gray-600">
-            Buy and sell anything digital.
-          </FramerP>
-          <FramerP variants={fadeInUp} className="text-sm text-green-600">
-            Get started with Dapfy.com — Risk free, No Credit Card Required
-          </FramerP>
-          <SigUpButton />
-        </FramerDiv>
-        {/* <FramerDiv
           variants={fadeInUp}
           initial="initial"
           animate="animate"
           className="w-64 h-48 bg-white rounded-lg shadow p-4"
         >
-          <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={chartData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip />
-              <Line type="monotone" dataKey="sales" stroke="#8884d8" />
-            </LineChart>
-          </ResponsiveContainer>
-        </FramerDiv> */}
+          <Chart />
+        </FramerDiv>
       </div>
-      <SearchProducts />
+      {/* <SearchProducts /> */}
       <FramerH2
         variants={fadeInUp}
         initial="initial"

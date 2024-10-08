@@ -1,18 +1,14 @@
 "use client";
 import { GhostButton } from "@/components/buttonts";
 import Login from "@/components/Login/Login";
-import {
-  selectCart,
-  selectSidebarOpen,
-  setSidebarOpen,
-} from "@/store/slices/commonSlice";
+import { selectSidebarOpen, setSidebarOpen } from "@/store/slices/commonSlice";
 import { useAppDispatch, useAppSelector } from "@/store/store";
 import { motion } from "framer-motion";
 import { FileText, Menu } from "lucide-react";
+import Searcher from "./Search/Searcher";
 
 const TopBar = () => {
   const sidebarOpen = useAppSelector(selectSidebarOpen);
-  const cart = useAppSelector(selectCart);
   const dispatch = useAppDispatch();
 
   const toggleSidebar = () => {
@@ -39,6 +35,7 @@ const TopBar = () => {
         </GhostButton>
 
         <Login />
+        <Searcher />
       </div>
     </motion.header>
   );

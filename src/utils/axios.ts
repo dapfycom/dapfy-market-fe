@@ -33,7 +33,10 @@ const createAxiosInstance = (): AxiosInstance => {
     (response) => response,
     (error) => {
       if (typeof window !== "undefined" && error.response?.status === 401) {
-        if (window.location.pathname !== routes.home) {
+        if (
+          window.location.pathname !== routes.home &&
+          window.location.pathname.includes("dashboard")
+        ) {
           localStorage.removeItem(TOKEN_KEY);
           window.location.href = routes.home;
         }

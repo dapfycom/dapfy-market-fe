@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -13,7 +14,6 @@ import { formatPrice } from "@/lib/utils";
 import { useAppDispatch } from "@/store/store";
 import { IProductResponse } from "@/types/product.types";
 import { Star } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import ComparisonModal from "./ComparisonModal";
@@ -41,16 +41,17 @@ const ProductCard = ({ product }: { product: IProductResponse }) => {
       >
         <CardHeader className="p-0 overflow-hidden">
           <div className="relative overflow-hidden">
-            <Image
-              src={product.images[0]?.url || "/images/default-product.png"}
-              alt={product.title}
-              className={`h-48 w-full object-cover transition-transform duration-300 ease-in-out ${
-                isHovered ? "scale-110" : "scale-100"
-              }`}
-              width={256}
-              height={192}
-              quality={100}
-            />
+            <Link href={`${routes.products}/${product.slug}`}>
+              <img
+                src={product.images[0]?.url || "/images/default-product.png"}
+                alt={product.title}
+                className={`h-48 w-full object-cover transition-transform duration-300 ease-in-out ${
+                  isHovered ? "scale-110" : "scale-100"
+                }`}
+                width={256}
+                height={256}
+              />
+            </Link>
             <div className="absolute top-2 right-2 bg-blue-500 text-white px-2 py-1 rounded-full text-xs font-semibold">
               {product.category.emoji} {product.category.name}
             </div>
@@ -82,11 +83,8 @@ const ProductCard = ({ product }: { product: IProductResponse }) => {
           </div>
         </CardContent>
         <CardFooter className="grid grid-cols-2 gap-2 p-4 pt-0">
-          <Button
-            asChild
-            className="w-full bg-blue-600 text-white hover:bg-blue-700 transition-colors duration-300"
-          >
-            <Link href={`${routes.products}/${product.slug}`}>🎧 Buy Now</Link>
+          <Button className="w-full bg-blue-600 text-white hover:bg-blue-700 transition-colors duration-300">
+            🎧 Buy Now
           </Button>
           <Button
             variant="outline"

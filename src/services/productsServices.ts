@@ -5,6 +5,7 @@ import {
   IProductResponse,
   IProductReviewResponse,
 } from "@/types/product.types";
+import { algoliaService } from "./algoliaService";
 import api from "./api";
 
 const productsService = {
@@ -58,6 +59,16 @@ const productsService = {
 
   findReviews: (productId: string) =>
     api.get<IProductReviewResponse[]>(`/products/reviews/${productId}`),
+
+  searchWithAlgolia: async (query: string) => {
+    try {
+      const results = await algoliaService.searchProducts(query);
+      return results;
+    } catch (error) {
+      console.error("Error searching products with Algolia:", error);
+      throw error;
+    }
+  },
 };
 
 export default productsService;
