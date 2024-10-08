@@ -125,9 +125,6 @@ To add a custom domain:
 2. Navigate to the "Domains" section.
 3. Add and configure your custom domain.
 
-### Monitoring and Logs
-
-Use the Vercel dashboard to monitor your application's performance and view logs.
 
 For more detailed information, refer to the [Vercel Documentation](https://vercel.com/docs).
 
@@ -135,6 +132,4 @@ For more detailed information, refer to the [Vercel Documentation](https://verce
 
 We welcome contributions to improve DAPFY.COM. Please read our contributing guidelines before submitting pull requests.
 
-## License
 
-[Specify the license under which your project is released]
