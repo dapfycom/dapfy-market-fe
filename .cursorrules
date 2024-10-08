@@ -41,7 +41,6 @@ Use Axios for API requests; centralize API configurations and handle errors glob
 Follow Next.js best practices for data fetching using getServerSideProps, getStaticProps, and React Server Components when possible.
 Key Conventions
 
-Use 'nuqs' for URL search parameter state management.
 Optimize Web Vitals (LCP, CLS, FID).
 Limit 'use client':
 Favor server components and Next.js SSR.
