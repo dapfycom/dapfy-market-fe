@@ -8,12 +8,14 @@ import { AnimatePresence, motion } from "framer-motion";
 import { BookCheck, BookX, Edit2, Eye, Link2, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
+import toast from "react-hot-toast";
 import DashboardContentLayout from "../commons/dashboard-content-layout";
 
 const Products = () => {
   const { data, isLoading, error, mutate } = useGetProducts();
   const [selectedProduct, setSelectedProduct] =
     useState<IProductResponse | null>(null);
+  const [isDeleting, setIsDeleting] = useState<string | null>(null);
 
   const products = data?.data;
 
@@ -71,6 +73,25 @@ const Products = () => {
   ) => {
     await productsService.updateStatus(productId, currentStatus);
     mutate();
+  };
+
+  const handleDelete = async (productId: string) => {
+    if (window.confirm("Are you sure you want to delete this product?")) {
+      setIsDeleting(productId);
+      try {
+        toast.promise(productsService.remove(productId), {
+          loading: "Deleting product...",
+          success: "Product deleted successfully",
+          error: "Failed to delete product. Please try again.",
+        });
+        mutate();
+      } catch (error) {
+        console.error("Error deleting product:", error);
+        toast.error("Failed to delete the product. Please try again.");
+      } finally {
+        setIsDeleting(null);
+      }
+    }
   };
 
   return (
@@ -160,8 +181,14 @@ const Products = () => {
                         variant="outline"
                         size="sm"
                         className="text-red-500 hover:text-red-700"
+                        onClick={() => handleDelete(product.id)}
+                        disabled={isDeleting === product.id}
                       >
-                        <Trash2 className="w-4 h-4 mr-2" />
+                        {isDeleting === product.id ? (
+                          <span className="loading loading-spinner loading-xs mr-2"></span>
+                        ) : (
+                          <Trash2 className="w-4 h-4 mr-2" />
+                        )}
                         Delete
                       </Button>
                     </div>
