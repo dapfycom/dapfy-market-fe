@@ -1,4 +1,5 @@
 import { FramerDiv, FramerH2 } from "@/components/framer";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Suspense } from "react";
 import { fadeInUp } from "../constants";
 import ProductsList from "./ProductsList";
@@ -37,10 +38,41 @@ const Content = ({
         Trending Now
       </FramerH2>
 
+      <Tabs defaultValue="trending" className="mb-6">
+        <TabsList>
+          <TabsTrigger value="trending">🔥 Trending</TabsTrigger>
+          <TabsTrigger value="new">✨ New Arrivals</TabsTrigger>
+          <TabsTrigger value="bestsellers">🏆 Bestsellers</TabsTrigger>
+          <TabsTrigger value="for-you" className="bg-red-100 text-red-600">
+            For you
+          </TabsTrigger>
+        </TabsList>
+        <TabsContent value="trending">
+          <Suspense fallback={"Loading..."}>
+            <ProductsList category={category} search={search} />
+          </Suspense>
+        </TabsContent>
+        <TabsContent value="new">
+          <p>
+            New arrivals coming soon! Stay tuned for our latest digital
+            products.
+          </p>
+        </TabsContent>
+        <TabsContent value="bestsellers">
+          <p>
+            Our top-selling products will be featured here. Check back for
+            updates!
+          </p>
+        </TabsContent>
+        <TabsContent value="for-you">
+          <p>
+            Personalized recommendations based on your interests and browsing
+            history will appear here.
+          </p>
+        </TabsContent>
+      </Tabs>
+
       {/* Grid of Products */}
-      <Suspense fallback={"Loading..."}>
-        <ProductsList category={category} search={search} />
-      </Suspense>
     </FramerDiv>
   );
 };
