@@ -1,16 +1,17 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { dashboardRoutes } from "@/config/routes";
+import { dashboardRoutes, routes } from "@/config/routes";
 import { useGetProducts } from "@/hooks/useProducts";
-import { IProductResponse } from "@/types/product.types";
+import productsService from "@/services/productsServices";
+import { IProductResponse, ProductStatus } from "@/types/product.types";
 import { AnimatePresence, motion } from "framer-motion";
-import { Edit2, Eye, Trash2 } from "lucide-react";
+import { BookCheck, BookX, Edit2, Eye, Link2, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import DashboardContentLayout from "../commons/dashboard-content-layout";
 
 const Products = () => {
-  const { data, isLoading, error } = useGetProducts();
+  const { data, isLoading, error, mutate } = useGetProducts();
   const [selectedProduct, setSelectedProduct] =
     useState<IProductResponse | null>(null);
 
@@ -64,6 +65,14 @@ const Products = () => {
     </motion.div>
   );
 
+  const handlePublish = async (
+    currentStatus: ProductStatus,
+    productId: string
+  ) => {
+    await productsService.updateStatus(productId, currentStatus);
+    mutate();
+  };
+
   return (
     <DashboardContentLayout title="Products">
       <div className="flex justify-between items-center mb-10">
@@ -112,13 +121,40 @@ const Products = () => {
                           Edit
                         </Link>
                       </Button>
+                      <Button variant="outline" size="sm">
+                        <Eye className="w-4 h-4 mr-2" />
+                        View
+                      </Button>
+
+                      <Button variant="outline" size="sm" asChild>
+                        <Link href={`${routes.products}/${product.slug}`}>
+                          <Link2 className="w-4 h-4 mr-2" />
+                          Link
+                        </Link>
+                      </Button>
                       <Button
                         variant="outline"
                         size="sm"
-                        onClick={() => setSelectedProduct(product)}
+                        onClick={() =>
+                          handlePublish(
+                            product.status === ProductStatus.PUBLISHED
+                              ? ProductStatus.DRAFT
+                              : ProductStatus.PUBLISHED,
+                            product.id
+                          )
+                        }
                       >
-                        <Eye className="w-4 h-4 mr-2" />
-                        View
+                        {product.status === ProductStatus.PUBLISHED ? (
+                          <span className="text-red-500 flex items-center">
+                            {" "}
+                            <BookX className="w-4 h-4 mr-2" /> Unpublish
+                          </span>
+                        ) : (
+                          <span className="text-green-500 flex items-center">
+                            {" "}
+                            <BookCheck className="w-4 h-4 mr-2" /> Publish
+                          </span>
+                        )}
                       </Button>
                       <Button
                         variant="outline"

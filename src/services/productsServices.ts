@@ -4,6 +4,7 @@ import {
   IProductDetailsResponse,
   IProductResponse,
   IProductReviewResponse,
+  ProductStatus,
 } from "@/types/product.types";
 import { algoliaService } from "./algoliaService";
 import api from "./api";
@@ -69,6 +70,9 @@ const productsService = {
       throw error;
     }
   },
+
+  updateStatus: (productId: string, status: ProductStatus) =>
+    api.patch<IProductResponse>(`/products/${productId}/status`, { status }),
 };
 
 export default productsService;

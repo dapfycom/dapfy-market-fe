@@ -9,8 +9,15 @@ export const revalidate = 3600;
 export const dynamicParams = true;
 
 const getProduct = cache(async (slug: string) => {
-  const { data } = await productsService.findOne(slug);
-  return data;
+  try {
+    const res = await productsService.findOne(slug);
+    return res.data;
+  } catch (error: any) {
+    if (error.response && error.response.status === 404) {
+      return null; // Return null for not found products
+    }
+    throw error; // Rethrow other errors
+  }
 });
 
 export async function generateStaticParams() {
@@ -28,6 +35,13 @@ export async function generateMetadata(
   parent: ResolvingMetadata
 ): Promise<Metadata> {
   const data = await getProduct(params.slug);
+
+  if (!data) {
+    return {
+      title: "Product Not Found",
+      description: "The requested product does not exist.",
+    };
+  }
 
   const previousImages = (await parent).openGraph?.images || [];
 
@@ -79,11 +93,11 @@ export default async function ProductPage({
 }: {
   params: { slug: string };
 }) {
-  try {
-    const data = await getProduct(params.slug);
+  const data = await getProduct(params.slug);
 
-    return <Product product={data} />;
-  } catch {
-    notFound();
+  if (!data) {
+    notFound(); // Use Next.js notFound() for 404 errors
   }
+
+  return <Product product={data} />;
 }
