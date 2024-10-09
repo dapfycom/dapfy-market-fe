@@ -9,7 +9,7 @@ import { routes } from "@/config/routes";
 import useGetCurrentUser from "@/hooks/useGetCurrentUser";
 import { clearUser } from "@/store/slices/authSlice";
 import { useAppDispatch } from "@/store/store";
-import { ChevronDown, LayoutDashboard, LogOut } from "lucide-react";
+import { ChevronDown, LogOut } from "lucide-react";
 import Link from "next/link";
 
 const ProfileButton = () => {
@@ -29,7 +29,7 @@ const ProfileButton = () => {
         className="bg-blue-500 text-white hover:bg-blue-600 focus:ring-blue-500 rounded-r-none border-r-0"
         asChild
       >
-        <Link href={routes.dashboard}>Go to Dashboard</Link>
+        <Link href={routes.dashboard}>Dashboard</Link>
       </Button>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
@@ -41,12 +41,6 @@ const ProfileButton = () => {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-56">
-          <DropdownMenuItem asChild>
-            <Link href={routes.dashboard} className="flex items-center">
-              <LayoutDashboard className="mr-2 h-4 w-4" />
-              <span>Go to Dashboard</span>
-            </Link>
-          </DropdownMenuItem>
           <DropdownMenuItem onClick={handleLogout}>
             <LogOut className="mr-2 h-4 w-4" />
             <span>Log out</span>
