@@ -81,6 +81,8 @@ const ProductCard = ({ product }: { product: IProductResponse }) => {
               </span>
             </div>
           </div>
+
+          <div className="text-sm  mt-2">{product.viewCount} views 👀</div>
         </CardContent>
         <CardFooter className="grid grid-cols-2 gap-2 p-4 pt-0">
           <Button className="w-full bg-blue-600 text-white hover:bg-blue-700 transition-colors duration-300">
