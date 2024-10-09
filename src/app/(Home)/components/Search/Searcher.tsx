@@ -10,16 +10,13 @@ const Searcher = () => {
     setIsOpen(!isOpen);
   };
 
-  console.log(isOpen);
-
   return (
     <>
       <button
-        className="flex items-center space-x-2 border border-blue-400 rounded-md px-3 py-2  pr-10"
+        className="flex items-center border border-blue-400 rounded-md px-3 py-2 "
         onClick={handleOpenSearch}
       >
-        <Search className="h-4 w-4 text-blue-400" />
-        <span className="text-sm text-blue-800 ">Search...</span>
+        <Search className="h-5 w-5 text-blue-400" />
       </button>
       {isOpen && (
         <SearchModal isOpen={isOpen} handleOpenSearch={handleOpenSearch} />
