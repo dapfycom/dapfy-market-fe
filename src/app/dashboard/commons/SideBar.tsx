@@ -8,6 +8,7 @@ import { useAppSelector } from "@/store/store";
 import { motion } from "framer-motion";
 import {
   BarChart,
+  CreditCard,
   Edit2,
   Mail,
   Package,
@@ -57,6 +58,12 @@ const sidebarItems = [
     icon: ShoppingCart,
     emoji: "🛒",
     route: dashboardRoutes.myOrders,
+  },
+  {
+    name: "Stripe",
+    icon: CreditCard,
+    emoji: "💳",
+    route: dashboardRoutes.stripe,
   },
 ];
 

@@ -19,6 +19,7 @@ const dashboardRoutes = {
   settings: `${routes.dashboard}/settings`,
   customers: `${routes.dashboard}/customers`,
   emailMarketing: `${routes.dashboard}/email-marketing`,
+  stripe: `${routes.dashboard}/stripe`,
 };
 
 export { dashboardRoutes, routes };
