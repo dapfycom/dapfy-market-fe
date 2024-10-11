@@ -80,8 +80,6 @@ const CreateStoreForm = ({
   }, [editingStore, setValue]);
 
   const onSubmit = async (data: StoreFormData) => {
-    console.log("data", data);
-
     setIsSubmitting(true);
     try {
       const formData = new FormData();

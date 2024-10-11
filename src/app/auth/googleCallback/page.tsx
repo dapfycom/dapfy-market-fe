@@ -37,8 +37,6 @@ function GoogleCallbackContent() {
             sameSite: "strict",
             maxAge: 60 * 60 * 24 * 7, // 1 week
           });
-          console.log(AUTH_TOKEN_KEY);
-          console.log(response.data.token.accessToken);
 
           dispatch(setUser(response.data.user));
 

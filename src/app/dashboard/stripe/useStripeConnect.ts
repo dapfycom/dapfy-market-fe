@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 export const useStripeConnect = () => {
   const [stripeConnectInstance, setStripeConnectInstance] = useState();
   const { user } = useGetCurrentUser();
-  console.log(user);
 
   const connectedAccountId = user?.stripeAccountId;
 

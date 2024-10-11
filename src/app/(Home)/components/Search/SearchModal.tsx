@@ -42,8 +42,6 @@ const SearchInput = () => {
 const SearchResults = () => {
   const { searchResults } = useSearch();
 
-  console.log(searchResults);
-
   return (
     <section
       className="flex  justify-center w-1/2 mt-6 

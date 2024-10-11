@@ -10,7 +10,7 @@ const useGetCurrentUser = () => {
     () => authService.currentUser(),
     {
       onError: (error) => {
-        console.log(error);
+        console.error(error);
       },
     }
   );

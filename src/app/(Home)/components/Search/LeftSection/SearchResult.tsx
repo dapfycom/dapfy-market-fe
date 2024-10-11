@@ -5,7 +5,6 @@ import { useSearch } from "../SearchContext";
 
 const SearchResult = () => {
   const { searchResults, handleSelectProduct } = useSearch();
-  console.log(searchResults);
 
   return (
     <div>

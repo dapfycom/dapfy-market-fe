@@ -27,7 +27,7 @@ async function getCountryFromCoordinates(
       `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=en`
     );
     if (!response.ok) {
-      console.log("Failed to fetch country data");
+      console.error("Failed to fetch country data");
       return undefined;
     }
     const data = await response.json();
@@ -63,7 +63,7 @@ const stripeServices = {
       const data = await response.json();
       country = data.country_code;
     } catch (error) {
-      console.log("Failed to get country from ipapi");
+      console.error("Failed to get country from ipapi");
 
       if ("geolocation" in navigator) {
         navigator.geolocation.getCurrentPosition(

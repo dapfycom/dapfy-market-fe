@@ -39,7 +39,6 @@ export default function StripeDashboard() {
     try {
       const { data } = await stripeServices.createAccount();
       mutate();
-      console.log(data);
     } catch (err) {
       setError(true);
     } finally {
