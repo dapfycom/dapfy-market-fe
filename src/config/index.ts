@@ -43,3 +43,5 @@ export const bannerThemes: {
     description: "Rich golds and warm ambers",
   },
 };
+
+export const AUTH_TOKEN_KEY = "accessToken";

@@ -1,8 +1,10 @@
 "use client";
 
+import { AUTH_TOKEN_KEY } from "@/config";
 import authService from "@/services/authService";
 import { setUser } from "@/store/slices/authSlice";
 import { useAppDispatch } from "@/store/store";
+import { setCookie } from "cookies-next";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
 
@@ -26,7 +28,11 @@ function VerifyMagicLinkContent() {
         const response = await authService.verifyMagicLink(token);
 
         if (response.status === 200) {
-          localStorage.setItem("token", response.data.token.accessToken);
+          setCookie(AUTH_TOKEN_KEY, response.data.token.accessToken, {
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "strict",
+            maxAge: 60 * 60 * 24 * 7, // 1 week
+          });
           dispatch(setUser(response.data.user));
 
           setVerificationStatus("success");

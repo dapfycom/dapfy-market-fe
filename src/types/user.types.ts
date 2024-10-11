@@ -11,6 +11,7 @@ export interface IUserResponse {
   email: string;
   avatar: string | null;
   isActive: boolean;
+  stripeAccountId: string | null;
 }
 
 export interface ITokenResponse {

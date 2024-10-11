@@ -1,8 +1,10 @@
 "use client";
 
+import { AUTH_TOKEN_KEY } from "@/config";
 import authService from "@/services/authService";
 import { setUser } from "@/store/slices/authSlice";
 import { useAppDispatch } from "@/store/store";
+import { setCookie } from "cookies-next";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useRef, useState } from "react";
 
@@ -29,7 +31,15 @@ function GoogleCallbackContent() {
         const response = await authService.handleGoogleCallback(code);
 
         if (response.status === 200) {
-          localStorage.setItem("token", response.data.token.accessToken);
+          // Set the access token in an HTTP-only cookie
+          setCookie(AUTH_TOKEN_KEY, response.data.token.accessToken, {
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "strict",
+            maxAge: 60 * 60 * 24 * 7, // 1 week
+          });
+          console.log(AUTH_TOKEN_KEY);
+          console.log(response.data.token.accessToken);
+
           dispatch(setUser(response.data.user));
 
           setStatus("success");

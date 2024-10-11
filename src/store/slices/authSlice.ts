@@ -1,6 +1,8 @@
+import { AUTH_TOKEN_KEY } from "@/config";
 import { IUserResponse } from "@/types/user.types";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
+import { deleteCookie } from "cookies-next";
 import { RootState } from "../store";
 
 // Define a type for the slice state
@@ -23,6 +25,7 @@ export const authSlice = createSlice({
       state.user = action.payload;
     },
     clearUser: (state) => {
+      deleteCookie(AUTH_TOKEN_KEY);
       state.user = null;
     },
     openLoginModal: (state) => {

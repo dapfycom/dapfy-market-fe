@@ -17,7 +17,6 @@ const ProfileButton = () => {
 
   const dispatch = useAppDispatch();
   const handleLogout = () => {
-    localStorage.removeItem("token");
     dispatch(clearUser());
     mutate();
   };

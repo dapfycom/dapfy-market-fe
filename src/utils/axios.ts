@@ -1,11 +1,12 @@
+import { AUTH_TOKEN_KEY } from "@/config";
 import { routes } from "@/config/routes";
 import axios, { AxiosInstance, InternalAxiosRequestConfig } from "axios";
+import { getCookie } from "cookies-next";
 
 export const BASE_URL = `${
   process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000"
 }/api`;
 const TIMEOUT = 100000;
-const TOKEN_KEY = "token";
 
 const createAxiosInstance = (): AxiosInstance => {
   const instance = axios.create({
@@ -18,12 +19,15 @@ const createAxiosInstance = (): AxiosInstance => {
 
   instance.interceptors.request.use(
     (config: InternalAxiosRequestConfig) => {
-      if (typeof window !== "undefined") {
-        const token = localStorage.getItem(TOKEN_KEY);
-        if (token) {
-          config.headers.Authorization = `Bearer ${token}`;
-        }
+      const token = getCookie(AUTH_TOKEN_KEY);
+      console.log(AUTH_TOKEN_KEY);
+
+      console.log(token);
+
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
       }
+
       return config;
     },
     (error) => Promise.reject(error)
@@ -37,7 +41,7 @@ const createAxiosInstance = (): AxiosInstance => {
           window.location.pathname !== routes.home &&
           window.location.pathname.includes("dashboard")
         ) {
-          localStorage.removeItem(TOKEN_KEY);
+          localStorage.removeItem(AUTH_TOKEN_KEY);
           window.location.href = routes.home;
         }
       }

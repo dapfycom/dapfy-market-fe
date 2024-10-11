@@ -4,6 +4,7 @@ const routes = {
   settings: "/settings",
   stores: "/stores",
   products: "/products",
+  checkout: "/checkout",
 };
 
 const dashboardRoutes = {

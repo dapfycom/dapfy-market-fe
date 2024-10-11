@@ -1,32 +1,27 @@
-import {
-  loadConnectAndInitialize,
-  StripeConnectInstance,
-} from "@stripe/connect-js";
+import useGetCurrentUser from "@/hooks/useGetCurrentUser";
+import stripeServices from "@/services/stripeServices";
+import { loadConnectAndInitialize } from "@stripe/connect-js";
 import { useEffect, useState } from "react";
 
-export const useStripeConnect = (connectedAccountId: string) => {
-  const [stripeConnectInstance, setStripeConnectInstance] =
-    useState<StripeConnectInstance | null>(null);
+export const useStripeConnect = () => {
+  const [stripeConnectInstance, setStripeConnectInstance] = useState();
+  const { user } = useGetCurrentUser();
+  console.log(user);
+
+  const connectedAccountId = user?.stripeAccountId;
 
   useEffect(() => {
     if (connectedAccountId) {
       const fetchClientSecret = async () => {
-        const response = await fetch("/account_session", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            account: connectedAccountId,
-          }),
+        const response = await stripeServices.createAccountSession({
+          account: connectedAccountId,
         });
 
-        if (!response.ok) {
+        if (!response.data) {
           // Handle errors on the client side here
-          const { error } = await response.json();
-          throw new Error("An error occurred: ", error);
+          throw new Error("An error occurred: ");
         } else {
-          const { client_secret: clientSecret } = await response.json();
+          const { client_secret: clientSecret } = response.data;
           return clientSecret;
         }
       };
@@ -41,12 +36,12 @@ export const useStripeConnect = (connectedAccountId: string) => {
               colorPrimary: "#635BFF",
             },
           },
-        })
+        }) as any
       );
     }
   }, [connectedAccountId]);
 
-  return stripeConnectInstance;
+  return { stripeConnectInstance, connectedAccountId };
 };
 
 export default useStripeConnect;

@@ -10,28 +10,39 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { routes } from "@/config/routes";
+import useGetCurrentUser from "@/hooks/useGetCurrentUser";
 import { formatPrice } from "@/lib/utils";
 import { useAppDispatch } from "@/store/store";
 import { IProductResponse } from "@/types/product.types";
 import { Star } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "react-hot-toast";
 import ComparisonModal from "./ComparisonModal";
 
 const ProductCard = ({ product }: { product: IProductResponse }) => {
+  const router = useRouter();
   const [isHovered, setIsHovered] = useState(false);
   const [isComparisonOpen, setIsComparisonOpen] = useState(false);
   const dispatch = useAppDispatch();
+  const { user } = useGetCurrentUser();
 
-  // const handleAddToCart = (e: React.MouseEvent) => {
-  //   e.preventDefault();
-  //   dispatch(addToCart(product as any));
-  //   toast.success(`${product.title} added to cart`);
-  // };
   const handleCompare = (e: React.MouseEvent) => {
     e.preventDefault();
     setIsComparisonOpen(true);
   };
+
+  const handleBuyNow = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (!user) {
+      toast.error("Please log in to make a purchase.");
+      return;
+    }
+    // Proceed with the purchase logic
+    router.push(`${routes.checkout}/${product.id}`);
+  };
+
   return (
     <>
       <Card
@@ -85,7 +96,10 @@ const ProductCard = ({ product }: { product: IProductResponse }) => {
           <div className="text-sm  mt-2">{product.viewCount} views 👀</div>
         </CardContent>
         <CardFooter className="grid grid-cols-2 gap-2 p-4 pt-0">
-          <Button className="w-full bg-blue-600 text-white hover:bg-blue-700 transition-colors duration-300">
+          <Button
+            className="w-full bg-blue-600 text-white hover:bg-blue-700 transition-colors duration-300"
+            onClick={handleBuyNow}
+          >
             🎧 Buy Now
           </Button>
           <Button
