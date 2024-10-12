@@ -12,14 +12,8 @@ const dashboardRoutes = {
   products: `${routes.dashboard}/products`,
   addProduct: `${routes.dashboard}/products/add`,
   stores: `${routes.dashboard}/stores`,
-  memberships: `${routes.dashboard}/memberships`,
-  fundraising: `${routes.dashboard}/fundraising`,
-  payouts: `${routes.dashboard}/payouts`,
-  myOrders: `${routes.dashboard}/my-orders`,
-  upgradeToPro: `${routes.dashboard}/upgrade-to-pro`,
   settings: `${routes.dashboard}/settings`,
   customers: `${routes.dashboard}/customers`,
-  emailMarketing: `${routes.dashboard}/email-marketing`,
   stripe: `${routes.dashboard}/stripe`,
 };
 

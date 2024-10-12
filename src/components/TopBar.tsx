@@ -1,13 +1,11 @@
 "use client";
 import { GhostButton } from "@/components/buttonts";
-import { routes } from "@/config/routes";
 import { selectSidebarOpen, setSidebarOpen } from "@/store/slices/commonSlice";
 import { useAppDispatch, useAppSelector } from "@/store/store";
 import { motion } from "framer-motion";
 import { FileText, Menu } from "lucide-react";
 import dynamic from "next/dynamic";
-import { usePathname } from "next/navigation";
-import Searcher from "../../../components/Search/Searcher";
+import Searcher from "./Search/Searcher";
 const Login = dynamic(() => import("@/components/Login/Login"), { ssr: false });
 
 const TopBar = () => {
@@ -18,8 +16,6 @@ const TopBar = () => {
     dispatch(setSidebarOpen(!sidebarOpen));
   };
 
-  const isHome = usePathname() === routes.home;
-
   return (
     <motion.header
       initial={{ opacity: 0, y: -50 }}
@@ -27,11 +23,9 @@ const TopBar = () => {
       transition={{ duration: 0.5 }}
       className="flex items-center justify-between border-b border-blue-200 p-4 bg-white text-gray-800"
     >
-      {isHome && (
-        <GhostButton size="sm" onClick={toggleSidebar}>
-          <Menu className="h-6 w-6" />
-        </GhostButton>
-      )}
+      <GhostButton size="sm" onClick={toggleSidebar}>
+        <Menu className="h-6 w-6" />
+      </GhostButton>
 
       <span></span>
 

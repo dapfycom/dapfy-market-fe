@@ -1,6 +1,6 @@
 import React from "react";
-import Aside from "../(Home)/components/Sidebar";
-import TopBar from "../(Home)/components/TopBar";
+import Aside from "../../components/Sidebar/Sidebar";
+import TopBar from "../../components/TopBar";
 
 const layout = ({ children }: { children: React.ReactNode }) => {
   return (

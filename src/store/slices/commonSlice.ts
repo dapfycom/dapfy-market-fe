@@ -8,38 +8,25 @@ interface Product {
 }
 
 interface CommonState {
-  cart: Product[];
   sidebarOpen: boolean;
 }
 
 const initialState: CommonState = {
-  cart: [],
-  sidebarOpen: false,
+  sidebarOpen: true,
 };
 
 export const commonSlice = createSlice({
   name: "common",
   initialState,
   reducers: {
-    addToCart: (state, action: PayloadAction<Product>) => {
-      state.cart.push(action.payload);
-    },
-    removeFromCart: (state, action: PayloadAction<string>) => {
-      state.cart = state.cart.filter((item) => item.id !== action.payload);
-    },
-    clearCart: (state) => {
-      state.cart = [];
-    },
     setSidebarOpen: (state, action: PayloadAction<boolean>) => {
       state.sidebarOpen = action.payload;
     },
   },
 });
 
-export const { addToCart, removeFromCart, clearCart, setSidebarOpen } =
-  commonSlice.actions;
+export const { setSidebarOpen } = commonSlice.actions;
 
-export const selectCart = (state: RootState) => state.common.cart;
 export const selectSidebarOpen = (state: RootState) => state.common.sidebarOpen;
 
 export default commonSlice.reducer;

@@ -3,7 +3,7 @@ import { FramerDiv } from "@/components/framer";
 import { routes } from "@/config/routes";
 import categoriesService from "@/services/categoriesServices";
 import Link from "next/link";
-import { fadeInUp } from "../constants";
+import { fadeInUp } from "./constants";
 import SideBarWrapper from "./SideBarWrapper";
 
 const getCategories = async () => {

@@ -1,7 +1,6 @@
 "use client";
-import { Button } from "@/components/ui/button";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { motion } from "framer-motion";
+import Aside from "@/components/Sidebar/Sidebar";
+import TopBar from "@/components/TopBar";
 import { PropsWithChildren, useEffect, useState } from "react";
 
 const categories = [
@@ -36,41 +35,18 @@ const MainLayout = ({ children }: PropsWithChildren) => {
     }
   }, [notification]);
   return (
-    <div>
-      <motion.aside
-        initial={false}
-        animate={{ width: sidebarOpen ? 256 : 0 }}
-        transition={{ duration: 0.2, ease: "easeInOut" }}
-        className="border-r border-blue-200 bg-white overflow-hidden"
-      >
-        <ScrollArea className="h-full">
-          <motion.div
-            className="space-y-1 p-4"
-            variants={staggerChildren}
-            initial="initial"
-            animate="animate"
-            style={{ display: sidebarOpen ? "block" : "none" }}
-          >
-            {categories.map((category, index) => (
-              <motion.div
-                key={index}
-                variants={fadeInUp}
-                transition={{ duration: 0.3 }}
-              >
-                <Button
-                  variant="ghost"
-                  className="w-full justify-start text-left font-normal text-gray-700 hover:bg-blue-100 hover:text-blue-800"
-                >
-                  <span className="mr-2 text-lg">{category.emoji}</span>
-                  <span className="text-sm">{category.name}</span>
-                </Button>
-              </motion.div>
-            ))}
-          </motion.div>
-        </ScrollArea>
-      </motion.aside>
+    <div className="flex h-screen bg-blue-50">
+      {/* Sidebar */}
+      <Aside />
 
-      <main>{children}</main>
+      {/* Main Content */}
+      <main className="flex-1 overflow-hidden flex flex-col">
+        {/* Top Bar */}
+        <TopBar />
+
+        {/* Content Area */}
+        <main>{children}</main>
+      </main>
     </div>
   );
 };

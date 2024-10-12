@@ -4,7 +4,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { selectSidebarOpen } from "@/store/slices/commonSlice";
 import { useAppSelector } from "@/store/store";
 import React from "react";
-import { staggerChildren } from "../constants";
+import { staggerChildren } from "./constants";
 
 const SideBarWrapper = ({ children }: { children: React.ReactNode }) => {
   const sidebarOpen = useAppSelector(selectSidebarOpen);

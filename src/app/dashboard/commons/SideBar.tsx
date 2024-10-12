@@ -10,11 +10,9 @@ import {
   BarChart,
   CreditCard,
   Edit2,
-  Mail,
   Package,
   Settings,
   ShoppingBag,
-  ShoppingCart,
   UserIcon,
 } from "lucide-react";
 import Link from "next/link";
@@ -47,18 +45,7 @@ const sidebarItems = [
     emoji: "👥",
     route: dashboardRoutes.customers,
   },
-  {
-    name: "Email Marketing",
-    icon: Mail,
-    emoji: "📧",
-    route: dashboardRoutes.emailMarketing,
-  },
-  {
-    name: "My Orders",
-    icon: ShoppingCart,
-    emoji: "🛒",
-    route: dashboardRoutes.myOrders,
-  },
+
   {
     name: "Stripe",
     icon: CreditCard,
@@ -115,7 +102,7 @@ const SideBar = () => {
                   value={userName}
                   onChange={(e) => setUserName(e.target.value)}
                   onBlur={() => setIsEditingUserName(false)}
-                  onKeyPress={(e) =>
+                  onKeyUp={(e) =>
                     e.key === "Enter" && setIsEditingUserName(false)
                   }
                   className="text-sm font-semibold text-gray-800 w-full outline-none"
@@ -144,7 +131,7 @@ const SideBar = () => {
               key={item.name}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className={`flex items-center w-full px-4 py-3 text-left ${
+              className={`flex items-center w-full px-4 py-3 text-left hover:font-semibold ${
                 currentPath === item.route
                   ? "bg-blue-100 text-blue-600"
                   : "text-gray-600 hover:bg-blue-50"
@@ -160,9 +147,8 @@ const SideBar = () => {
       </nav>
       <Link href={dashboardRoutes.settings}>
         <motion.button
-          whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          className="flex items-center w-full px-4 py-3 text-left text-gray-600 hover:bg-blue-50 border-t border-gray-200"
+          className="flex items-center w-full px-4 py-3 text-left text-gray-600 hover:bg-blue-50 border-t border-gray-200 hover:text-blue-600"
         >
           <Settings className="w-5 h-5 mr-3" />
           {isSidebarOpen && "Settings"}

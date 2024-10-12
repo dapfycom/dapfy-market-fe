@@ -1,7 +1,7 @@
 import { FramerDiv, FramerH2 } from "@/components/framer";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Suspense } from "react";
-import { fadeInUp } from "../constants";
+import { fadeInUp } from "../../../components/Sidebar/constants";
 import ProductsList from "./ProductsList";
 import Chart from "./chart";
 const Content = ({

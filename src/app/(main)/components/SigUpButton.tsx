@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import useGetCurrentUser from "@/hooks/useGetCurrentUser";
 import { openLoginModal } from "@/store/slices/authSlice";
 import { useAppDispatch } from "@/store/store";
-import { fadeInUp } from "../constants";
+import { fadeInUp } from "../../../components/Sidebar/constants";
 
 const SigUpButton = () => {
   const { user } = useGetCurrentUser();

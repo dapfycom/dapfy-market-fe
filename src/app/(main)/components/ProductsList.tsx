@@ -1,6 +1,6 @@
 import { FramerDiv } from "@/components/framer";
 import productsService from "@/services/productsServices";
-import { staggerChildren } from "../constants";
+import { staggerChildren } from "../../../components/Sidebar/constants";
 import ProductCard from "./ProductCard";
 
 const ProductsList = async ({

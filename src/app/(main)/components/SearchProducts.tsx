@@ -6,7 +6,7 @@ import { useDebounce } from "@/hooks/useDebounce";
 import { Search } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useCallback, useEffect, useState } from "react";
-import { fadeInUp } from "../constants";
+import { fadeInUp } from "../../../components/Sidebar/constants";
 
 const SearchProducts = () => {
   const router = useRouter();

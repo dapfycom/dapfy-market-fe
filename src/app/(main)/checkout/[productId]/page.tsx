@@ -1,4 +1,3 @@
-import TopBar from "@/app/(Home)/components/TopBar";
 import { AUTH_TOKEN_KEY } from "@/config";
 import axiosInstance, { BASE_URL } from "@/utils/axios";
 import { cookies } from "next/headers";
@@ -49,13 +48,8 @@ const CheckoutForm = async ({ params }: { params: { productId: string } }) => {
 
   return (
     <div className="flex h-screen bg-blue-50">
-      {/* Main Content */}
-      <main className="flex-1 overflow-hidden flex flex-col">
-        {/* Top Bar */}
-        <TopBar />
-        {/* @ts-ignore */}
-        <CheckoutFormClient clientSecret={clientSecret || null} />
-      </main>
+      {/* @ts-ignore */}
+      <CheckoutFormClient clientSecret={clientSecret || null} />
     </div>
   );
 };
