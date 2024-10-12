@@ -23,7 +23,7 @@ import { useEffect, useState } from "react";
 
 const sidebarItems = [
   {
-    name: "Dashboard",
+    name: "Analytics",
     icon: BarChart,
     emoji: "📊",
     route: dashboardRoutes.dashboard,

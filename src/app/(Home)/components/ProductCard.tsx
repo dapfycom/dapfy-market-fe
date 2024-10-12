@@ -11,20 +11,23 @@ import {
 } from "@/components/ui/card";
 import { routes } from "@/config/routes";
 import useGetCurrentUser from "@/hooks/useGetCurrentUser";
+import { useLogin } from "@/hooks/useLogin";
 import { formatPrice } from "@/lib/utils";
 import { useAppDispatch } from "@/store/store";
 import { IProductResponse } from "@/types/product.types";
-import { Star } from "lucide-react";
+import { Loader2, Star } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { toast } from "react-hot-toast";
 import ComparisonModal from "./ComparisonModal";
 
 const ProductCard = ({ product }: { product: IProductResponse }) => {
   const router = useRouter();
   const [isHovered, setIsHovered] = useState(false);
   const [isComparisonOpen, setIsComparisonOpen] = useState(false);
+  const [isBuyingNow, setIsBuyingNow] = useState(false);
+  const { handleOpenLoginModal } = useLogin();
+
   const dispatch = useAppDispatch();
   const { user } = useGetCurrentUser();
 
@@ -33,13 +36,13 @@ const ProductCard = ({ product }: { product: IProductResponse }) => {
     setIsComparisonOpen(true);
   };
 
-  const handleBuyNow = (e: React.MouseEvent) => {
+  const handleBuyNow = async (e: React.MouseEvent) => {
     e.preventDefault();
     if (!user) {
-      toast.error("Please log in to make a purchase.");
+      handleOpenLoginModal();
       return;
     }
-    // Proceed with the purchase logic
+    setIsBuyingNow(true);
     router.push(`${routes.checkout}/${product.id}`);
   };
 
@@ -97,10 +100,18 @@ const ProductCard = ({ product }: { product: IProductResponse }) => {
         </CardContent>
         <CardFooter className="grid grid-cols-2 gap-2 p-4 pt-0">
           <Button
-            className="w-full bg-blue-600 text-white hover:bg-blue-700 transition-colors duration-300"
+            className="w-full bg-blue-600 text-white hover:bg-blue-700 transition-colors duration-300 text-sm"
             onClick={handleBuyNow}
+            disabled={isBuyingNow}
           >
-            🎧 Buy Now
+            {isBuyingNow ? (
+              <span className="flex items-center justify-center">
+                <Loader2 className="mr-1 h-4 w-4 animate-spin" />
+                Buy Now
+              </span>
+            ) : (
+              "🎧 Buy Now"
+            )}
           </Button>
           <Button
             variant="outline"

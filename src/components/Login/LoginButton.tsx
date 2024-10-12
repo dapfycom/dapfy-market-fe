@@ -1,9 +1,5 @@
 import useGetCurrentUser from "@/hooks/useGetCurrentUser";
-import {
-  openLoginModal,
-  selectIsLoginModalOpen,
-} from "@/store/slices/authSlice";
-import { useAppDispatch, useAppSelector } from "@/store/store";
+import { useLogin } from "@/hooks/useLogin";
 import { motion } from "framer-motion";
 import { Loader2 } from "lucide-react";
 import dynamic from "next/dynamic";
@@ -15,12 +11,7 @@ const LoginModal = dynamic(() => import("./login-modal"), {
 
 const LoginButton = () => {
   const { isLoading } = useGetCurrentUser();
-  const isLoginModalOpen = useAppSelector(selectIsLoginModalOpen);
-  const dispatch = useAppDispatch();
-
-  const handleOpenLoginModal = () => {
-    dispatch(openLoginModal());
-  };
+  const { isLoginModalOpen, handleOpenLoginModal } = useLogin();
   return (
     <>
       <motion.div

@@ -1,4 +1,5 @@
 "use client";
+import Searcher from "@/components/Search/Searcher";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { bannerThemes } from "@/config";
@@ -7,7 +8,7 @@ import { cn, formatPrice } from "@/lib/utils";
 import { ColorTheme } from "@/types/common.types";
 import { IStoreResponse } from "@/types/sotre.types";
 import { AnimatePresence, motion } from "framer-motion";
-import { Check, Eye, Search, ShoppingCart, Star, X } from "lucide-react";
+import { Check, Eye, Search, Star, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -98,26 +99,18 @@ export default function DigitalStore({ store }: { store: IStoreResponse }) {
           </div>
           <div className="flex items-center space-x-4">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-              <Input
-                className="pl-10 pr-4 py-2 w-64"
-                placeholder="Search products..."
+              <Searcher
+                customTrigger={
+                  <div>
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                    <Input
+                      className="pl-10 pr-4 py-2 w-64"
+                      placeholder="Search from algolia..."
+                    />
+                  </div>
+                }
               />
             </div>
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={() => setIsCartOpen(!isCartOpen)}
-              className="relative"
-            >
-              <ShoppingCart className="h-5 w-5" />
-              {cart.length > 0 && (
-                <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
-                  {cart.length}
-                </span>
-              )}
-              <span className="sr-only">Cart</span>
-            </Button>
           </div>
         </div>
       </motion.header>
@@ -307,26 +300,6 @@ export default function DigitalStore({ store }: { store: IStoreResponse }) {
                     <Link href={`${routes.products}/${product.slug}`}>
                       View Product &nbsp;<span aria-hidden="true">👀</span>
                     </Link>
-                  </Button>
-                  <Button
-                    className={`bg-green-500 hover:bg-green-600 transition-all duration-300 transform hover:scale-105 active:scale-95 ${
-                      addedProducts[product.id]
-                        ? "bg-blue-500 hover:bg-blue-600"
-                        : ""
-                    }`}
-                    onClick={() => addToCart(product)}
-                  >
-                    {addedProducts[product.id] ? (
-                      <>
-                        <Check className="mr-2 h-4 w-4" />
-                        Added
-                      </>
-                    ) : (
-                      <>
-                        <ShoppingCart className="mr-2 h-4 w-4" />
-                        Add to Cart
-                      </>
-                    )}
                   </Button>
                 </div>
               </div>

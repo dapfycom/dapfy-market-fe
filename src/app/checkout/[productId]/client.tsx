@@ -36,11 +36,8 @@ const CheckoutFormClient = ({
   }
 
   return (
-    <div
-      id="checkout"
-      className="flex w-full items-center justify-center min-h-screen"
-    >
-      <div className="w-full ">
+    <div id="checkout" className="flex w-full  justify-center mt-8">
+      <div className="w-full max-w-[1200px] border border-yellow-200 rounded-lg py-10 bg-white">
         <EmbeddedCheckoutProvider
           stripe={stripePromise}
           options={{

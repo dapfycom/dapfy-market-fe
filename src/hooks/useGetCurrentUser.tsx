@@ -1,23 +1,39 @@
+import { AUTH_TOKEN_KEY } from "@/config";
 import authService from "@/services/authService";
-import { selectUser } from "@/store/slices/authSlice";
-import { useAppSelector } from "@/store/store";
+import { clearUser, selectUser, setUser } from "@/store/slices/authSlice";
+import { useAppDispatch, useAppSelector } from "@/store/store";
+import { getCookie } from "cookies-next";
+import { useEffect } from "react";
 import useSWR from "swr";
+
 const useGetCurrentUser = () => {
   const userOnStore = useAppSelector(selectUser);
+  const dispatch = useAppDispatch();
+  const authToken = getCookie(AUTH_TOKEN_KEY);
 
-  const { data, isLoading, mutate } = useSWR(
-    !userOnStore ? "/auth/me" : null,
+  const { data, error, isLoading, mutate } = useSWR(
+    authToken ? "/auth/me" : null,
     () => authService.currentUser(),
     {
+      revalidateOnFocus: false,
+      shouldRetryOnError: false,
       onError: (error) => {
-        console.error(error);
+        if (error.response?.status === 401) {
+          dispatch(clearUser());
+        }
       },
     }
   );
 
-  const user = userOnStore || data?.data;
+  useEffect(() => {
+    if (data?.data && !userOnStore) {
+      dispatch(setUser(data.data));
+    }
+  }, [data, userOnStore, dispatch]);
 
-  return { user, isLoading, mutate };
+  const user = userOnStore || data?.data || null;
+
+  return { user, isLoading, error, mutate };
 };
 
 export default useGetCurrentUser;

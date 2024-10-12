@@ -30,7 +30,7 @@ import { EditProductFormData, ProductFormData } from "../productSchema";
 
 const steps = [
   { name: "Select Store", icon: Store, emoji: "🏪" },
-  { name: "Import/Upload", icon: Upload, emoji: "📤" },
+  { name: "Upload", icon: Upload, emoji: "📤" },
   { name: "Description", icon: FileText, emoji: "📝" },
   { name: "Pricing", icon: DollarSign, emoji: "💰" },
   { name: "Review & Create", icon: CheckCircle, emoji: "🚀" },
@@ -88,7 +88,7 @@ export default function EnhancedProductFlow({
         <div className="mt-6 mb-2">
           <Progress
             value={(currentStep / (steps.length - 1)) * 100}
-            className="w-full h-2"
+            className="w-full h-2 mb-2"
           />
         </div>
         <div className="flex justify-between items-center mt-4 text-white">
@@ -103,7 +103,7 @@ export default function EnhancedProductFlow({
               transition={{ delay: index * 0.1 }}
             >
               <motion.div
-                className="mb-2 p-3 bg-white rounded-full"
+                className="mb-2 p-2 bg-white rounded-full"
                 initial={{ scale: 0.8 }}
                 animate={{
                   scale: index === currentStep ? 1.2 : 1,

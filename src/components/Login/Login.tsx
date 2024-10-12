@@ -1,6 +1,7 @@
 import useGetCurrentUser from "@/hooks/useGetCurrentUser";
+import dynamic from "next/dynamic";
 import LoginButton from "./LoginButton";
-import ProfileButton from "./ProfileButton";
+const ProfileButton = dynamic(() => import("./ProfileButton"), { ssr: false });
 const Login = () => {
   const { user } = useGetCurrentUser();
 

@@ -14,7 +14,7 @@ interface CommonState {
 
 const initialState: CommonState = {
   cart: [],
-  sidebarOpen: true,
+  sidebarOpen: false,
 };
 
 export const commonSlice = createSlice({
