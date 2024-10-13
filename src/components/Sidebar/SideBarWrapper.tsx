@@ -13,7 +13,7 @@ const SideBarWrapper = ({ children }: { children: React.ReactNode }) => {
       initial={false}
       animate={{ width: sidebarOpen ? 256 : 0 }}
       transition={{ duration: 0.2, ease: "easeInOut" }}
-      className="border-r border-blue-200 bg-blue-100 overflow-hidden"
+      className="border-r border-blue-200 bg-blue-100 overflow-hidden h-full"
     >
       <FramerDiv
         className="space-y-1 py-4 h-full"

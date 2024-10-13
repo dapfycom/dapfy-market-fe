@@ -37,7 +37,7 @@ const Aside = async () => {
             <div className="p-2 rounded-md transition-colors duration-200 ease-in-out hover:bg-blue-200 cursor-pointer">
               📊 Analytics
             </div>
-            <details className="group">
+            <details className="group" open={true}>
               <summary className="p-2 rounded-md transition-colors duration-200 ease-in-out hover:bg-blue-200 cursor-pointer list-none">
                 📚 Library
               </summary>
@@ -46,7 +46,7 @@ const Aside = async () => {
                   <FramerDiv key={index} variants={fadeInUp}>
                     <GhostButton
                       variant="ghost"
-                      className="w-full justify-start text-left font-normal text-gray-700 hover:bg-blue-100 hover:text-blue-800 pl-3 transition-transform duration-200 ease-in-out hover:scale-105"
+                      className="w-full justify-start text-left font-normal text-gray-700 hover:bg-blue-100 hover:text-blue-800 pl-3 transition-transform duration-200 hover:scale-105"
                       asChild
                     >
                       <Link href={`${routes.home}?category=${category.name}`}>

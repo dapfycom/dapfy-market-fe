@@ -11,9 +11,10 @@ import { clearUser } from "@/store/slices/authSlice";
 import { useAppDispatch } from "@/store/store";
 import { ChevronDown, LogOut } from "lucide-react";
 import Link from "next/link";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 const ProfileButton = () => {
-  const { mutate } = useGetCurrentUser();
+  const { mutate, user } = useGetCurrentUser();
 
   const dispatch = useAppDispatch();
   const handleLogout = () => {
@@ -22,20 +23,24 @@ const ProfileButton = () => {
   };
 
   return (
-    <div className="flex">
+    <div className="flex items-center">
       <Button
-        variant="outline"
-        className="bg-blue-500 text-white hover:bg-blue-600 focus:ring-blue-500 rounded-r-none border-r-0"
+        className="bg-transparent text-gray-800 hover:bg-transparent flex items-center gap-2 px-0"
         asChild
       >
-        <Link href={routes.dashboard}>Dashboard</Link>
+        <Link href={routes.dashboard}>
+          <span>
+            <Avatar className="w-6 h-6">
+              <AvatarFallback>{user?.name?.[0]}</AvatarFallback>
+              <AvatarImage src={user?.avatar ?? undefined} />
+            </Avatar>
+          </span>
+          {user?.name || user?.email}
+        </Link>
       </Button>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button
-            variant="outline"
-            className="bg-blue-500 text-white hover:bg-blue-600 focus:ring-blue-500 rounded-l-none border-l-0"
-          >
+          <Button variant="ghost" className="p-2 h-[32px] px-2">
             <ChevronDown className="h-4 w-4" />
           </Button>
         </DropdownMenuTrigger>

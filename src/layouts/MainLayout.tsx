@@ -4,18 +4,20 @@ import { PropsWithChildren } from "react";
 
 const MainLayout = ({ children }: PropsWithChildren) => {
   return (
-    <div className="flex h-screen bg-blue-50">
+    <div className="flex min-h-screen bg-blue-50">
       {/* Sidebar */}
-      <Aside />
+      <div className="sticky top-0 h-screen">
+        <Aside />
+      </div>
 
       {/* Main Content */}
-      <main className="flex-1 overflow-hidden flex flex-col">
+      <div className="flex-1 flex flex-col">
         {/* Top Bar */}
         <TopBar />
 
         {/* Content Area */}
-        <main>{children}</main>
-      </main>
+        <main className="flex-1 overflow-auto">{children}</main>
+      </div>
     </div>
   );
 };

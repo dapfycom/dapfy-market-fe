@@ -3,7 +3,7 @@ import { GhostButton } from "@/components/buttonts";
 import { selectSidebarOpen, setSidebarOpen } from "@/store/slices/commonSlice";
 import { useAppDispatch, useAppSelector } from "@/store/store";
 import { motion } from "framer-motion";
-import { FileText, Menu } from "lucide-react";
+import { Menu } from "lucide-react";
 import dynamic from "next/dynamic";
 import Searcher from "./Search/Searcher";
 const Login = dynamic(() => import("@/components/Login/Login"), { ssr: false });
@@ -29,14 +29,7 @@ const TopBar = () => {
 
       <span></span>
 
-      <div className="flex items-center space-x-4">
-        <GhostButton size="sm">Blog</GhostButton>
-
-        <GhostButton size="sm">
-          <FileText className="h-4 w-4 mr-2" />
-          Docs
-        </GhostButton>
-
+      <div className="flex items-center space-x-10">
         <Login />
         <Searcher />
       </div>

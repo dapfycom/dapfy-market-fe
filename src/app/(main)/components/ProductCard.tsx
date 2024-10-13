@@ -1,21 +1,14 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { routes } from "@/config/routes";
 import useGetCurrentUser from "@/hooks/useGetCurrentUser";
 import { useLogin } from "@/hooks/useLogin";
-import { formatPrice } from "@/lib/utils";
 import { useAppDispatch } from "@/store/store";
 import { IProductResponse } from "@/types/product.types";
-import { Loader2, Star } from "lucide-react";
+import { Bookmark } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -59,7 +52,7 @@ const ProductCard = ({ product }: { product: IProductResponse }) => {
               <img
                 src={product.images[0]?.url || "/images/default-product.png"}
                 alt={product.title}
-                className={`h-48 w-full object-cover transition-transform duration-300 ease-in-out ${
+                className={`h-72 w-full object-cover transition-transform duration-300 ease-in-out ${
                   isHovered ? "scale-110" : "scale-100"
                 }`}
                 width={256}
@@ -75,52 +68,24 @@ const ProductCard = ({ product }: { product: IProductResponse }) => {
           <CardTitle className="text-lg font-bold mb-2 text-blue-900">
             {product.title}
           </CardTitle>
-          <div className="flex items-center justify-between">
-            <span className="text-2xl font-bold text-blue-800">
-              ${formatPrice(product.price)}
-            </span>
-            <div className="flex items-center">
-              {[...Array(5)].map((_, i) => (
-                <Star
-                  key={i}
-                  className={`w-4 h-4 ${
-                    i < Math.floor(product.averageRating)
-                      ? "fill-yellow-400 text-yellow-400"
-                      : "text-gray-300"
-                  }`}
-                />
-              ))}
-              <span className="ml-1 text-sm text-gray-500">
-                {product.averageRating.toFixed(1)}
-              </span>
+          <div className="line-clamp-2 mb-3">{product.description}</div>
+          <div className="flex justify-between w-full items-center">
+            <div className="flex items-center space-x-2">
+              <Avatar className="w-8 h-8">
+                <AvatarFallback>
+                  {product.store.name.slice(0, 2).toUpperCase()}
+                </AvatarFallback>
+                <AvatarImage src={product.store.logo} />
+              </Avatar>
+
+              <div className="text-sm text-gray-500">{product.store.name}</div>
+            </div>
+
+            <div className="cursor-pointer">
+              <Bookmark className="w-5 h-5" />
             </div>
           </div>
-
-          <div className="text-sm  mt-2">{product.viewCount} views 👀</div>
         </CardContent>
-        <CardFooter className="grid grid-cols-2 gap-2 p-4 pt-0">
-          <Button
-            className="w-full bg-blue-600 text-white hover:bg-blue-700 transition-colors duration-300 text-sm"
-            onClick={handleBuyNow}
-            disabled={isBuyingNow}
-          >
-            {isBuyingNow ? (
-              <span className="flex items-center justify-center">
-                <Loader2 className="mr-1 h-4 w-4 animate-spin" />
-                Buy Now
-              </span>
-            ) : (
-              "🎧 Buy Now"
-            )}
-          </Button>
-          <Button
-            variant="outline"
-            className="w-full border-blue-300 text-blue-800 hover:bg-blue-100 transition-colors duration-300"
-            onClick={handleCompare}
-          >
-            📊 Compare
-          </Button>
-        </CardFooter>
       </Card>
 
       <ComparisonModal

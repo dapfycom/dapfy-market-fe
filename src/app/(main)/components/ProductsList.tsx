@@ -16,16 +16,22 @@ const ProductsList = async ({
     search
   );
 
-  const products = data.data;
+  const products = data?.data;
+
   return (
     <FramerDiv
       variants={staggerChildren}
       initial="initial"
       animate="animate"
-      className="grid grid-cols-[repeat(auto-fit,minmax(256px,256px))] gap-8"
+      className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
     >
-      {products.map((product: any) => (
-        <ProductCard key={product.id} product={product} />
+      {products.map((product: any, index: number) => (
+        <div
+          key={product.id}
+          className={index % 4 === 0 ? "col-span-3" : "w-full"}
+        >
+          <ProductCard product={product} />
+        </div>
       ))}
     </FramerDiv>
   );
