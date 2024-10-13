@@ -78,7 +78,7 @@ const ProductCard = ({ product }: { product: IProductResponse }) => {
                 <AvatarImage src={product.store.logo} />
               </Avatar>
 
-              <div className="text-sm text-gray-500">{product.store.name}</div>
+              <div className="text-sm text-gray-500">{product.store.name}.</div>
             </div>
 
             <div className="cursor-pointer">
