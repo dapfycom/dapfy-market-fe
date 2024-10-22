@@ -17,6 +17,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Loader2, Mail } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { LoginFormValues, loginSchema } from "./loginSchema";
 
 const LoginModal = () => {
@@ -45,12 +46,17 @@ const LoginModal = () => {
 
   const handleEmailSubmit = async (data: LoginFormValues) => {
     setIsMagicLinkLoading(true);
-    // Simulate API call
-    await authService.loginWithMagicLink(data.email);
-    setIsMagicLinkLoading(false);
-    setShowSuccessMessage(true);
-    // Reset success message after 5 seconds
-    setTimeout(() => setShowSuccessMessage(false), 5000);
+    try {
+      await authService.loginWithMagicLink(data.email);
+      setIsMagicLinkLoading(false);
+      setShowSuccessMessage(true);
+      // Reset success message after 5 seconds
+      setTimeout(() => setShowSuccessMessage(false), 5000);
+    } catch (error) {
+      console.error(error);
+      toast.error("Something went wrong, please try again.");
+      setIsMagicLinkLoading(false);
+    }
   };
 
   const handleGoogleLogin = async () => {
