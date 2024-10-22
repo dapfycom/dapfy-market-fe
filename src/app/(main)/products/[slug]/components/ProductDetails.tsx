@@ -1,8 +1,8 @@
 import { FramerDiv, FramerH1, FramerP } from "@/components/framer";
-import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { routes } from "@/config/routes";
 import { PricingType } from "@/types/product.types";
-import { ShoppingCart, Star } from "lucide-react";
+import { Eye, User } from "lucide-react";
 import Link from "next/link";
 const ProductDetails = ({
   title,
@@ -12,6 +12,7 @@ const ProductDetails = ({
   totalReviews,
   storeName,
   storeSlug,
+  storeImage,
   paymentType,
 }: {
   storeName: string;
@@ -22,9 +23,10 @@ const ProductDetails = ({
   averageRating: number;
   totalReviews: number;
   paymentType: PricingType;
+  storeImage: string;
 }) => {
   return (
-    <div className="p-8 w-full flex flex-col justify-between">
+    <div className="w-full flex flex-col justify-between">
       <div>
         <FramerDiv
           initial={{ x: -50, opacity: 0 }}
@@ -32,25 +34,46 @@ const ProductDetails = ({
           transition={{ delay: 0.3, duration: 0.5 }}
           className="flex justify-between items-center mb-4"
         >
-          <div className="uppercase tracking-wide text-sm text-blue-600 font-semibold">
+          {/* <div className="uppercase tracking-wide text-sm text-blue-600 font-semibold">
             Digital Product
-          </div>
-          <div className="text-sm text-gray-500">
+          </div> */}
+          {/* <div className="text-sm text-gray-500">
             Created by{" "}
             <Link href={`${routes.stores}/${storeSlug}`}>
               <span className="font-semibold text-gray-700">{storeName}</span>
             </Link>
-          </div>
+          </div> */}
         </FramerDiv>
         <FramerH1
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.4, duration: 0.5 }}
-          className="text-3xl leading-8 font-bold tracking-tight text-gray-900"
+          className="w-full mb-6 whitespace-pre-wrap break-words default font-display text-4xl md:text-[2.8rem] !leading-[1.2] "
         >
           {title}
         </FramerH1>
-        <FramerDiv
+        <div className="mb-6 flex items-center gap-2 justify-between">
+          <Link href={`${routes.stores}/${storeSlug}`}>
+            <div className="flex  items-center gap-2 max-w-[200px] ">
+              <Avatar>
+                <AvatarFallback>
+                  <User />
+                </AvatarFallback>
+                <AvatarImage src={storeImage} alt={storeName} />
+              </Avatar>
+              <span className="text-sm text-gray-500 text-wrap">
+                Created by <span className="">{storeName}</span>
+              </span>
+            </div>
+          </Link>
+          <div className="flex gap-2">
+            <div className="flex items-center gap-1">
+              <Eye className="h-4 w-4" />
+              <span className="text-sm text-gray-500">100</span>
+            </div>
+          </div>
+        </div>
+        {/* <FramerDiv
           initial={{ scale: 0.9, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ delay: 0.5, duration: 0.5 }}
@@ -72,17 +95,19 @@ const ProductDetails = ({
           <span className="ml-2 text-sm text-gray-600">
             {averageRating} ({totalReviews} reviews)
           </span>
-        </FramerDiv>
+        </FramerDiv> */}
         <FramerP
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.6, duration: 0.5 }}
-          className="mt-4 text-xl text-gray-500"
+          className="mt-4 text-base  first-letter:float-left first-letter:mr-3 first-letter:text-5xl first-letter:font-bold first-letter:leading-[0.8] first-letter:mt-1"
         >
-          {description}
+          <div className="leading-6 break-words min-w-0 [word-break:break-word] ">
+            {description}
+          </div>
         </FramerP>
       </div>
-      <FramerDiv
+      {/* <FramerDiv
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.7, duration: 0.5 }}
@@ -100,7 +125,7 @@ const ProductDetails = ({
           <ShoppingCart className="mr-2" />
           Buy This Digital Product
         </Button>
-      </FramerDiv>
+      </FramerDiv> */}
     </div>
   );
 };

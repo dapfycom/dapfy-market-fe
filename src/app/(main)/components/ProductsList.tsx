@@ -23,14 +23,14 @@ const ProductsList = async ({
       variants={staggerChildren}
       initial="initial"
       animate="animate"
-      className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+      className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"
     >
       {products.map((product: any, index: number) => (
         <div
           key={product.id}
           className={index % 4 === 0 ? "col-span-3" : "w-full"}
         >
-          <ProductCard product={product} />
+          <ProductCard product={product} small={index % 4 !== 0} />
         </div>
       ))}
     </FramerDiv>

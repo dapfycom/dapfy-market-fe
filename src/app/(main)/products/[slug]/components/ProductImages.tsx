@@ -13,13 +13,13 @@ const ProductImages = ({ images }: { images: string[] }) => {
     setCurrentImage((prev) => (prev - 1 + images.length) % images.length);
   };
   return (
-    <div className="md:flex-shrink-0 relative">
+    <div className="md:flex-shrink-0 relative w-full h-96">
       <motion.img
         key={currentImage}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
-        className="h-96 w-full object-cover md:w-96"
+        className="w-full h-full object-cover object-center"
         src={images[currentImage]}
         alt={`Product Image ${currentImage + 1}`}
       />

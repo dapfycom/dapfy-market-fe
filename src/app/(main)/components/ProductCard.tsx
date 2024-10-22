@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { routes } from "@/config/routes";
 import useGetCurrentUser from "@/hooks/useGetCurrentUser";
 import { useLogin } from "@/hooks/useLogin";
+import { cn } from "@/lib/utils";
 import { useAppDispatch } from "@/store/store";
 import { IProductResponse } from "@/types/product.types";
 import { Bookmark } from "lucide-react";
@@ -14,7 +15,13 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import ComparisonModal from "./ComparisonModal";
 
-const ProductCard = ({ product }: { product: IProductResponse }) => {
+const ProductCard = ({
+  product,
+  small,
+}: {
+  product: IProductResponse;
+  small: boolean;
+}) => {
   const router = useRouter();
   const [isHovered, setIsHovered] = useState(false);
   const [isComparisonOpen, setIsComparisonOpen] = useState(false);
@@ -42,7 +49,7 @@ const ProductCard = ({ product }: { product: IProductResponse }) => {
   return (
     <>
       <Card
-        className="overflow-hidden transition-all duration-300 ease-in-out transform hover:shadow-xl bg-gradient-to-br from-white to-blue-50"
+        className="overflow-hidden transition-all duration-300 ease-in-out transform hover:shadow-xl hover:scale-[1.01] bg-gradient-to-br from-white to-blue-50"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
@@ -52,37 +59,51 @@ const ProductCard = ({ product }: { product: IProductResponse }) => {
               <img
                 src={product.images[0]?.url || "/images/default-product.png"}
                 alt={product.title}
-                className={`h-72 w-full object-cover transition-transform duration-300 ease-in-out ${
-                  isHovered ? "scale-110" : "scale-100"
-                }`}
+                className={cn(
+                  `h-60 w-full object-cover transition-transform duration-300 ease-in-out `,
+                  small ? "h-40" : "h-60"
+                )}
                 width={256}
                 height={256}
               />
             </Link>
-            <div className="absolute top-2 right-2 bg-blue-500 text-white px-2 py-1 rounded-full text-xs font-semibold">
-              {product.category.emoji} {product.category.name}
-            </div>
           </div>
         </CardHeader>
         <CardContent className="p-4">
-          <CardTitle className="text-lg font-bold mb-2 text-blue-900">
+          <CardTitle
+            className={cn(
+              "text-lg font-bold mb-2 text-gray-900",
+              small ? "text-md" : "text-lg"
+            )}
+          >
             {product.title}
           </CardTitle>
-          <div className="line-clamp-2 mb-3">{product.description}</div>
+          <div
+            className={cn(
+              "break-word mt-two line-clamp-2 text-balance mb-4 dark:text-white/50 !text-black/60 default font-sans text-base selection:bg-super/50 ",
+              small ? "text-sm" : "text-base"
+            )}
+          >
+            {product.description}
+          </div>
           <div className="flex justify-between w-full items-center">
-            <div className="flex items-center space-x-2">
-              <Avatar className="w-8 h-8">
-                <AvatarFallback>
-                  {product.store.name.slice(0, 2).toUpperCase()}
-                </AvatarFallback>
-                <AvatarImage src={product.store.logo} />
-              </Avatar>
+            <Link href={`${routes.stores}/${product.store.slug}`}>
+              <div className="flex items-center space-x-2">
+                <Avatar className="w-5 h-5">
+                  <AvatarFallback>
+                    {product.store.name.slice(0, 2).toUpperCase()}
+                  </AvatarFallback>
+                  <AvatarImage src={product.store.logo} />
+                </Avatar>
 
-              <div className="text-sm text-gray-500">{product.store.name}.</div>
-            </div>
+                <div className="text-xs text-gray-500">
+                  {product.store.name}.
+                </div>
+              </div>
+            </Link>
 
             <div className="cursor-pointer">
-              <Bookmark className="w-5 h-5" />
+              <Bookmark className="w-4 h-4" />
             </div>
           </div>
         </CardContent>

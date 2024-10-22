@@ -1,6 +1,7 @@
+"use client";
 import { Search } from "lucide-react";
 import dynamic from "next/dynamic";
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 const SearchModal = dynamic(() => import("./SearchModal"));
 
 interface SearcherProps {
@@ -13,6 +14,21 @@ const Searcher = ({ customTrigger }: SearcherProps) => {
   const handleOpenSearch = () => {
     setIsOpen(!isOpen);
   };
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.ctrlKey && event.key === "i") {
+        event.preventDefault();
+        handleOpenSearch();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
 
   const DefaultTrigger = (
     <button

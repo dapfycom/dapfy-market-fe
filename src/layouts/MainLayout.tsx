@@ -6,7 +6,7 @@ const MainLayout = ({ children }: PropsWithChildren) => {
   return (
     <div className="flex min-h-screen bg-blue-50">
       {/* Sidebar */}
-      <div className="sticky top-0 h-screen">
+      <div className="sticky top-0 h-screen z-20">
         <Aside />
       </div>
 
@@ -16,7 +16,7 @@ const MainLayout = ({ children }: PropsWithChildren) => {
         <TopBar />
 
         {/* Content Area */}
-        <main className="flex-1 overflow-auto">{children}</main>
+        <main className="mx-auto h-full w-full">{children}</main>
       </div>
     </div>
   );

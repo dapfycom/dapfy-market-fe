@@ -22,25 +22,35 @@ const ProfileButton = () => {
     mutate();
   };
 
+  const truncateEmail = (email: string | undefined) => {
+    if (!email) return "";
+    return email.length > 10 ? `${email.slice(0, 10)}...` : email;
+  };
+
   return (
-    <div className="flex items-center">
+    <div className="flex items-center ">
       <Button
-        className="bg-transparent text-gray-800 hover:bg-transparent flex items-center gap-2 px-0"
+        className="bg-transparent mr-2 text-gray-800 hover:bg-transparent flex items-center gap-2 px-0 rounded-full "
         asChild
       >
         <Link href={routes.dashboard}>
           <span>
-            <Avatar className="w-6 h-6">
+            <Avatar className="w-8 h-8">
               <AvatarFallback>{user?.name?.[0]}</AvatarFallback>
               <AvatarImage src={user?.avatar ?? undefined} />
             </Avatar>
           </span>
-          {user?.name || user?.email}
+          <span className="max-w-[120px] truncate">
+            {truncateEmail(user?.email)}
+          </span>
         </Link>
       </Button>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="ghost" className="p-2 h-[32px] px-2">
+          <Button
+            variant="ghost"
+            className="p-2 h-[32px] rounded-full hover:bg-gray-300/50"
+          >
             <ChevronDown className="h-4 w-4" />
           </Button>
         </DropdownMenuTrigger>

@@ -12,15 +12,15 @@ const Product = ({ product }: { product: IProductDetailsResponse }) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className="min-h-screen bg-blue-50 py-12 px-4 sm:px-6 lg:px-8"
+      className="mx-auto min-h-screen bg-blue-50 w-full max-w-[1100px] px-4 md:px-8"
     >
       <FramerDiv
         initial={{ y: 50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.2, duration: 0.5 }}
-        className="max-w-4xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden"
+        className="overflow-hidden"
       >
-        <div className="md:flex">
+        <div className="">
           <ProductImages images={product.images.map((image) => image.url)} />
           <ProductDetails
             storeName={product.store.name}
@@ -31,6 +31,7 @@ const Product = ({ product }: { product: IProductDetailsResponse }) => {
             totalReviews={product.reviews?.length || 0}
             paymentType={product.paymentType}
             storeSlug={product.store.slug}
+            storeImage={product.store.logo}
           />
         </div>
         {product.longDescription && (

@@ -1,3 +1,4 @@
+"use client";
 import useGetCurrentUser from "@/hooks/useGetCurrentUser";
 import dynamic from "next/dynamic";
 import LoginButton from "./LoginButton";
