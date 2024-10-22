@@ -4,9 +4,9 @@ import { PropsWithChildren } from "react";
 
 const MainLayout = ({ children }: PropsWithChildren) => {
   return (
-    <div className="flex min-h-screen bg-blue-50">
+    <div className="flex min-h-screen bg-blue-50 overflow-hidden relative">
       {/* Sidebar */}
-      <div className="sticky top-0 h-screen z-20">
+      <div className="fixed top-0 bottom-0 h-screen z-20">
         <Aside />
       </div>
 
@@ -16,7 +16,7 @@ const MainLayout = ({ children }: PropsWithChildren) => {
         <TopBar />
 
         {/* Content Area */}
-        <main className="mx-auto h-full w-full">{children}</main>
+        <main className="mx-auto h-full min-h-screen w-full">{children}</main>
       </div>
     </div>
   );
