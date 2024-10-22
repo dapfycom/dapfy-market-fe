@@ -2,25 +2,38 @@
 import { FramerAside, FramerDiv } from "@/components/framer";
 import { selectSidebarOpen } from "@/store/slices/commonSlice";
 import { useAppSelector } from "@/store/store";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { staggerChildren } from "./constants";
 
-const SideBarWrapper = ({ children }: { children: React.ReactNode }) => {
+const SideBarWrapper = ({
+  children,
+  defaultSidebarOpen,
+}: {
+  children: React.ReactNode;
+  defaultSidebarOpen: boolean;
+}) => {
   const sidebarOpen = useAppSelector(selectSidebarOpen);
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  const ariaChecked = isClient ? sidebarOpen : defaultSidebarOpen;
 
   return (
     <FramerAside
       initial={false}
-      animate={{ width: sidebarOpen ? 220 : 0 }}
+      animate={{ width: ariaChecked ? 220 : 90 }}
       transition={{ duration: 0.2, ease: "easeInOut" }}
       className="border-r border-blue-200 bg-blue-100/70 overflow-hidden h-full relative z-20"
     >
       <FramerDiv
-        className="space-y-1 py-4 h-full"
+        className="space-y-1 py-4 h-full group"
         variants={staggerChildren}
         initial="initial"
         animate="animate"
-        style={{ display: sidebarOpen ? "block" : "none" }}
+        aria-checked={ariaChecked}
       >
         {children}
       </FramerDiv>

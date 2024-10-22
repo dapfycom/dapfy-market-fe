@@ -7,16 +7,19 @@ import {
   ChartSpline,
   FileText,
   Globe,
+  Search,
 } from "lucide-react";
 import dynamic from "next/dynamic";
+import { cookies } from "next/headers";
 import Link from "next/link";
-import CloseSidebarButton from "../CloseSidebarButton";
 import Logo from "../Logo";
 import Searcher from "../Search/Searcher";
+import { Button } from "../ui/button";
 import { fadeInUp } from "./constants";
 import SideBarWrapper from "./SideBarWrapper";
-const Login = dynamic(() => import("@/components/Login/Login"), { ssr: false });
-
+const ToggleSidebarButton = dynamic(() => import("../ToggleSidebarButton"), {
+  ssr: false,
+});
 const getCategories = async () => {
   const { data: categories } = await categoriesService.findAll();
   return categories;
@@ -33,64 +36,100 @@ const Aside = async () => {
   };
 
   categories.unshift(allCategory);
+
+  const sidebarOpen = cookies().get("sidebarOpen")?.value;
   return (
-    <SideBarWrapper>
+    <SideBarWrapper
+      defaultSidebarOpen={sidebarOpen ? JSON.parse(sidebarOpen) : true}
+    >
       <div className="flex flex-col h-full">
         <div className="flex-1 flex flex-col">
-          <div className="flex justify-between items-center  pl-4 pr-2 mb-6">
+          <div className="flex justify-between items-center group-aria-[checked=false]:px-0 group-aria-[checked=false]:justify-center  pl-4 pr-2 mb-6">
             <Link href={"/"} className="">
-              <Logo />
+              <Logo textClassName="group-aria-[checked=false]:hidden" />
             </Link>
-            <CloseSidebarButton />
+            <div className="group-aria-[checked=false]:hidden">
+              <ToggleSidebarButton />
+            </div>
           </div>
 
           <Searcher
             customTrigger={
-              <div className="text-gray-500 text-sm px-4 mb-4 rounded-full bg-white/30 backdrop-blur-sm py-2 mx-4 cursor-pointer border border-transparent hover:border-blue-500">
-                Search products...
+              <div>
+                <div className="group-aria-[checked=false]:hidden text-gray-500 text-sm px-4 mb-4 rounded-full bg-white/30 backdrop-blur-sm py-2 mx-4 cursor-pointer border border-transparent hover:border-blue-500">
+                  Search products...
+                </div>
+
+                <div className="group-aria-[checked=true]:hidden w-full flex justify-center">
+                  <Button
+                    size={"icon"}
+                    variant={"ghost"}
+                    className="rounded-full bg-blue-100/90 hover:bg-blue-200/70 mt-2 mb-8"
+                  >
+                    <Search className="h-5 w-5 text-blue-400" />
+                  </Button>
+                </div>
               </div>
             }
           />
-          <div className="mb-4 space-y-xs">
-            <div className="flex items-center text-gray-600 px-4 py-2 transition-colors duration-200 ease-in-out hover:bg-blue-200/30 cursor-pointer">
-              <Globe className="w-4 h-4 mr-2" /> Discover
+          <div className="mb-4 space-y-xs group-aria-[checked=false]:space-y-3">
+            <div className="flex items-center text-gray-600 group-aria-[checked=false]:justify-center px-4 py-2 transition-colors duration-200 ease-in-out hover:bg-blue-200/30 cursor-pointer">
+              <Globe className="group-aria-[checked=false]:w-5 group-aria-[checked=false]:h-5 w-4 h-4 mr-2" />{" "}
+              <span className="group-aria-[checked=false]:hidden">
+                Discover
+              </span>
             </div>
 
-            <div className="flex items-center text-gray-600 px-4 py-2 transition-colors duration-200 ease-in-out hover:bg-blue-200/30 cursor-pointer">
-              <ChartSpline className="w-4 h-4 mr-2" /> Analytics
+            <div className="flex items-center text-gray-600 group-aria-[checked=false]:justify-center px-4 py-2 transition-colors duration-200 ease-in-out hover:bg-blue-200/30 cursor-pointer">
+              <ChartSpline className="group-aria-[checked=false]:w-5 group-aria-[checked=false]:h-5 w-4 h-4 mr-2" />{" "}
+              <span className="group-aria-[checked=false]:hidden">
+                Analytics
+              </span>
             </div>
 
-            <details className="group" open={true}>
-              <summary className="flex items-center text-gray-600 px-4 py-2 transition-colors duration-200 ease-in-out hover:bg-blue-200/30 cursor-pointer">
-                <BookOpen className="w-4 h-4 mr-2" /> Library
+            <details className="group bg-blue-200/30" open={false}>
+              <summary className=" flex items-center text-gray-600 group-aria-[checked=false]:justify-center px-4 py-2 transition-colors duration-200 ease-in-out hover:bg-blue-200/30 cursor-pointer">
+                <BookOpen className="group-aria-[checked=false]:w-5 group-aria-[checked=false]:h-5 w-4 h-4 mr-2" />{" "}
+                <span className="group-aria-[checked=false]:hidden">
+                  Library
+                </span>
               </summary>
-              <div className="mt-2 border-l border-blue-200 ml-6">
-                {categories.map((category, index) => (
-                  <FramerDiv key={index} variants={fadeInUp}>
-                    <Link href={`${routes.home}?category=${category.name}`}>
-                      <div className="w-full py-2 justify-start text-left text-xs font-normal text-gray-700  hover:text-blue-800 pl-3 transition-transform duration-200 hover:scale-105">
-                        {category.emoji && (
-                          <span className="mr-1">{category.emoji}</span>
-                        )}
-                        <span className="">{category.name}</span>
-                      </div>
-                    </Link>
-                  </FramerDiv>
-                ))}
+              <div className="mt-2 border-l border-blue-200 group-aria-[checked=false]:border-l-0  group-aria-[checked=false]:ml-0 ml-6">
+                {categories.map((category, index) => {
+                  return (
+                    <FramerDiv key={index} variants={fadeInUp}>
+                      <Link href={`${routes.home}?category=${category.name}`}>
+                        <div className="w-full py-2 group-aria-[checked=false]:justify-center justify-start group-aria-[checked=false]:text-center text-left  group-aria-[checked=false]:text-lg text-xs font-normal text-gray-700  hover:text-blue-800 group-aria-[checked=false]:pl-0 pl-3 transition-transform duration-200 hover:scale-105">
+                          {category.emoji && (
+                            <span className="mr-1">{category.emoji}</span>
+                          )}
+                          <span className="group-aria-[checked=false]:hidden">
+                            {category.name}
+                          </span>
+                        </div>
+                      </Link>
+                    </FramerDiv>
+                  );
+                })}
               </div>
             </details>
           </div>
         </div>
+        <div className="group-aria-[checked=true]:hidden w-full flex justify-center mb-6">
+          <ToggleSidebarButton />
+        </div>
         <div className="flex justify-center">
-          <div className="flex items-center text-gray-600 px-4 py-2 transition-colors duration-200 ease-in-out hover:bg-blue-200/30 cursor-pointer">
-            <FileText className="w-4 h-4 mr-2" /> Blog
+          <div className="flex items-center text-gray-600 group-aria-[checked=false]:px-1 px-4 py-2 transition-colors duration-200 ease-in-out hover:bg-blue-200/30 cursor-pointer">
+            <FileText className="w-4 h-4 mr-2" />{" "}
+            <span className="group-aria-[checked=false]:hidden">Blog</span>
           </div>
 
-          <div className="flex items-center text-gray-600 px-4 py-2 transition-colors duration-200 ease-in-out hover:bg-blue-200/30 cursor-pointer">
-            <BookMarked className="w-4 h-4 mr-2" /> Docs
+          <div className="flex items-center text-gray-600 group-aria-[checked=false]:px-1 px-4 py-2 transition-colors duration-200 ease-in-out hover:bg-blue-200/30 cursor-pointer">
+            <BookMarked className="w-4 h-4 mr-2" />{" "}
+            <span className="group-aria-[checked=false]:hidden">Docs</span>
           </div>
         </div>
-        <div className="flex justify-end px-4">
+        <div className="flex justify-end  group-aria-[checked=false]:justify-center px-4 group-aria-[checked=false]:px-1">
           <Socials />
         </div>
       </div>
@@ -153,14 +192,14 @@ const socials: { href: string; icon: React.ReactNode }[] = [
 
 const Socials = () => {
   return (
-    <div className="flex gap-1 pr-1">
+    <div className="flex gap-2 pr-1 group-aria-[checked=false]:pr-0  group-aria-[checked=false]:mt-3  group-aria-[checked=false]:justify-center">
       {socials.map((social, index) => (
         <a
           key={index}
           href={social.href}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-gray-600 hover:text-gray-800 text-xs rounded-full hover:bg-gray-300/50 p-2"
+          className="text-gray-600 hover:text-gray-800 text-xs rounded-full hover:bg-gray-300/50 p-2 group-aria-[checked=false]:p-0"
         >
           {social.icon}
         </a>

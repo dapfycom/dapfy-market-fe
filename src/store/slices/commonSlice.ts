@@ -1,18 +1,13 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { getCookie, setCookie } from "cookies-next";
 import { RootState } from "../store";
-
-interface Product {
-  id: string;
-  name: string;
-  // Add other product properties as needed
-}
 
 interface CommonState {
   sidebarOpen: boolean;
 }
 
 const initialState: CommonState = {
-  sidebarOpen: true,
+  sidebarOpen: getSavedSidebarState(),
 };
 
 export const commonSlice = createSlice({
@@ -21,6 +16,7 @@ export const commonSlice = createSlice({
   reducers: {
     setSidebarOpen: (state, action: PayloadAction<boolean>) => {
       state.sidebarOpen = action.payload;
+      saveSidebarState(action.payload);
     },
   },
 });
@@ -28,5 +24,17 @@ export const commonSlice = createSlice({
 export const { setSidebarOpen } = commonSlice.actions;
 
 export const selectSidebarOpen = (state: RootState) => state.common.sidebarOpen;
+
+// Helper functions
+export function getSavedSidebarState(): boolean {
+  const savedState = getCookie("sidebarOpen");
+  return savedState !== undefined ? JSON.parse(savedState as string) : true;
+}
+
+function saveSidebarState(isOpen: boolean): void {
+  setCookie("sidebarOpen", JSON.stringify(isOpen), {
+    maxAge: 60 * 60 * 24 * 365,
+  }); // 1 year
+}
 
 export default commonSlice.reducer;
