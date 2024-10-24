@@ -25,3 +25,8 @@ export type ColorTheme =
   | "forestMist"
   | "lavenderDreams"
   | "goldenHour";
+
+export type SignedUrlResponseDto = {
+  signedUrl: string;
+  key: string;
+};

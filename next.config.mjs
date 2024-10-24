@@ -3,7 +3,7 @@ const nextConfig = {
   images: {
     remotePatterns: [
       { hostname: "picsum.photos" },
-      { hostname: "dapfy-market-files.s3.eu-north-1.amazonaws.com" },
+      { hostname: "d2nqtulf3hrdq8.cloudfront.net" },
       {
         hostname: "lh3.googleusercontent.com",
       },

@@ -1,5 +1,5 @@
 import { ICategoryResponse } from "./category.types";
-import { IStoreResponse } from "./sotre.types";
+import { IStoreResponse } from "./store.types";
 
 export enum PricingType {
   SINGLE = "SINGLE",

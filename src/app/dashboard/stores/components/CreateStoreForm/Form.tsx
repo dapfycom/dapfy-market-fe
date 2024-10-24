@@ -1,9 +1,11 @@
 "use client";
 import { FramerButton, FramerDiv } from "@/components/framer";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import storesService from "@/services/storesServices";
 import { IPaginatedResponse } from "@/types/common.types";
-import { IStoreResponse } from "@/types/sotre.types";
+import { IStoreResponse } from "@/types/store.types";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { AlertCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useGetUserStores } from "../../../../../hooks/useStores";
@@ -15,6 +17,7 @@ import AddSocial from "./AddSocial";
 import PickTheme from "./PickTheme";
 import { StoreFormData, storeSchema } from "./storeSchema";
 
+import { errorToast } from "@/utils/hot-toast";
 import { Loader2 } from "lucide-react"; // Import the Loader2 icon from lucide-react
 import { toast } from "react-hot-toast";
 
@@ -40,7 +43,7 @@ const CreateStoreForm = ({
         YOUTUBE: "",
         TIKTOK: "",
       },
-      logo: undefined, // Changed from null to undefined
+      logo: "", // Changed from null to undefined
       name: "",
       description: "",
       slug: "",
@@ -60,6 +63,8 @@ const CreateStoreForm = ({
       setValue("description", editingStore.description);
       setValue("slug", editingStore.slug);
       setValue("colorTheme", editingStore.banner);
+      setValue("logo", editingStore.logo.split("/").pop() ?? "");
+
       // Set social links if available
       if (editingStore.socials) {
         reset({
@@ -77,33 +82,31 @@ const CreateStoreForm = ({
       }
       setSlugInput(editingStore.slug);
     }
-  }, [editingStore, setValue]);
+  }, [editingStore, setValue, form]);
 
   const onSubmit = async (data: StoreFormData) => {
+    console.log("Submitting data:", data);
+
     setIsSubmitting(true);
     try {
-      const formData = new FormData();
-      formData.append("name", data.name);
-      formData.append("description", data.description);
-      formData.append("slug", data.slug);
-      formData.append("banner", data.colorTheme);
-
-      if (data.logo) {
-        formData.append("logo", data.logo);
-      }
-
-      if (data.socialLinks) {
-        const socialArray = Object.entries(data.socialLinks)
-          .filter(([_, url]) => url !== "")
-          .map(([platform, url]) => ({
-            platform,
-            url,
-            id: editingStore?.socials?.find(
-              (social) => social.platform === platform
-            )?.id,
-          }));
-        formData.append("socials", JSON.stringify(socialArray));
-      }
+      const createStoreDto = {
+        name: data.name,
+        description: data.description,
+        slug: data.slug,
+        banner: data.colorTheme,
+        logo: data.logo, // This is now the URL of the uploaded image
+        socials: JSON.stringify(
+          Object.entries(data.socialLinks ?? {})
+            .filter(([_, url]) => url !== "")
+            .map(([platform, url]) => ({
+              platform,
+              url,
+              id: editingStore?.socials?.find(
+                (social) => social.platform === platform
+              )?.id,
+            }))
+        ),
+      };
 
       let updatedStores: IPaginatedResponse<IStoreResponse>;
 
@@ -112,7 +115,7 @@ const CreateStoreForm = ({
           toast.error("Failed to update store: No existing stores found");
           return;
         }
-        const res = await storesService.update(editingStore.id, formData);
+        const res = await storesService.update(editingStore.id, createStoreDto);
         updatedStores = {
           ...stores,
           data: stores.data.map((store) =>
@@ -121,7 +124,7 @@ const CreateStoreForm = ({
         };
         toast.success("Store updated successfully!");
       } else {
-        const res = await storesService.create(formData);
+        const res = await storesService.create(createStoreDto);
         updatedStores = {
           ...stores,
           data: [...stores?.data!, res.data],
@@ -144,7 +147,9 @@ const CreateStoreForm = ({
       reset();
     } catch (e) {
       console.error("Failed to submit the form:", e);
-      toast.error(
+
+      errorToast(
+        e,
         `Failed to ${
           editingStore ? "update" : "create"
         } store. Please try again.`
@@ -153,6 +158,17 @@ const CreateStoreForm = ({
       setIsSubmitting(false);
     }
   };
+
+  // Helper function to get all error messages
+  const getErrorMessages = () => {
+    return Object.entries(errors)
+      .map(([key, value]) => `${key}: ${value.message}`)
+      .join(", ");
+  };
+
+  useEffect(() => {
+    console.log("Form values:", form.watch("logo"));
+  }, [form.watch("logo")]);
 
   return (
     <FormProvider {...form}>
@@ -166,6 +182,7 @@ const CreateStoreForm = ({
         <h2 className="text-2xl font-bold mb-6">
           {editingStore ? "Edit store" : "Create a new store"}
         </h2>
+
         <form onSubmit={handleSubmit(onSubmit)}>
           <AddName setSlugInput={setSlugInput} />
           <AddDescription />
@@ -176,6 +193,16 @@ const CreateStoreForm = ({
           <AddLogo currentLogo={editingStore?.logo} />
 
           <AddSocial />
+
+          {Object.keys(errors).length > 0 && (
+            <Alert variant="destructive" className="mb-6">
+              <AlertCircle className="h-4 w-4" />
+              <AlertTitle>Error</AlertTitle>
+              <AlertDescription>
+                Please correct the following errors: {getErrorMessages()}
+              </AlertDescription>
+            </Alert>
+          )}
 
           <div className="flex justify-end space-x-4">
             <FramerButton

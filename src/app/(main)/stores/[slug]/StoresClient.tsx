@@ -6,7 +6,7 @@ import { bannerThemes } from "@/config";
 import { routes } from "@/config/routes";
 import { cn, formatPrice } from "@/lib/utils";
 import { ColorTheme } from "@/types/common.types";
-import { IStoreResponse } from "@/types/sotre.types";
+import { IStoreResponse } from "@/types/store.types";
 import { AnimatePresence, motion } from "framer-motion";
 import { Check, Eye, Search, Star, X } from "lucide-react";
 import Image from "next/image";

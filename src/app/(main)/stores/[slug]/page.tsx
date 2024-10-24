@@ -1,6 +1,6 @@
 import { config } from "@/config";
 import storesService from "@/services/storesServices";
-import { IStoreResponse } from "@/types/sotre.types";
+import { IStoreResponse } from "@/types/store.types";
 import { Metadata, ResolvingMetadata } from "next";
 import { notFound } from "next/navigation";
 import { cache } from "react";

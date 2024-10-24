@@ -1,6 +1,6 @@
 import { FramerButton, FramerDiv } from "@/components/framer";
 import { routes } from "@/config/routes";
-import { IStoreResponse } from "@/types/sotre.types";
+import { IStoreResponse } from "@/types/store.types";
 import { Edit, PlusCircle } from "lucide-react";
 
 const SotresList = ({

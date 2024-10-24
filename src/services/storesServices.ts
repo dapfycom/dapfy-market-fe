@@ -1,14 +1,14 @@
-import { IPaginatedResponse, IPaginationOptions } from "@/types/common.types";
-import { IStoreResponse } from "@/types/sotre.types";
+import {
+  IPaginatedResponse,
+  IPaginationOptions,
+  SignedUrlResponseDto,
+} from "@/types/common.types";
+import { IStoreResponse } from "@/types/store.types";
 import api from "./api";
 
 const storesService = {
-  create: (formData: FormData) =>
-    api.post<IStoreResponse>("/stores", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    }),
+  create: (createStoreDto: any) =>
+    api.post<IStoreResponse>("/stores", createStoreDto),
 
   findAll: () => api.get<IStoreResponse[]>("/stores"),
 
@@ -28,6 +28,13 @@ const storesService = {
     api.patch<IStoreResponse>(`/stores/${id}`, updateStoreDto),
 
   remove: (id: string) => api.delete(`/stores/${id}`),
+
+  getSignedUrl: (contentType: string, fileSize: number, checksum: string) =>
+    api.post<SignedUrlResponseDto>(`/stores/get-signed-url`, {
+      contentType,
+      fileSize,
+      checksum,
+    }),
 };
 
 export default storesService;

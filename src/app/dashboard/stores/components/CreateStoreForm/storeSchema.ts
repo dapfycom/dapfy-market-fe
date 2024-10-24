@@ -13,14 +13,7 @@ export const storeSchema = z.object({
       TIKTOK: z.string().url().or(z.literal("")).optional(),
     })
     .optional(),
-  logo: z
-    .union([
-      z.custom<File>((v) => v instanceof File, {
-        message: "Logo must be a file",
-      }),
-      z.undefined(),
-    ])
-    .optional(),
+  logo: z.string(),
   colorTheme: z.string(),
 });
 

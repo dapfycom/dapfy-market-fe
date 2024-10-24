@@ -1,6 +1,6 @@
 "use client";
 import { FramerDiv } from "@/components/framer";
-import { IStoreResponse } from "@/types/sotre.types";
+import { IStoreResponse } from "@/types/store.types";
 import { AnimatePresence } from "framer-motion";
 import dynamic from "next/dynamic";
 import { useState } from "react";
