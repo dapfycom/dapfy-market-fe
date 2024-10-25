@@ -1,6 +1,15 @@
 import { PricingType } from "@/types/product.types";
 import * as z from "zod";
 
+export interface FileObject {
+  file: File;
+  name: string;
+  size: number;
+  preview: string;
+  key?: string;
+  isUploading: boolean;
+}
+
 export const addProductSchema = z.object({
   store: z.string().min(1, "Please select a store"),
   name: z.string().min(1, "Name is required").max(60, "Name is too long"),
@@ -18,18 +27,28 @@ export const addProductSchema = z.object({
   // images is an array of files
   images: z
     .array(
-      z.custom<File>((v) => v instanceof File, {
-        message: "Images must be a file",
+      z.object({
+        file: z.instanceof(File),
+        name: z.string(),
+        size: z.number(),
+        preview: z.string(),
+        key: z.string().optional(),
+        isUploading: z.boolean(),
       })
     )
-    .min(0),
+    .min(1),
   files: z
     .array(
-      z.custom<File>((v) => v instanceof File, {
-        message: "Files must be a file",
+      z.object({
+        file: z.instanceof(File),
+        name: z.string(),
+        size: z.number(),
+        preview: z.string(),
+        key: z.string().optional(),
+        isUploading: z.boolean(),
       })
     )
-    .min(0),
+    .min(1),
   longDescription: z.string(),
 });
 

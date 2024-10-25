@@ -55,3 +55,15 @@ export interface IProductReviewResponse {
     avatar: string;
   };
 }
+
+export interface ICreateProductDto {
+  title: string;
+  description: string;
+  paymentType: PricingType;
+  price: number;
+  status: ProductStatus;
+  slug: string;
+  longDescription: string | null;
+  images: string[];
+  digitalFiles: string[];
+}

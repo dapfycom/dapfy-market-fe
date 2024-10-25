@@ -54,14 +54,15 @@ const ProductCard = ({
         onMouseLeave={() => setIsHovered(false)}
       >
         <CardHeader className="p-0 overflow-hidden">
-          <div className="relative overflow-hidden">
+          <div
+            className={cn("relative overflow-hidden ", small ? "h-40" : "h-60")}
+          >
             <Link href={`${routes.products}/${product.slug}`}>
               <img
                 src={product.images[0]?.url || "/images/default-product.png"}
                 alt={product.title}
                 className={cn(
-                  `h-60 w-full object-cover transition-transform duration-300 ease-in-out `,
-                  small ? "h-40" : "h-60"
+                  `w-full object-cover  transition-transform duration-300 ease-in-out `
                 )}
                 width={256}
                 height={256}

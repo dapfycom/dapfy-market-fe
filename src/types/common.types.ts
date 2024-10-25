@@ -30,3 +30,10 @@ export type SignedUrlResponseDto = {
   signedUrl: string;
   key: string;
 };
+
+export type SignedUrlRequestDto = {
+  contentType: string;
+  fileSize: number;
+  checksum: string;
+  fileName: string;
+};

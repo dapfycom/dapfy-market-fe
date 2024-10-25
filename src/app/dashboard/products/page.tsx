@@ -194,7 +194,7 @@ const ProductRow = ({
     currentStatus: ProductStatus,
     productId: string
   ) => {
-    await productsService.updateStatus(productId, currentStatus);
+    await productsService.updateStatus(productId, { status: currentStatus });
     mutate();
   };
 

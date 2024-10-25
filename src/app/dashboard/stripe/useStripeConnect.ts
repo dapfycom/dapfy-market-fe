@@ -1,11 +1,12 @@
-import useGetCurrentUser from "@/hooks/useGetCurrentUser";
+import { useGetApiUser } from "@/hooks/useGetCurrentUser";
 import stripeServices from "@/services/stripeServices";
 import { loadConnectAndInitialize } from "@stripe/connect-js";
 import { useEffect, useState } from "react";
 
 export const useStripeConnect = () => {
   const [stripeConnectInstance, setStripeConnectInstance] = useState();
-  const { user } = useGetCurrentUser();
+  const { data: res } = useGetApiUser();
+  const user = res?.data;
 
   const connectedAccountId = user?.stripeAccountId;
 

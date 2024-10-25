@@ -6,10 +6,9 @@ import { getCookie } from "cookies-next";
 import { useEffect } from "react";
 import useSWR from "swr";
 
-const useGetCurrentUser = () => {
-  const userOnStore = useAppSelector(selectUser);
-  const dispatch = useAppDispatch();
+export const useGetApiUser = () => {
   const authToken = getCookie(AUTH_TOKEN_KEY);
+  const dispatch = useAppDispatch();
 
   const { data, error, isLoading, mutate } = useSWR(
     authToken ? "/auth/me" : null,
@@ -24,6 +23,15 @@ const useGetCurrentUser = () => {
       },
     }
   );
+
+  return { data, error, isLoading, mutate };
+};
+
+const useGetCurrentUser = () => {
+  const userOnStore = useAppSelector(selectUser);
+  const dispatch = useAppDispatch();
+
+  const { data, error, isLoading, mutate } = useGetApiUser();
 
   useEffect(() => {
     if (data?.data && !userOnStore) {

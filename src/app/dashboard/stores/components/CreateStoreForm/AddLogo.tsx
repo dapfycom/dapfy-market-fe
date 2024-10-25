@@ -42,7 +42,8 @@ const AddLogo = ({ currentLogo }: { currentLogo?: string }) => {
           const { data: signedUrlData } = await storesService.getSignedUrl(
             file.type,
             file.size,
-            await computeSHA256(file)
+            await computeSHA256(file),
+            file.name
           );
 
           // Upload to S3

@@ -4,7 +4,6 @@ import { useEffect } from "react";
 const DEFAULT_DRAFT_KEY = "product_draft";
 
 // Fields to exclude from draft storage
-const excludeFromDraft = ["images", "files"];
 
 export function useProductDraft(formMethods: any, key?: string) {
   const { watch, setValue } = formMethods;
@@ -16,6 +15,9 @@ export function useProductDraft(formMethods: any, key?: string) {
       const parsedDraft = JSON.parse(savedDraft);
       // Populate form with saved draft data
       Object.keys(parsedDraft).forEach((key) => {
+        if (key === "images" || key === "files") {
+          setValue(key, parsedDraft[key]);
+        }
         setValue(key as keyof ProductFormData, parsedDraft[key]);
       });
     }
@@ -23,11 +25,7 @@ export function useProductDraft(formMethods: any, key?: string) {
 
   useEffect(() => {
     const subscription = watch((value: any) => {
-      // Filter out images and files before saving
-      const draftValue = Object.fromEntries(
-        Object.entries(value).filter(([key]) => !excludeFromDraft.includes(key))
-      );
-      sessionStorage.setItem(DRAFT_KEY, JSON.stringify(draftValue));
+      sessionStorage.setItem(DRAFT_KEY, JSON.stringify(value));
     });
     return () => subscription.unsubscribe();
   }, [DRAFT_KEY, watch]);

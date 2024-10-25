@@ -1,7 +1,12 @@
 "use client";
 
 import productsService from "@/services/productsServices";
-import { PricingType } from "@/types/product.types";
+import {
+  ICreateProductDto,
+  PricingType,
+  ProductStatus,
+} from "@/types/product.types";
+import { errorToast } from "@/utils/hot-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
@@ -37,36 +42,34 @@ export default function AddProduct() {
 
   const onSubmit = async (data: ProductFormData, onNextStep: () => void) => {
     setIsSubmitting(true);
-    const formData = new FormData();
 
-    // Append text fields
-    formData.append("title", form.getValues("name"));
-    formData.append("description", form.getValues("description"));
-    formData.append("paymentType", form.getValues("pricing"));
-    formData.append("price", form.getValues("price"));
-    formData.append("status", "PUBLISHED"); // Assuming default status is PUBLISHED
-    formData.append("slug", form.getValues("slug"));
-    formData.append("longDescription", form.getValues("longDescription") || "");
-
-    // Append images
-    form.getValues("images").forEach((image, index) => {
-      formData.append(`images`, image);
-    });
-
-    // Append digital files
-    form.getValues("files").forEach((file, index) => {
-      formData.append(`digitalFiles`, file);
-    });
+    const createProductDto: ICreateProductDto = {
+      title: form.getValues("name"),
+      description: form.getValues("description"),
+      paymentType: form.getValues("pricing"),
+      price: parseFloat(form.getValues("price")),
+      status: ProductStatus.PUBLISHED,
+      digitalFiles: form
+        .getValues("files")
+        .filter((file) => Boolean(file.key))
+        .map((file) => file.key as string),
+      images: form
+        .getValues("images")
+        .filter((image) => Boolean(image.key))
+        .map((image) => image.key as string),
+      longDescription: form.getValues("longDescription"),
+      slug: form.getValues("slug"),
+    };
 
     try {
       const storeId = data.store;
-      await productsService.create(storeId, formData);
+      await productsService.create(storeId, createProductDto);
       toast.success("Product created successfully!");
       onNextStep();
       clearDraft();
     } catch (error) {
       console.error("Error creating product:", error);
-      toast.error("Failed to create product. Please try again.");
+      errorToast(error, "Failed to create product. Please try again.");
     } finally {
       setIsSubmitting(false);
     }

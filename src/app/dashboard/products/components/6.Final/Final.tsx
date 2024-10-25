@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { config } from "@/config";
 import { routes } from "@/config/routes";
+import useGetCurrentUser from "@/hooks/useGetCurrentUser";
 import { motion } from "framer-motion";
 import { Check, Copy } from "lucide-react";
 import { useState } from "react";
@@ -12,9 +13,10 @@ import toast from "react-hot-toast";
 
 const Final = () => {
   const form = useFormContext<ProductFormData>();
-  const productData = form.watch();
   const [copied, setCopied] = useState(false);
+  const { user } = useGetCurrentUser();
 
+  const enableSell = user?.isStripeConnected;
   const productLink = `${config.appUrl}${routes.products}/${form.watch(
     "slug"
   )}`;
@@ -32,19 +34,12 @@ const Final = () => {
       <p className="text-xl">
         Congratulations! Your product has been successfully created.
       </p>
-      {/* <div className="flex items-center justify-center space-x-2">
-        <Switch
-          checked={productData.status === ProductStatus.PUBLISHED}
-          onCheckedChange={(isPublished) =>
-            form.setValue("status", isPublished ? ProductStatus.PUBLISHED : ProductStatus.DRAFT)
-          }
-        />
-        <Label>
-          {productData.isPublished
-            ? "Product is live"
-            : "Toggle the button to make your product live"}
-        </Label>
-      </div> */}
+      {!enableSell && (
+        <p className="text-red-600">
+          You need to connect with Stripe first so your products can be
+          published.
+        </p>
+      )}
       <div>
         <Label htmlFor="product-link" className="text-lg font-semibold">
           Product Link

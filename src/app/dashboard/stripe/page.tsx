@@ -4,7 +4,6 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { dashboardRoutes } from "@/config/routes";
-import useGetCurrentUser from "@/hooks/useGetCurrentUser";
 import stripeServices from "@/services/stripeServices";
 import {
   ConnectAccountOnboarding,
@@ -20,6 +19,7 @@ import {
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { mutate } from "swr";
 import { useStripeConnect } from "./useStripeConnect";
 
 const ReactConfetti = dynamic(() => import("react-confetti"), { ssr: false });
@@ -29,7 +29,6 @@ export default function StripeDashboard() {
   const [onboardingExited, setOnboardingExited] = useState(false);
   const [error, setError] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
-  const { mutate } = useGetCurrentUser();
 
   const { stripeConnectInstance, connectedAccountId } = useStripeConnect();
 
@@ -37,8 +36,8 @@ export default function StripeDashboard() {
     setAccountCreatePending(true);
     setError(false);
     try {
-      const { data } = await stripeServices.createAccount();
-      mutate();
+      await stripeServices.createAccount();
+      mutate("/auth/me");
     } catch (err) {
       setError(true);
     } finally {

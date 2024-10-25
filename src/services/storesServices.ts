@@ -29,11 +29,17 @@ const storesService = {
 
   remove: (id: string) => api.delete(`/stores/${id}`),
 
-  getSignedUrl: (contentType: string, fileSize: number, checksum: string) =>
+  getSignedUrl: (
+    contentType: string,
+    fileSize: number,
+    checksum: string,
+    fileName: string
+  ) =>
     api.post<SignedUrlResponseDto>(`/stores/get-signed-url`, {
       contentType,
       fileSize,
       checksum,
+      fileName,
     }),
 };
 
