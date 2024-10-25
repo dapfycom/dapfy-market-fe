@@ -47,7 +47,7 @@ const CheckoutForm = async ({ params }: { params: { productId: string } }) => {
   }
 
   return (
-    <div className="flex h-screen bg-blue-50">
+    <div className="flex flex-col h-full bg-blue-50 text-gray-800 w-full max-w-screen-md mx-auto px-md md:px-lg ">
       {/* @ts-ignore */}
       <CheckoutFormClient clientSecret={clientSecret || null} />
     </div>

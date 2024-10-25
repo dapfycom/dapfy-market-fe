@@ -22,9 +22,9 @@ const TopBar = () => {
       initial={{ opacity: 0, y: -50 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="w-full h-[68px] fixed top-0 left-0 right-0 flex z-10 items-center justify-between  pl-[219px]  bg-white text-gray-800"
+      className="w-full h-[68px]  flex items-center justify-between relative    bg-blue-50 border-b border-blue-200 text-gray-800"
     >
-      <div className="flex w-full mx-auto h-full max-w-screen-md px-md md:px-lg px-7">
+      <div className="flex w-full mx-auto h-full max-w-screen-md  md:px-6">
         {currentRoute && (
           <h1 className="text-3xl flex items-center">
             <currentRoute.icon className="w-7 h-7 mr-2" />

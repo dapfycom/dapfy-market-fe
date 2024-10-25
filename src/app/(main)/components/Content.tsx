@@ -11,7 +11,7 @@ const Content = ({
   search?: string;
 }) => {
   return (
-    <div className="flex min-h-screen  flex-col h-full bg-blue-50 text-gray-800 w-full max-w-screen-md mx-auto px-md md:px-lg mt-[68px]">
+    <div className="flex flex-col h-full bg-blue-50 text-gray-800 w-full max-w-screen-md mx-auto px-md md:px-lg ">
       <Tabs defaultValue="trending">
         <FramerDiv
           initial={{ opacity: 0 }}
@@ -19,9 +19,9 @@ const Content = ({
           transition={{ duration: 0.5, delay: 0.2 }}
           className=""
         >
-          <div className="sticky top-0 z-10 bg-blue-50 p-6 pb-2 overflow-hidden">
+          <div className="sticky top-0 z-10 bg-blue-50 py-2 px-6 pb-2 ">
             <div className="max-w-screen-lg mx-auto w-full">
-              <TabsList className="">
+              <TabsList className="p-0">
                 <TabsTrigger
                   value="trending"
                   className="data-[state=active]:bg-blue-100 data-[state=active]:text-blue-600"
@@ -54,6 +54,12 @@ const Content = ({
             <div className="max-w-screen-lg mx-auto w-full">
               <TabsContent value="trending">
                 <Suspense fallback={"Loading..."}>
+                  <ProductsList category={category} search={search} />
+                  <ProductsList category={category} search={search} />
+
+                  <ProductsList category={category} search={search} />
+                  <ProductsList category={category} search={search} />
+                  <ProductsList category={category} search={search} />
                   <ProductsList category={category} search={search} />
                 </Suspense>
               </TabsContent>

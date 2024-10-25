@@ -26,7 +26,7 @@ const SideBarWrapper = ({
       initial={false}
       animate={{ width: ariaChecked ? 220 : 90 }}
       transition={{ duration: 0.2, ease: "easeInOut" }}
-      className="border-r border-blue-200 bg-blue-100/70 overflow-hidden h-full relative z-20"
+      className="border-r border-blue-200 bg-blue-100 overflow-hidden h-full relative z-20"
     >
       <FramerDiv
         className="space-y-1 py-4 h-full group"

@@ -102,9 +102,9 @@ const ProductDetails = ({
           transition={{ delay: 0.6, duration: 0.5 }}
           className="mt-4 text-base  first-letter:float-left first-letter:mr-3 first-letter:text-5xl first-letter:font-bold first-letter:leading-[0.8] first-letter:mt-1"
         >
-          <div className="leading-6 break-words min-w-0 [word-break:break-word] ">
+          <span className="leading-6 break-words min-w-0 [word-break:break-word] ">
             {description}
-          </div>
+          </span>
         </FramerP>
       </div>
       {/* <FramerDiv
@@ -117,12 +117,12 @@ const ProductDetails = ({
         <span className="ml-2 text-lg text-gray-500">USD</span>
         <span className="ml-2 text-sm text-green-600 font-semibold">
           {paymentType === "SINGLE" ? "One-time payment" : "Subscription"}
-        </span>
+        </span>z
         <Button
           className="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300 flex items-center justify-center"
           size="lg"
         >
-          <ShoppingCart className="mr-2" />
+          <ShoppingCart className="mr-2" />z
           Buy This Digital Product
         </Button>
       </FramerDiv> */}

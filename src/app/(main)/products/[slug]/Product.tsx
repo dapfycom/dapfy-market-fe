@@ -1,6 +1,7 @@
 import { FramerDiv } from "@/components/framer";
 import { formatPrice } from "@/lib/utils";
 import { IProductDetailsResponse } from "@/types/product.types";
+import BuyButton from "./components/BuyButton";
 import ProductDetails from "./components/ProductDetails";
 import ProductImages from "./components/ProductImages";
 import ProductLongDetail from "./components/ProductLongDetail";
@@ -12,16 +13,16 @@ const Product = ({ product }: { product: IProductDetailsResponse }) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className="mx-auto min-h-screen bg-blue-50 w-full max-w-[1100px] px-4 md:px-8"
+      className="mx-auto min-h-screen  bg-blue-50 w-full max-w-[1100px] px-4 md:px-8 py-10"
     >
       <FramerDiv
         initial={{ y: 50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.2, duration: 0.5 }}
-        className="overflow-hidden"
+        className="relative"
       >
-        <div className="">
-          <ProductImages images={product.images.map((image) => image.url)} />
+        <ProductImages images={product.images.map((image) => image.url)} />
+        <div className="max-w-[800px] w-full">
           <ProductDetails
             storeName={product.store.name}
             title={product.title}
@@ -33,14 +34,20 @@ const Product = ({ product }: { product: IProductDetailsResponse }) => {
             storeSlug={product.store.slug}
             storeImage={product.store.logo}
           />
+          {product.longDescription && (
+            <ProductLongDetail longDescription={product.longDescription} />
+          )}
+
+          <ProductReviews productId={product.id} />
+
+          <ProductReviewForm id={product.id} />
         </div>
-        {product.longDescription && (
-          <ProductLongDetail longDescription={product.longDescription} />
-        )}
 
-        <ProductReviews productId={product.id} />
-
-        <ProductReviewForm id={product.id} />
+        <BuyButton
+          title={product.title}
+          price={formatPrice(product.price)}
+          id={product.id}
+        />
       </FramerDiv>
     </FramerDiv>
   );
