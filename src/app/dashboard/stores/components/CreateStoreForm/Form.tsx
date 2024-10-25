@@ -85,8 +85,6 @@ const CreateStoreForm = ({
   }, [editingStore, setValue, form]);
 
   const onSubmit = async (data: StoreFormData) => {
-    console.log("Submitting data:", data);
-
     setIsSubmitting(true);
     try {
       const createStoreDto = {
@@ -165,10 +163,6 @@ const CreateStoreForm = ({
       .map(([key, value]) => `${key}: ${value.message}`)
       .join(", ");
   };
-
-  useEffect(() => {
-    console.log("Form values:", form.watch("logo"));
-  }, [form.watch("logo")]);
 
   return (
     <FormProvider {...form}>

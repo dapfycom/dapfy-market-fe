@@ -102,6 +102,11 @@ const productsService = {
         signedUrl: string;
       }[];
     }>("/products/get-signed-urls/digital-files", signedUrlBatchRequestDto),
+
+  getSignedUrlForDigitalFileDownload: (digitalFileKey: string) =>
+    api.post<{ signedUrl: string }>("/products/get-signed-url/digital-file", {
+      digitalFileKey,
+    }),
 };
 
 export default productsService;

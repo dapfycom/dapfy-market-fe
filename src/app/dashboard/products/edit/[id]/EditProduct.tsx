@@ -23,8 +23,6 @@ export default function EditProduct({
 }: {
   product: IProductDetailsResponse;
 }) {
-  console.log(product);
-
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const clearDraft = () => {

@@ -15,6 +15,8 @@ const dashboardRoutes = {
   settings: `${routes.dashboard}/settings`,
   customers: `${routes.dashboard}/customers`,
   stripe: `${routes.dashboard}/stripe`,
+  myOrders: `${routes.dashboard}/my-orders`,
+  orders: `${routes.dashboard}/orders`,
 };
 
 export { dashboardRoutes, routes };

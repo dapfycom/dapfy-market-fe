@@ -52,6 +52,13 @@ const sidebarItems = [
     emoji: "💳",
     route: dashboardRoutes.stripe,
   },
+
+  {
+    name: "My Orders",
+    icon: Package,
+    emoji: "📦",
+    route: dashboardRoutes.myOrders,
+  },
 ];
 
 const SideBar = () => {

@@ -55,12 +55,6 @@ const Content = ({
               <TabsContent value="trending">
                 <Suspense fallback={"Loading..."}>
                   <ProductsList category={category} search={search} />
-                  <ProductsList category={category} search={search} />
-
-                  <ProductsList category={category} search={search} />
-                  <ProductsList category={category} search={search} />
-                  <ProductsList category={category} search={search} />
-                  <ProductsList category={category} search={search} />
                 </Suspense>
               </TabsContent>
               <TabsContent value="new">

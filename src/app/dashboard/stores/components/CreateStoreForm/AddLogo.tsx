@@ -11,8 +11,6 @@ import { toast } from "react-hot-toast";
 import { StoreFormData } from "./storeSchema";
 
 const AddLogo = ({ currentLogo }: { currentLogo?: string }) => {
-  console.log("AddLogo: currentLogo prop:", currentLogo);
-
   const { setValue, register } = useFormContext<StoreFormData>();
 
   const [preview, setPreview] = useState<string | null>(null);
