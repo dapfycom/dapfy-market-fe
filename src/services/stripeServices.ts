@@ -87,7 +87,7 @@ const stripeServices = {
     }
 
     const dto: CreateAccountDto = {
-      country: "RO",
+      country: country,
     };
     return api.post<CreateAccountResponse>("/stripe/account", dto);
   },
