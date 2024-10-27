@@ -1,13 +1,9 @@
 import { config } from "@/config";
-import { IProductResponse } from "@/types/product.types";
 import { BASE_URL } from "@/utils/axios";
 import axios from "axios";
 import { Metadata, ResolvingMetadata } from "next";
 import { notFound } from "next/navigation";
 import Product from "./Product";
-
-export const revalidate = 3600;
-export const dynamicParams = true;
 
 const getProduct = async (slug: string) => {
   try {
@@ -20,11 +16,6 @@ const getProduct = async (slug: string) => {
     throw error; // Rethrow other errors
   }
 };
-
-export async function generateStaticParams() {
-  const { data } = await axios.get<IProductResponse[]>(`${BASE_URL}/products`);
-  return data.map(({ slug }) => ({ slug }));
-}
 
 type Props = {
   params: { slug: string };
@@ -97,7 +88,7 @@ export default async function ProductPage({
   const data = await getProduct(params.slug);
 
   if (!data) {
-    notFound(); // Use Next.js notFound() for 404 errors
+    return notFound(); // Use Next.js notFound() for 404 errors
   }
 
   return <Product product={data} />;
