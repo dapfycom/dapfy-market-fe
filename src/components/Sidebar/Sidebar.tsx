@@ -10,7 +10,6 @@ import {
   Search,
 } from "lucide-react";
 import dynamic from "next/dynamic";
-import { cookies } from "next/headers";
 import Link from "next/link";
 import Logo from "../Logo";
 import Searcher from "../Search/Searcher";
@@ -37,11 +36,8 @@ const Aside = async () => {
 
   categories.unshift(allCategory);
 
-  const sidebarOpen = cookies().get("sidebarOpen")?.value;
   return (
-    <SideBarWrapper
-      defaultSidebarOpen={sidebarOpen ? JSON.parse(sidebarOpen) : true}
-    >
+    <SideBarWrapper>
       <div className="flex flex-col h-full">
         <div className="flex-1 flex flex-col">
           <div className="flex justify-between items-center group-aria-[checked=false]:px-0 group-aria-[checked=false]:justify-center  pl-4 pr-2 mb-6">
