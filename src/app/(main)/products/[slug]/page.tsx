@@ -1,16 +1,17 @@
 import { config } from "@/config";
-import productsService from "@/services/productsServices";
+import { IProductResponse } from "@/types/product.types";
+import { BASE_URL } from "@/utils/axios";
+import axios from "axios";
 import { Metadata, ResolvingMetadata } from "next";
 import { notFound } from "next/navigation";
-import { cache } from "react";
 import Product from "./Product";
 
 export const revalidate = 3600;
 export const dynamicParams = true;
 
-const getProduct = cache(async (slug: string) => {
+const getProduct = async (slug: string) => {
   try {
-    const res = await productsService.findOne(slug);
+    const res = await axios.get(`${BASE_URL}/products/${slug}`);
     return res.data;
   } catch (error: any) {
     if (error.response && error.response.status === 404) {
@@ -18,10 +19,10 @@ const getProduct = cache(async (slug: string) => {
     }
     throw error; // Rethrow other errors
   }
-});
+};
 
 export async function generateStaticParams() {
-  const { data } = await productsService.findAll();
+  const { data } = await axios.get<IProductResponse[]>(`${BASE_URL}/products`);
   return data.map(({ slug }) => ({ slug }));
 }
 
