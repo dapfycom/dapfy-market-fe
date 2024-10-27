@@ -8,7 +8,6 @@ import {
 import { useAppDispatch, useAppSelector } from "@/store/store";
 import { ChevronLeft, ChevronRight, PlusCircle } from "lucide-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import React from "react";
 
 const DashboardContentLayout = ({
@@ -18,7 +17,6 @@ const DashboardContentLayout = ({
   children: React.ReactNode;
   title: string;
 }) => {
-  const currentPath = usePathname();
   const isSidebarOpen = useAppSelector(selectIsSidebarOpen);
   const dispatch = useAppDispatch();
 

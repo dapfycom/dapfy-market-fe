@@ -47,16 +47,16 @@ const sidebarItems = [
   },
 
   {
-    name: "Stripe",
+    name: "Payments",
     icon: CreditCard,
     emoji: "💳",
-    route: dashboardRoutes.stripe,
+    route: dashboardRoutes.payments,
   },
 
   {
     name: "My Orders",
     icon: Package,
-    emoji: "📦",
+    emoji: "🛒",
     route: dashboardRoutes.myOrders,
   },
 ];

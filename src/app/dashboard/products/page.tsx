@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { config } from "@/config";
 import { dashboardRoutes, routes } from "@/config/routes";
+import { useGetApiUser } from "@/hooks/useGetCurrentUser";
 import { useGetProducts } from "@/hooks/useProducts";
 import productsService from "@/services/productsServices";
 import { IProductResponse, ProductStatus } from "@/types/product.types";
@@ -20,7 +21,8 @@ const Products = () => {
   const { data, isLoading, error, mutate } = useGetProducts();
   const [selectedProduct, setSelectedProduct] =
     useState<IProductResponse | null>(null);
-
+  const { data: res } = useGetApiUser();
+  const user = res?.data;
   const products = data?.data;
 
   if (isLoading) return <div>Loading...</div>;
@@ -131,10 +133,27 @@ const Products = () => {
     </motion.div>
   );
 
+  const canReceivePayments = user?.isStripeConnected;
+
   return (
     <DashboardContentLayout title="Products">
-      <div className="flex justify-between items-center mb-10">
+      <div className="flex flex-col gap-4 mb-10">
         <h2 className="text-2xl font-bold">Digital Products</h2>
+        {!canReceivePayments && (
+          <div className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-4 rounded">
+            <p className="font-bold">Action Required: Connect Stripe Account</p>
+            <p>
+              To start selling products and receiving payments, you need to
+              connect your Stripe account.
+            </p>
+            <Link
+              href={dashboardRoutes.payments}
+              className="text-blue-500 hover:underline mt-2 inline-block"
+            >
+              Go to Payments to Connect Stripe
+            </Link>
+          </div>
+        )}
       </div>
       <motion.div
         initial={{ opacity: 0, y: 20 }}

@@ -14,7 +14,7 @@ const dashboardRoutes = {
   stores: `${routes.dashboard}/stores`,
   settings: `${routes.dashboard}/settings`,
   customers: `${routes.dashboard}/customers`,
-  stripe: `${routes.dashboard}/stripe`,
+  payments: `${routes.dashboard}/payments`,
   myOrders: `${routes.dashboard}/my-orders`,
   orders: `${routes.dashboard}/orders`,
 };
