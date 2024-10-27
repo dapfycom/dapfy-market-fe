@@ -7,18 +7,18 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "DAPFY.COM - Digital Marketplace",
+  title: "Dapfy - Digital Marketplace",
   description:
-    "Buy and sell digital products securely on DAPFY.COM. Your one-stop shop for digital goods.",
+    "Buy and sell digital products securely on Dapfy. Your one-stop shop for digital goods.",
   keywords:
     "digital marketplace, e-commerce, digital products, online shopping",
   openGraph: {
-    title: "DAPFY.COM - Digital Marketplace",
+    title: "Dapfy - Digital Marketplace",
     description:
-      "Buy and sell digital products securely on DAPFY.COM. Your one-stop shop for digital goods.",
+      "Buy and sell digital products securely on Dapfy. Your one-stop shop for digital goods.",
     type: "website",
     url: "https://dapfy.com",
-    siteName: "DAPFY.COM",
+    siteName: "Dapfy",
   },
 };
 
