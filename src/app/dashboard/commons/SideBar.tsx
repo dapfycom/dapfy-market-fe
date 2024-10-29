@@ -105,7 +105,10 @@ const SideBar = () => {
         <div className="flex items-center">
           <Avatar className="w-10 h-10">
             <AvatarImage src={user?.avatar || ""} alt="User" />
-            <AvatarFallback>JD</AvatarFallback>
+            <AvatarFallback className="uppercase">
+              {user?.name?.[0]}
+              {user?.name?.[1]}
+            </AvatarFallback>
           </Avatar>
           {isSidebarOpen && (
             <div className="ml-3">
@@ -132,7 +135,11 @@ const SideBar = () => {
                   </button>
                 </p>
               )}
-              <p className="text-[11px] text-gray-500">{user?.email}</p>
+              <p className="text-[12px] text-gray-500">
+                {user && user?.email?.length > 15
+                  ? user?.email?.slice(0, 15) + "..."
+                  : user?.email}
+              </p>
             </div>
           )}
         </div>
