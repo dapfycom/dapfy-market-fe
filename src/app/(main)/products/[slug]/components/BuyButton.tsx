@@ -35,10 +35,10 @@ const BuyButton = ({
   }, [prefetchCheckoutPage]);
 
   return (
-    <div className="fixed bottom-10 left-0 right-0 w-full">
+    <div className="fixed bottom-20 md:bottom-10 left-0 right-0 w-full">
       <div className=" w-fit mx-auto ">
         <Button
-          className="w-full px-10 rounded-full h-14 text-lg bg-blue-500 text-gray-100 border border-gray-200 shadow-md hover:bg-blue-800 hover:border-gray-300 transition-all duration-300 ease-in-out"
+          className="w-full px-6 sm:px-10 rounded-full h-fit py-3 text-wrap sm:h-14 text-sm sm:text-lg bg-blue-500 text-gray-100 border border-gray-200 shadow-md hover:bg-blue-800 hover:border-gray-300 transition-all duration-300 ease-in-out"
           onClick={handleClick}
           onMouseEnter={prefetchCheckoutPage}
           onFocus={prefetchCheckoutPage}

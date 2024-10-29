@@ -35,12 +35,12 @@ const ProfileButton = () => {
       >
         <Link href={routes.dashboard}>
           <span>
-            <Avatar className="w-8 h-8">
+            <Avatar className="w-6 md:w-8 h-6 md:h-8">
               <AvatarFallback>{user?.name?.[0]}</AvatarFallback>
               <AvatarImage src={user?.avatar ?? undefined} />
             </Avatar>
           </span>
-          <span className="max-w-[120px] truncate">
+          <span className=" max-w-[120px] truncate">
             {truncateEmail(user?.email)}
           </span>
         </Link>

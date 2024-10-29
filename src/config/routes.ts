@@ -5,6 +5,7 @@ const routes = {
   stores: "/stores",
   products: "/products",
   checkout: "/checkout",
+  analytics: "/analytics",
 };
 
 const dashboardRoutes = {
@@ -17,6 +18,7 @@ const dashboardRoutes = {
   payments: `${routes.dashboard}/payments`,
   myOrders: `${routes.dashboard}/my-orders`,
   orders: `${routes.dashboard}/orders`,
+  broadcast: `${routes.dashboard}/broadcast`,
 };
 
 export { dashboardRoutes, routes };

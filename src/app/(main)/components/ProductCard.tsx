@@ -4,16 +4,10 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { routes } from "@/config/routes";
-import useGetCurrentUser from "@/hooks/useGetCurrentUser";
-import { useLogin } from "@/hooks/useLogin";
 import { cn } from "@/lib/utils";
-import { useAppDispatch } from "@/store/store";
 import { IProductResponse } from "@/types/product.types";
 import { Bookmark } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import ComparisonModal from "./ComparisonModal";
 
 const ProductCard = ({
   product,
@@ -22,37 +16,9 @@ const ProductCard = ({
   product: IProductResponse;
   small: boolean;
 }) => {
-  const router = useRouter();
-  const [isHovered, setIsHovered] = useState(false);
-  const [isComparisonOpen, setIsComparisonOpen] = useState(false);
-  const [isBuyingNow, setIsBuyingNow] = useState(false);
-  const { handleOpenLoginModal } = useLogin();
-
-  const dispatch = useAppDispatch();
-  const { user } = useGetCurrentUser();
-
-  const handleCompare = (e: React.MouseEvent) => {
-    e.preventDefault();
-    setIsComparisonOpen(true);
-  };
-
-  const handleBuyNow = async (e: React.MouseEvent) => {
-    e.preventDefault();
-    if (!user) {
-      handleOpenLoginModal();
-      return;
-    }
-    setIsBuyingNow(true);
-    router.push(`${routes.checkout}/${product.id}`);
-  };
-
   return (
     <>
-      <Card
-        className="overflow-hidden transition-all duration-300 ease-in-out transform hover:shadow-xl hover:scale-[1.01] bg-gradient-to-br from-white to-blue-50"
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-      >
+      <Card className="overflow-hidden transition-all duration-300 ease-in-out transform hover:shadow-xl hover:scale-[1.01] bg-gradient-to-br from-white to-blue-50">
         <CardHeader className="p-0 overflow-hidden">
           <div
             className={cn("relative overflow-hidden ", small ? "h-40" : "h-60")}
@@ -109,11 +75,6 @@ const ProductCard = ({
           </div>
         </CardContent>
       </Card>
-
-      <ComparisonModal
-        isOpen={isComparisonOpen}
-        onClose={() => setIsComparisonOpen(false)}
-      />
     </>
   );
 };

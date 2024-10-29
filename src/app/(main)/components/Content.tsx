@@ -21,7 +21,7 @@ const Content = ({
         >
           <div className="sticky top-0 z-10 bg-blue-50 py-2 px-6 pb-2 ">
             <div className="max-w-screen-lg mx-auto w-full">
-              <TabsList className="p-0">
+              <TabsList className="p-0 flex gap-2 justify-center items-center flex-wrap mb-4">
                 <TabsTrigger
                   value="trending"
                   className="data-[state=active]:bg-blue-100 data-[state=active]:text-blue-600"
@@ -50,7 +50,7 @@ const Content = ({
             </div>
           </div>
 
-          <div className="flex-1 overflow-auto p-6 pt-2">
+          <div className="flex-1 overflow-auto px-3 pt-2">
             <div className="max-w-screen-lg mx-auto w-full">
               <TabsContent value="trending">
                 <Suspense fallback={"Loading..."}>

@@ -24,17 +24,36 @@ const getCategories = async () => {
   return categories;
 };
 
+interface NavItemProps {
+  icon: React.ElementType;
+  label: string;
+  href?: string;
+  onClick?: () => void;
+}
+
+function NavItem({ icon: Icon, label, href, onClick }: NavItemProps) {
+  const content = (
+    <div className="flex items-center text-gray-600 group-aria-[checked=false]:justify-center px-4 py-2 transition-colors duration-200 ease-in-out hover:bg-blue-200/30 cursor-pointer">
+      <Icon className="group-aria-[checked=false]:w-5 group-aria-[checked=false]:h-5 w-4 h-4 mr-2" />
+      <span className="group-aria-[checked=false]:hidden">{label}</span>
+    </div>
+  );
+
+  return href ? (
+    <Link href={href}>{content}</Link>
+  ) : (
+    <div onClick={onClick}>{content}</div>
+  );
+}
+
+const navigationItems = [
+  { icon: Globe, label: "Discover", href: routes.home },
+  { icon: ChartSpline, label: "Analytics", href: routes.analytics },
+] as const;
+
 const Aside = async () => {
   const categories = await getCategories();
-
-  // insert manually "ALL" category
-  const allCategory = {
-    id: "all",
-    name: "All",
-    emoji: "🏠",
-  };
-
-  categories.unshift(allCategory);
+  categories.unshift({ id: "all", name: "All", emoji: "🏠" });
 
   return (
     <SideBarWrapper>
@@ -69,19 +88,9 @@ const Aside = async () => {
             }
           />
           <div className="mb-4 space-y-xs group-aria-[checked=false]:space-y-3">
-            <div className="flex items-center text-gray-600 group-aria-[checked=false]:justify-center px-4 py-2 transition-colors duration-200 ease-in-out hover:bg-blue-200/30 cursor-pointer">
-              <Globe className="group-aria-[checked=false]:w-5 group-aria-[checked=false]:h-5 w-4 h-4 mr-2" />{" "}
-              <span className="group-aria-[checked=false]:hidden">
-                Discover
-              </span>
-            </div>
-
-            <div className="flex items-center text-gray-600 group-aria-[checked=false]:justify-center px-4 py-2 transition-colors duration-200 ease-in-out hover:bg-blue-200/30 cursor-pointer">
-              <ChartSpline className="group-aria-[checked=false]:w-5 group-aria-[checked=false]:h-5 w-4 h-4 mr-2" />{" "}
-              <span className="group-aria-[checked=false]:hidden">
-                Analytics
-              </span>
-            </div>
+            {navigationItems.map((item) => (
+              <NavItem key={item.label} {...item} />
+            ))}
 
             <details className="group bg-blue-200/30" open={false}>
               <summary className=" flex items-center text-gray-600 group-aria-[checked=false]:justify-center px-4 py-2 transition-colors duration-200 ease-in-out hover:bg-blue-200/30 cursor-pointer">

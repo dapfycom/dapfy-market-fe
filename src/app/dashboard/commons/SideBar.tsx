@@ -10,6 +10,7 @@ import {
   BarChart,
   CreditCard,
   Edit2,
+  MessageCircle,
   Package,
   Settings,
   ShoppingBag,
@@ -52,7 +53,12 @@ const sidebarItems = [
     emoji: "💳",
     route: dashboardRoutes.payments,
   },
-
+  {
+    name: "Broadcast",
+    icon: MessageCircle,
+    emoji: "📢",
+    route: dashboardRoutes.broadcast,
+  },
   {
     name: "My Orders",
     icon: Package,
