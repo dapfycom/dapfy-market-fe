@@ -49,6 +49,7 @@ function NavItem({ icon: Icon, label, href, onClick }: NavItemProps) {
 const navigationItems = [
   { icon: Globe, label: "Discover", href: routes.home },
   { icon: ChartSpline, label: "Analytics", href: routes.analytics },
+  { icon: BookMarked, label: "Bookmarks", href: routes.bookmarks },
 ] as const;
 
 const Aside = async () => {

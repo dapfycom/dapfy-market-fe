@@ -107,6 +107,20 @@ const productsService = {
     api.post<{ signedUrl: string }>("/products/get-signed-url/digital-file", {
       digitalFileKey,
     }),
+
+  bookmarkProduct: (productId: string) =>
+    api.post<void>(`/products/${productId}/bookmark`),
+
+  removeBookmark: (productId: string) =>
+    api.delete<void>(`/products/${productId}/bookmark`),
+
+  getBookmarkedProducts: (pageOptions?: IPaginationOptions) =>
+    api.get<IPaginatedResponse<IProductResponse>>("/products/bookmarks", {
+      params: pageOptions,
+    }),
+
+  isBookmarked: (productId: string) =>
+    api.get<boolean>(`/products/${productId}/is-bookmarked`),
 };
 
 export default productsService;

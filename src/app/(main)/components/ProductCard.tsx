@@ -5,9 +5,12 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { routes } from "@/config/routes";
 import { cn } from "@/lib/utils";
+import productsService from "@/services/productsServices";
 import { IProductResponse } from "@/types/product.types";
 import { Bookmark } from "lucide-react";
 import Link from "next/link";
+import toast from "react-hot-toast";
+import useSWR from "swr";
 
 const ProductCard = ({
   product,
@@ -16,10 +19,26 @@ const ProductCard = ({
   product: IProductResponse;
   small: boolean;
 }) => {
+  const { data, mutate } = useSWR("/products/bookmarks", (args) =>
+    productsService.getBookmarkedProducts({
+      take: 1000,
+    })
+  );
+
+  const isBookmarked = data?.data.data.some((p) => p.id === product.id);
+
+  const onBookMark = async () => {
+    toast.promise(productsService.bookmarkProduct(product.id), {
+      loading: "Booking product...",
+      success: "Product bookmarked",
+      error: "Failed to bookmark product",
+    });
+  };
+
   return (
     <>
       <Card className="overflow-hidden transition-all duration-300 ease-in-out transform hover:shadow-xl hover:scale-[1.01] bg-gradient-to-br from-white to-blue-50">
-        <CardHeader className="p-0 overflow-hidden">
+        <CardHeader className="p-0 ">
           <div
             className={cn("relative overflow-hidden ", small ? "h-40" : "h-60")}
           >
@@ -69,8 +88,12 @@ const ProductCard = ({
               </div>
             </Link>
 
-            <div className="cursor-pointer">
-              <Bookmark className="w-4 h-4" />
+            <div className="cursor-pointer" onClick={onBookMark}>
+              {isBookmarked ? (
+                <Bookmark className="w-4 h-4 text-primary" color="blue" />
+              ) : (
+                <Bookmark className="w-4 h-4" />
+              )}
             </div>
           </div>
         </CardContent>

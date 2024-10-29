@@ -6,6 +6,7 @@ const routes = {
   products: "/products",
   checkout: "/checkout",
   analytics: "/analytics",
+  bookmarks: "/bookmarks",
 };
 
 const dashboardRoutes = {

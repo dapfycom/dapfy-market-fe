@@ -50,7 +50,7 @@ const Content = ({
             </div>
           </div>
 
-          <div className="flex-1 overflow-auto px-3 pt-2">
+          <div className="flex-1  px-3 pt-2">
             <div className="max-w-screen-lg mx-auto w-full">
               <TabsContent value="trending">
                 <Suspense fallback={"Loading..."}>
