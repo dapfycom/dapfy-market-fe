@@ -6,7 +6,7 @@ const MainLayout = ({ children }: PropsWithChildren) => {
   return (
     <div className="flex min-h-screen bg-blue-50 relative">
       {/* Sidebar */}
-      <div className="fixed top-0 bottom-0 h-screen z-20">
+      <div className="sticky top-0 bottom-0 h-screen z-20">
         <Aside />
       </div>
 
