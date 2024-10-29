@@ -1,6 +1,7 @@
 "use client";
 
 import { EmptyState } from "@/components/empty-state";
+import { Button } from "@/components/ui/button";
 import productsService from "@/services/productsServices";
 import { Loader2 } from "lucide-react";
 import { useEffect } from "react";
@@ -38,10 +39,44 @@ export function BookmarkedProducts() {
   }, [inView, hasNextPage, isLoadingMore, setSize, size]);
 
   if (isLoading) return null;
-  if (error) return <div>Error loading bookmarks</div>;
+  if (error) {
+    if (error.request.status === 401) {
+      return (
+        <div className="flex flex-col items-center justify-center min-h-[400px] text-center p-6">
+          <div className="rounded-lg bg-red-50 p-8 max-w-md">
+            <h3 className="text-lg font-semibold text-red-800 mb-2">
+              Authentication Required
+            </h3>
+            <p className="text-red-600">
+              Please log in to view your bookmarked products
+            </p>
+          </div>
+        </div>
+      );
+    }
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[400px] text-center p-6">
+        <div className="rounded-lg bg-red-50 p-8 max-w-md">
+          <h3 className="text-lg font-semibold text-red-800 mb-2">
+            Error Loading Bookmarks
+          </h3>
+          <p className="text-red-600 mb-4">
+            There was a problem loading your bookmarked products. Please try
+            again later.
+          </p>
+          <Button
+            variant="outline"
+            className="hover:bg-red-100"
+            onClick={() => revalidateBookmarks()}
+          >
+            Try Again
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   const products = data?.flatMap((page) => page.data.data) ?? [];
-  console.log(products);
 
   if (products.length === 0) {
     return (
