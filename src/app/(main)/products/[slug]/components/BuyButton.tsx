@@ -36,9 +36,9 @@ const BuyButton = ({
 
   return (
     <div className="fixed bottom-10 left-0 right-0 w-full">
-      <div className="max-w-[500px] w-full mx-auto">
+      <div className=" w-fit mx-auto ">
         <Button
-          className="w-full rounded-full h-14 text-lg bg-blue-50 text-gray-800 border border-gray-200 shadow-md hover:bg-gray-50 hover:border-gray-300 transition-all duration-300 ease-in-out"
+          className="w-full px-10 rounded-full h-14 text-lg bg-blue-500 text-gray-100 border border-gray-200 shadow-md hover:bg-blue-800 hover:border-gray-300 transition-all duration-300 ease-in-out"
           onClick={handleClick}
           onMouseEnter={prefetchCheckoutPage}
           onFocus={prefetchCheckoutPage}
