@@ -76,7 +76,7 @@ export default function OrderDetails({ order }: OrderDetailsProps) {
               <p className="text-sm text-muted-foreground mb-2">
                 Seller: {item.storeName}
               </p>
-              <div className="grid grid-cols-2 gap-4 mb-4">
+              <div className="flex gap-4 mb-4 flex-wrap">
                 {item.productDetails.images.slice(0, 2).map((image, index) => (
                   <Image
                     key={index}
