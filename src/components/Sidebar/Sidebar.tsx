@@ -114,7 +114,7 @@ const Aside = async () => {
         <div className="group-aria-[checked=true]:hidden w-full flex justify-center mb-6">
           <ToggleSidebarButton />
         </div>
-        <div className="flex justify-center">
+        <div className="flex justify-center mb-4">
           <div className="flex items-center text-gray-600 group-aria-[checked=false]:px-1 px-4 py-2 transition-colors duration-200 ease-in-out hover:bg-blue-200/30 cursor-pointer">
             <FileText className="w-4 h-4 mr-2" />{" "}
             <span className="group-aria-[checked=false]:hidden">Blog</span>
@@ -125,7 +125,7 @@ const Aside = async () => {
             <span className="group-aria-[checked=false]:hidden">Docs</span>
           </div>
         </div>
-        <div className="flex justify-end  group-aria-[checked=false]:justify-center px-4 group-aria-[checked=false]:px-1">
+        <div className="flex justify-center  group-aria-[checked=false]:justify-center px-4 group-aria-[checked=false]:px-1">
           <Socials />
         </div>
       </div>
