@@ -11,10 +11,9 @@ export function Mdx({ code }: MdxProps) {
     <div
       className="prose dark:prose-invert prose-lg 
       prose-headings:scroll-m-20 
-      prose-headings:border-b 
       prose-headings:pb-2 
-      prose-headings:font-semibold 
-      prose-h1:text-3xl 
+      prose-headings:font-normal 
+      prose-h1:text-6xl 
       prose-h1:mb-4
       prose-h2:text-2xl
       prose-h2:mt-4

@@ -3,7 +3,7 @@ import { withContentlayer } from "next-contentlayer";
 const nextConfig = {
   images: {
     remotePatterns: [
-      { hostname: "picsum.photos" },
+      { hostname: "framerusercontent.com" },
       { hostname: "d2nqtulf3hrdq8.cloudfront.net" },
       {
         hostname: "lh3.googleusercontent.com",

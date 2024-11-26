@@ -2,5 +2,7 @@
 
 import helloWorldMdx from './hello-world.mdx.json' assert { type: 'json' }
 import understandingMarketplacesMdx from './understanding-marketplaces.mdx.json' assert { type: 'json' }
+import typescriptBestPracticesMdx from './typescript-best-practices.mdx.json' assert { type: 'json' }
+import webPerformanceOptimizationMdx from './web-performance-optimization.mdx.json' assert { type: 'json' }
 
-export const allPosts = [helloWorldMdx, understandingMarketplacesMdx]
+export const allPosts = [helloWorldMdx, understandingMarketplacesMdx, typescriptBestPracticesMdx, webPerformanceOptimizationMdx]

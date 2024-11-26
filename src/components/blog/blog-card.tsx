@@ -9,34 +9,25 @@ interface BlogCardProps {
 
 export function BlogCard({ post }: BlogCardProps) {
   return (
-    <div className="group rounded-lg border shadow-sm hover:shadow-md transition-all duration-200">
+    <div className="group relative transition-all duration-200">
       <Link href={post.url}>
-        <div className="relative h-48 w-full">
+        <div className="relative h-64 w-full rounded-lg overflow-hidden mb-4">
           <Image
             src={post.image}
             alt={post.title}
             fill
             className="object-cover rounded-t-lg"
           />
-        </div>
-        <div className="p-4">
-          <div className="flex gap-2 mb-2">
-            {post.tags.map((tag) => (
-              <span
-                key={tag}
-                className="px-2 py-1 bg-gray-100 text-sm rounded-full"
-              >
-                {tag}
-              </span>
-            ))}
+          <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+            <span className="text-white font-medium italic text-3xl">
+              Read More
+            </span>
           </div>
-          <h2 className="text-xl font-semibold mb-2 group-hover:-translate-y-0.5 transition-transform">
-            {post.title}
-          </h2>
-          <p className="text-gray-600 mb-4 line-clamp-2">{post.description}</p>
+        </div>
+        <div className="">
+          <h2 className="text- sm  mb-2 ">{post.title}</h2>
           <div className="flex justify-between items-center text-sm text-gray-500">
             <span>{format(new Date(post.date), "MMM dd, yyyy")}</span>
-            <span>{post.readingTime} min read</span>
           </div>
         </div>
       </Link>
