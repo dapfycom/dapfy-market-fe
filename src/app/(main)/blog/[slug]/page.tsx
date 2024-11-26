@@ -1,4 +1,5 @@
 import { Mdx } from "@/components/blog/mdx";
+import { config } from "@/config";
 import { format } from "date-fns";
 import { Metadata } from "next";
 import Image from "next/image";
@@ -9,6 +10,20 @@ interface PostPageProps {
   params: {
     slug: string;
   };
+}
+
+function shareOnTwitter(url: string, title: string) {
+  const twitterUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(
+    url
+  )}&text=${encodeURIComponent(title)}`;
+  window.open(twitterUrl, "_blank");
+}
+
+function shareOnLinkedIn(url: string, title: string) {
+  const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
+    url
+  )}`;
+  window.open(linkedinUrl, "_blank");
 }
 
 export async function generateStaticParams() {
@@ -75,7 +90,14 @@ export default function PostPage({ params }: PostPageProps) {
             </div>
 
             <div className="flex gap-4">
-              <div className="p-4 rounded-md border border-gray-400 h-fit">
+              <a
+                href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(
+                  `${config.appUrl}/blog/${params.slug}`
+                )}&text=${encodeURIComponent(post.title)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-4 rounded-md border border-gray-400 h-fit hover:bg-gray-100"
+              >
                 <svg
                   role="img"
                   viewBox="0 0 24 24"
@@ -87,22 +109,29 @@ export default function PostPage({ params }: PostPageProps) {
                   <title>X</title>
                   <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z" />
                 </svg>
-              </div>
+              </a>
 
-              <div className="p-4 rounded-md border border-gray-400 h-fit">
+              <a
+                href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
+                  `${config.appUrl}/blog/${params.slug}`
+                )}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-4 rounded-md border border-gray-400 h-fit hover:bg-gray-100"
+              >
                 <svg
                   stroke="currentColor"
                   fill="currentColor"
-                  stroke-width="0"
+                  strokeWidth="0"
                   viewBox="0 0 448 512"
                   height={24}
                   width={24}
                   xmlns="http://www.w3.org/2000/svg"
                 >
-                  <title>Linkedin</title>
+                  <title>LinkedIn</title>
                   <path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"></path>
                 </svg>
-              </div>
+              </a>
             </div>
           </div>
 
