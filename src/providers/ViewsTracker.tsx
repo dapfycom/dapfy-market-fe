@@ -1,7 +1,7 @@
 "use client";
 
 import axios from "axios";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 import React, { useEffect } from "react";
 
 const TRACKED_PATHS = ["/", "/docs", "/blog"];
@@ -19,7 +19,6 @@ function setLastTracked(path: string, timestamp: number) {
 
 export function ViewsTracker({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
 
   useEffect(() => {
     const shouldTrack = TRACKED_PATHS.some(
@@ -37,10 +36,8 @@ export function ViewsTracker({ children }: { children: React.ReactNode }) {
 
       const trackPageView = async () => {
         // Get UTM source or referrer
-        const utmSource = searchParams.get("utm_source");
         const referrer = document.referrer;
-        const source =
-          utmSource || (referrer ? new URL(referrer).hostname : "DIRECT");
+        const source = referrer ? new URL(referrer).hostname : "DIRECT";
 
         // Track the view
         await axios.post("/api/views", {
@@ -55,7 +52,7 @@ export function ViewsTracker({ children }: { children: React.ReactNode }) {
         console.error("Failed to track view:", error);
       });
     }
-  }, [pathname, searchParams]);
+  }, [pathname]);
 
   return <>{children}</>;
 }
