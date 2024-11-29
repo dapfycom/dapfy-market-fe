@@ -28,6 +28,8 @@ export async function POST(request: Request) {
 
     // Get the real IP from headers
     const forwardedFor = request.headers.get("x-forwarded-for");
+    console.log("forwardedFor ", forwardedFor);
+
     const ip = forwardedFor ? forwardedFor.split(",")[0] : "unknown";
 
     // Get country from IP
