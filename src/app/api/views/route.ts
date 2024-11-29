@@ -11,7 +11,7 @@ const viewSchema = z.object({
 async function getCountryFromIP(ip: string): Promise<string> {
   try {
     const response = await fetch(
-      `https://api.ipgeolocation.io/ipgeo?apiKey=${process.env.IPGEO_API_KEY}&ip=${ip}`
+      `https://api.ipgeolocation.io/ipgeo?apiKey=${process.env.NEXT_IPGEO_API_KEY}&ip=${ip}`
     );
     const data = await response.json();
     return data.country_code2 || "unknown";
