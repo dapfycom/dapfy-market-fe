@@ -45,9 +45,7 @@ interface AnalyticsData {
 async function getData(timeFrame: TimeFrame): Promise<AnalyticsData> {
   const res = await fetch(
     `${BASE_URL}/views/analytics?timeFrame=${timeFrame}`,
-    {
-      next: { revalidate: 300 }, // Cache for 5 minutes
-    }
+    { cache: "no-store" }
   );
 
   if (!res.ok) {
