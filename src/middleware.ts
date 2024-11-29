@@ -101,6 +101,7 @@ export function middleware(request: NextRequest) {
             });
           }
         }
+        console.log({ finalCountry });
 
         fetch(`${BASE_URL}/views/track`, {
           method: "POST",
