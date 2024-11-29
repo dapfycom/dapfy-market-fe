@@ -7,6 +7,23 @@ import React, { useEffect } from "react";
 const TRACKED_PATHS = ["/", "/docs", "/blog"];
 const DEBOUNCE_WINDOW = 1000; // 1 second
 
+// Add bot detection patterns
+const BOT_USER_AGENTS = [
+  /bot/i,
+  /spider/i,
+  /crawler/i,
+  /vercel-screenshot/i,
+  /googlebot/i,
+  /chrome-lighthouse/i,
+  /headless/i,
+  /puppet/i,
+  /selenium/i,
+];
+
+function isBot(userAgent: string): boolean {
+  return BOT_USER_AGENTS.some((pattern) => pattern.test(userAgent));
+}
+
 // Use localStorage instead of Map for client-side persistence
 function getLastTracked(path: string) {
   const stored = localStorage.getItem(`lastTracked-${path}`);
@@ -25,7 +42,7 @@ export function ViewsTracker({ children }: { children: React.ReactNode }) {
       (path) => pathname === path || (path !== "/" && pathname.startsWith(path))
     );
 
-    if (!shouldTrack) return;
+    if (!shouldTrack || isBot(navigator.userAgent)) return;
     console.log("tracking ", pathname);
 
     const now = Date.now();
