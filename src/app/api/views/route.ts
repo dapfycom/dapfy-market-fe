@@ -40,6 +40,8 @@ export async function POST(request: Request) {
       country,
     };
 
+    console.log("data", data);
+
     // Here you can add your tracking logic (e.g., save to database)
 
     const res = await axiosInstance.post(`/views/track`, data);
