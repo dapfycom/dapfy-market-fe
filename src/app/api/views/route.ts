@@ -6,6 +6,7 @@ const viewSchema = z.object({
   referrer: z.string(),
   source: z.string(),
   userAgent: z.string(),
+  ip: z.string(),
 });
 
 async function getCountryFromIP(ip: string): Promise<string> {
@@ -26,19 +27,12 @@ export async function POST(request: Request) {
     const body = await request.json();
     const validatedBody = viewSchema.parse(body);
 
-    // Get the real IP from headers
-    const forwardedFor = request.headers.get("x-forwarded-for");
-    console.log("forwardedFor ", forwardedFor);
-
-    const ip = forwardedFor ? forwardedFor.split(",")[0] : "unknown";
-
     // Get country from IP
-    const country = await getCountryFromIP(ip);
+    const country = await getCountryFromIP(validatedBody.ip);
 
     // Prepare final data
     const data = {
       ...validatedBody,
-      ip,
       country,
     };
 
@@ -46,7 +40,7 @@ export async function POST(request: Request) {
 
     // Here you can add your tracking logic (e.g., save to database)
 
-    const res = await axiosInstance.post(`/views/track`, data);
+    await axiosInstance.post(`/views/track`, data);
 
     return Response.json({ success: true });
   } catch (error) {

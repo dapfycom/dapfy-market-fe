@@ -34,6 +34,15 @@ function setLastTracked(path: string, timestamp: number) {
   localStorage.setItem(`lastTracked-${path}`, timestamp.toString());
 }
 
+interface IpApiResponse {
+  ip: string;
+  country: string;
+  iso: string;
+  isp: string;
+  org: string;
+  asn: number;
+}
+
 export function ViewsTracker({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
@@ -52,16 +61,22 @@ export function ViewsTracker({ children }: { children: React.ReactNode }) {
       setLastTracked(pathname, now);
 
       const trackPageView = async () => {
-        // Get UTM source or referrer
+        // Get IP and location data
+
+        const response = await fetch("https://api.ipify.org?format=json");
+        const data = await response.json();
+        const ip = data.ip;
+
         const referrer = document.referrer;
         const source = referrer ? new URL(referrer).hostname : "DIRECT";
 
-        // Track the view
+        // Track the view with additional data
         await axios.post("/api/views", {
           path: pathname,
           referrer: referrer || "none",
           source,
           userAgent: navigator.userAgent,
+          ip: ip,
         });
       };
 
