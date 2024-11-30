@@ -4,7 +4,7 @@ import axios from "axios";
 import { usePathname } from "next/navigation";
 import React, { useEffect } from "react";
 
-const TRACKED_PATHS = ["/", "/docs", "/blog"];
+const TRACKED_PATHS = ["/", "/docs", "/blog", "/analytics"];
 const DEBOUNCE_WINDOW = 1000; // 1 second
 
 // Add bot detection patterns
