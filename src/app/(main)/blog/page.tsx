@@ -24,7 +24,7 @@ export default function BlogPage() {
       <div className="grid grid-cols-4 gap-8 mb-8">
         <div className="col-span-3">
           <div className="relative h-96 w-full">
-            <Link href={`/blog/${firstPost.slug}`}>
+            <Link href={`${firstPost.slug}`}>
               <Image
                 src={firstPost.image}
                 alt={firstPost.title}
@@ -42,7 +42,7 @@ export default function BlogPage() {
               {firstPost.description}
             </p>
 
-            <Link href={`/blog/${firstPost.slug}`} className="text-blue-500">
+            <Link href={`${firstPost.slug}`} className="text-blue-500">
               Read more
             </Link>
           </div>

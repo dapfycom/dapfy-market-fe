@@ -191,13 +191,11 @@ export default function CreatorDashboard() {
   };
 
   const handleRespond = (reviewId: number) => {
-    console.log(`Responded to review ${reviewId} with: ${responseText}`);
     toast.success(`Your response has been submitted successfully.`);
     setResponseText("");
   };
 
   const handleRefund = (orderId: string) => {
-    console.log(`Refund initiated for order ${orderId}`);
     toast.success(`Refund process started for order ${orderId}.`);
   };
 

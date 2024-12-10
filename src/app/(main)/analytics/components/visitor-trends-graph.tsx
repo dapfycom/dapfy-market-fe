@@ -40,8 +40,6 @@ export default function VisitorTrendsGraph({
   timeSeriesData,
   timeFrame,
 }: VisitorTrendsGraphProps) {
-  console.log(timeSeriesData);
-
   const groupedData = timeSeriesData.reduce((acc, item) => {
     const date = new Date(item.date);
     let key;
