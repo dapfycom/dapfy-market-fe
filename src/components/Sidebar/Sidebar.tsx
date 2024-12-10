@@ -16,9 +16,7 @@ import Searcher from "../Search/Searcher";
 import { Button } from "../ui/button";
 import { fadeInUp } from "./constants";
 import SideBarWrapper from "./SideBarWrapper";
-const ToggleSidebarButton = dynamic(() => import("../ToggleSidebarButton"), {
-  ssr: false,
-});
+const ToggleSidebarButton = dynamic(() => import("../ToggleSidebarButton"));
 const getCategories = async () => {
   const { data: categories } = await categoriesService.findAll();
   return categories;

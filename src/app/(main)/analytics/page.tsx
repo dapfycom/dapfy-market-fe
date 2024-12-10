@@ -8,8 +8,7 @@ import TopPagesTable from "./components/top-pages-table";
 import { TrafficOverview } from "./components/traffic-overview";
 import TrafficSourcesChart from "./components/traffic-sources-chart";
 const VisitorTrendsGraph = dynamic(
-  () => import("./components/visitor-trends-graph"),
-  { ssr: false }
+  () => import("./components/visitor-trends-graph")
 );
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
