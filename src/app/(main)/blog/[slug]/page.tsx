@@ -28,14 +28,14 @@ function shareOnLinkedIn(url: string, title: string) {
 
 export async function generateStaticParams() {
   return allPosts.map((post) => ({
-    slug: post._raw.flattenedPath,
+    slug: post.slug.split("/")[1],
   }));
 }
 
 export async function generateMetadata({
   params,
 }: PostPageProps): Promise<Metadata> {
-  const post = allPosts.find((post) => post._raw.flattenedPath === params.slug);
+  const post = allPosts.find((post) => post.slug === params.slug);
 
   if (!post) return {};
 
@@ -54,7 +54,9 @@ export async function generateMetadata({
 }
 
 export default function PostPage({ params }: PostPageProps) {
-  const post = allPosts.find((post) => post._raw.flattenedPath === params.slug);
+  const post = allPosts.find((post) => {
+    return post.slug === params.slug;
+  });
 
   if (!post) notFound();
 

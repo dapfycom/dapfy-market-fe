@@ -10,7 +10,7 @@ interface BlogCardProps {
 export function BlogCard({ post }: BlogCardProps) {
   return (
     <div className="group relative transition-all duration-200">
-      <Link href={post.url}>
+      <Link href={`/blog/${post.slug}`}>
         <div className="relative h-64 w-full rounded-lg overflow-hidden mb-4">
           <Image
             src={post.image}

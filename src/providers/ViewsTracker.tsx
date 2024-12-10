@@ -52,7 +52,6 @@ export function ViewsTracker({ children }: { children: React.ReactNode }) {
     );
 
     if (!shouldTrack || isBot(navigator.userAgent)) return;
-    console.log("tracking ", pathname);
 
     const now = Date.now();
     const lastTracked = getLastTracked(pathname);
